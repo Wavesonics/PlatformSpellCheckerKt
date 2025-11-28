@@ -7,7 +7,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-data class SpellCheckUiState(
+data class TabUiState(
+    val text: String = "",
     val suggestions: List<String> = emptyList(),
     val isLoading: Boolean = false
 )
@@ -15,37 +16,49 @@ data class SpellCheckUiState(
 class SpellCheckViewModel(
     private val repository: SpellCheckRepository
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow(SpellCheckUiState())
+    private val _wordTabState = MutableStateFlow(TabUiState(text = "boooks"))
+    private val _sentenceTabState = MutableStateFlow(TabUiState(text = "Ths is a tst sentence with erors"))
 
-    val uiState: StateFlow<SpellCheckUiState> = _uiState.asStateFlow()
+    val wordTabState: StateFlow<TabUiState> = _wordTabState.asStateFlow()
+    val sentenceTabState: StateFlow<TabUiState> = _sentenceTabState.asStateFlow()
 
-    fun performSpellCheck(text: String) {
+    fun updateWordText(text: String) {
+        _wordTabState.value = _wordTabState.value.copy(
+            text = text,
+            suggestions = emptyList()
+        )
+    }
+
+    fun updateSentenceText(text: String) {
+        _sentenceTabState.value = _sentenceTabState.value.copy(
+            text = text,
+            suggestions = emptyList()
+        )
+    }
+
+    fun checkWord() {
         viewModelScope.launch {
-            _uiState.value = _uiState.value.copy(isLoading = true)
+            _wordTabState.value = _wordTabState.value.copy(isLoading = true)
 
-            val suggestions = repository.performSpellCheck(text)
+            val suggestions = repository.checkWord(_wordTabState.value.text)
 
-            _uiState.value = _uiState.value.copy(
+            _wordTabState.value = _wordTabState.value.copy(
                 suggestions = suggestions,
                 isLoading = false
             )
         }
     }
 
-    fun checkWord(word: String) {
+    fun performSpellCheck() {
         viewModelScope.launch {
-            _uiState.value = _uiState.value.copy(isLoading = true)
+            _sentenceTabState.value = _sentenceTabState.value.copy(isLoading = true)
 
-            val suggestions = repository.checkWord(word)
+            val suggestions = repository.performSpellCheck(_sentenceTabState.value.text)
 
-            _uiState.value = _uiState.value.copy(
+            _sentenceTabState.value = _sentenceTabState.value.copy(
                 suggestions = suggestions,
                 isLoading = false
             )
         }
-    }
-
-    fun clearSuggestions() {
-        _uiState.value = _uiState.value.copy(suggestions = emptyList())
     }
 }

@@ -76,7 +76,6 @@ fun SpellCheckContent(
                     selected = selectedTabIndex == index,
                     onClick = {
                         selectedTabIndex = index
-                        viewModel.clearSuggestions()
                     },
                     text = { Text(title) }
                 )
@@ -95,8 +94,7 @@ fun WordCheckTab(
     viewModel: SpellCheckViewModel,
     modifier: Modifier = Modifier
 ) {
-    var wordInput by remember { mutableStateOf("boooks") }
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.wordTabState.collectAsState()
 
     Column(
         modifier = modifier
@@ -105,11 +103,10 @@ fun WordCheckTab(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         OutlinedTextField(
-            value = wordInput,
+            value = uiState.text,
             onValueChange = {
                 // Filter out all whitespace characters
-                wordInput = it.filter { char -> !char.isWhitespace() }
-                viewModel.clearSuggestions()
+                viewModel.updateWordText(it.filter { char -> !char.isWhitespace() })
             },
             modifier = Modifier.fillMaxWidth(),
             label = { Text("Word to check") },
@@ -118,7 +115,7 @@ fun WordCheckTab(
 
         Button(
             onClick = {
-                viewModel.checkWord(wordInput)
+                viewModel.checkWord()
             },
             modifier = Modifier.fillMaxWidth(),
             enabled = !uiState.isLoading
@@ -162,8 +159,7 @@ fun SentenceCheckTab(
     viewModel: SpellCheckViewModel,
     modifier: Modifier = Modifier
 ) {
-    var textInput by remember { mutableStateOf("Ths is a tst sentence with erors") }
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.sentenceTabState.collectAsState()
 
     Column(
         modifier = modifier
@@ -172,10 +168,9 @@ fun SentenceCheckTab(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         OutlinedTextField(
-            value = textInput,
+            value = uiState.text,
             onValueChange = {
-                textInput = it
-                viewModel.clearSuggestions()
+                viewModel.updateSentenceText(it)
             },
             modifier = Modifier.fillMaxWidth(),
             label = { Text("Text to check") },
@@ -185,7 +180,7 @@ fun SentenceCheckTab(
 
         Button(
             onClick = {
-                viewModel.performSpellCheck(textInput)
+                viewModel.performSpellCheck()
             },
             modifier = Modifier.fillMaxWidth(),
             enabled = !uiState.isLoading
