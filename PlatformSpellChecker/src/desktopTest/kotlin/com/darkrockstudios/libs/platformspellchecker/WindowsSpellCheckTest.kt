@@ -6,14 +6,13 @@ import org.junit.Assume.assumeTrue
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 /**
  * JUnit tests for the Windows Spell Checker integration.
  * Run with: gradlew :PlatformSpellChecker:desktopTest
  */
-class SpellCheckTest {
+class WindowsSpellCheckTest {
 
     private var spellChecker: WindowsSpellChecker? = null
 

@@ -12,7 +12,7 @@ import kotlinx.coroutines.withContext
  *
  * Automatically detects the operating system and uses the appropriate native spell checker:
  * - Windows 8+: Windows Spell Checking API via JNA/COM
- * - macOS: NSSpellChecker (to be implemented)
+ * - macOS: NSSpellChecker via JNA/Objective-C runtime
  * - Linux: Hunspell/Enchant (to be implemented)
  */
 actual class PlatformSpellChecker {
