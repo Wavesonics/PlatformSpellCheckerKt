@@ -23,6 +23,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(libs.kotlinx.coroutines.core)
+            implementation(libs.napier)
         }
 
         androidMain.dependencies {
@@ -32,6 +33,8 @@ kotlin {
         val desktopMain by getting {
             dependencies {
                 implementation(libs.kotlinx.coroutines.swing)
+                implementation(libs.jna)
+                implementation(libs.jna.platform)
             }
         }
     }
@@ -49,4 +52,14 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+}
+
+// Task to run the spell check test
+tasks.register<JavaExec>("runSpellCheckTest") {
+    group = "verification"
+    description = "Run the Windows Spell Checker test"
+    mainClass.set("com.darkrockstudios.libs.platformspellchecker.SpellCheckTestKt")
+
+    val desktopMain = kotlin.targets.getByName("desktop").compilations.getByName("main")
+    classpath = (desktopMain.output.allOutputs + desktopMain.runtimeDependencyFiles) as FileCollection
 }

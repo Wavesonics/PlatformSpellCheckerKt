@@ -5,6 +5,8 @@ koin = "4.0.0"
 compose-multiplatform = "1.7.1"
 coroutines = "1.9.0"
 lifecycle = "2.8.4"
+jna = "5.16.0"
+napier = "2.7.1"
 
 # Android-specific
 coreKtx = "1.15.0"
@@ -20,6 +22,9 @@ espressoCore = "3.6.1"
 kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
 kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "coroutines" }
+
+# Napier - Multiplatform logging
+napier = { group = "io.github.aakira", name = "napier", version.ref = "napier" }
 
 # Koin - Multiplatform
 koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
@@ -40,6 +45,10 @@ androidx-activity-compose = { group = "androidx.activity", name = "activity-comp
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+
+# JNA - Java Native Access
+jna = { group = "net.java.dev.jna", name = "jna", version.ref = "jna" }
+jna-platform = { group = "net.java.dev.jna", name = "jna-platform", version.ref = "jna" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
