@@ -56,7 +56,7 @@ object NativeSpellCheckerFactory {
      * @return NativeSpellChecker instance, or null if creation failed
      */
     fun create(languageTag: String): NativeSpellChecker? = when (currentOS) {
-        OperatingSystem.WINDOWS -> WindowsSpellChecker.create(languageTag)?.asNativeSpellChecker()
+        OperatingSystem.WINDOWS -> WindowsSpellChecker.create(languageTag)
         OperatingSystem.MACOS -> MacOSSpellChecker.create(languageTag)
         OperatingSystem.LINUX -> LinuxSpellChecker.create(languageTag)
         OperatingSystem.UNKNOWN -> null
@@ -68,7 +68,7 @@ object NativeSpellCheckerFactory {
      * @return NativeSpellChecker instance, or null if creation failed
      */
     fun createDefault(): NativeSpellChecker? = when (currentOS) {
-        OperatingSystem.WINDOWS -> WindowsSpellChecker.createDefault()?.asNativeSpellChecker()
+        OperatingSystem.WINDOWS -> WindowsSpellChecker.createDefault()
         OperatingSystem.MACOS -> MacOSSpellChecker.createDefault()
         OperatingSystem.LINUX -> LinuxSpellChecker.createDefault()
         OperatingSystem.UNKNOWN -> null
@@ -93,59 +93,4 @@ enum class OperatingSystem {
     MACOS,
     LINUX,
     UNKNOWN
-}
-
-/**
- * Extension function to adapt WindowsSpellChecker to NativeSpellChecker interface.
- */
-private fun WindowsSpellChecker.asNativeSpellChecker(): NativeSpellChecker {
-    return WindowsSpellCheckerAdapter(this)
-}
-
-/**
- * Adapter to make WindowsSpellChecker compatible with NativeSpellChecker interface.
- */
-private class WindowsSpellCheckerAdapter(
-    private val delegate: WindowsSpellChecker
-) : NativeSpellChecker {
-
-    override val languageTag: String
-        get() = delegate.languageTag
-
-    override fun checkText(text: String): List<SpellingError> {
-        return delegate.checkText(text).map { error ->
-            SpellingError(
-                startIndex = error.startIndex,
-                length = error.length,
-                correctiveAction = when (error.correctiveAction) {
-                    com.darkrockstudios.libs.platformspellchecker.windows.CorrectiveAction.NONE -> CorrectiveAction.NONE
-                    com.darkrockstudios.libs.platformspellchecker.windows.CorrectiveAction.GET_SUGGESTIONS -> CorrectiveAction.GET_SUGGESTIONS
-                    com.darkrockstudios.libs.platformspellchecker.windows.CorrectiveAction.REPLACE -> CorrectiveAction.REPLACE
-                    com.darkrockstudios.libs.platformspellchecker.windows.CorrectiveAction.DELETE -> CorrectiveAction.DELETE
-                    else -> CorrectiveAction.GET_SUGGESTIONS
-                },
-                replacement = error.replacement
-            )
-        }
-    }
-
-    override fun getSuggestions(word: String): List<String> {
-        return delegate.getSuggestions(word)
-    }
-
-    override fun isWordCorrect(word: String): Boolean {
-        return delegate.isWordCorrect(word)
-    }
-
-    override fun addToDictionary(word: String) {
-        delegate.addToDictionary(word)
-    }
-
-    override fun ignoreWord(word: String) {
-        delegate.ignoreWord(word)
-    }
-
-    override fun close() {
-        delegate.close()
-    }
 }

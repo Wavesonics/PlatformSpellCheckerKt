@@ -1,10 +1,13 @@
 package com.darkrockstudios.libs.platformspellchecker.windows
 
+import com.darkrockstudios.libs.platformspellchecker.native.NativeSpellChecker
+import com.darkrockstudios.libs.platformspellchecker.native.SpellingError
 import com.sun.jna.platform.win32.COM.COMUtils
 import com.sun.jna.platform.win32.Ole32
 import com.sun.jna.platform.win32.WTypes
 import com.sun.jna.platform.win32.WinNT.HRESULT
 import com.sun.jna.ptr.PointerByReference
+import java.util.Locale
 import java.util.concurrent.atomic.AtomicBoolean
 
 /**
@@ -23,9 +26,9 @@ import java.util.concurrent.atomic.AtomicBoolean
  * ```
  */
 class WindowsSpellChecker private constructor(
-    private val spellChecker: ISpellChecker,
-    val languageTag: String
-) : AutoCloseable {
+	private val spellChecker: ISpellChecker,
+	override val languageTag: String
+) : NativeSpellChecker, AutoCloseable {
 
     private val closed = AtomicBoolean(false)
 
@@ -35,7 +38,7 @@ class WindowsSpellChecker private constructor(
      * @param text The text to check
      * @return List of spelling errors found
      */
-    fun checkText(text: String): List<SpellingErrorInfo> {
+    override fun checkText(text: String): List<SpellingError> {
         check(!closed.get()) { "WindowsSpellChecker has been closed" }
 
         if (text.isBlank()) {
@@ -44,7 +47,14 @@ class WindowsSpellChecker private constructor(
 
         val enumErrors = spellChecker.check(text)
         return try {
-            enumErrors.toList()
+            enumErrors.toList().map { info ->
+	            SpellingError(
+		            startIndex = info.startIndex,
+		            length = info.length,
+		            correctiveAction = fromCorrectiveActionEnum(info.correctiveAction),
+		            replacement = info.replacement
+	            )
+            }
         } finally {
             enumErrors.Release()
         }
@@ -56,7 +66,7 @@ class WindowsSpellChecker private constructor(
      * @param word The misspelled word
      * @return List of suggestions
      */
-    fun getSuggestions(word: String): List<String> {
+    override fun getSuggestions(word: String): List<String> {
         check(!closed.get()) { "WindowsSpellChecker has been closed" }
 
         if (word.isBlank()) {
@@ -77,7 +87,7 @@ class WindowsSpellChecker private constructor(
      * @param word The word to check
      * @return true if spelled correctly, false otherwise
      */
-    fun isWordCorrect(word: String): Boolean {
+    override fun isWordCorrect(word: String): Boolean {
         check(!closed.get()) { "WindowsSpellChecker has been closed" }
 
         if (word.isBlank()) {
@@ -93,7 +103,7 @@ class WindowsSpellChecker private constructor(
      *
      * @param word The word to add
      */
-    fun addToDictionary(word: String) {
+    override fun addToDictionary(word: String) {
         check(!closed.get()) { "WindowsSpellChecker has been closed" }
         spellChecker.add(word)
     }
@@ -103,7 +113,7 @@ class WindowsSpellChecker private constructor(
      *
      * @param word The word to ignore
      */
-    fun ignoreWord(word: String) {
+    override fun ignoreWord(word: String) {
         check(!closed.get()) { "WindowsSpellChecker has been closed" }
         spellChecker.ignore(word)
     }
@@ -202,7 +212,7 @@ class WindowsSpellChecker private constructor(
          * @return WindowsSpellChecker instance, or null if creation failed
          */
         fun createDefault(): WindowsSpellChecker? {
-            val defaultLocale = java.util.Locale.getDefault()
+            val defaultLocale = Locale.getDefault()
             val languageTag = defaultLocale.toLanguageTag()
             return create(languageTag) ?: create("en-US")
         }
@@ -232,4 +242,14 @@ class WindowsSpellChecker private constructor(
             return preferred.firstOrNull { isLanguageSupported(it) }
         }
     }
+}
+
+private fun fromCorrectiveActionEnum(enum: Int): com.darkrockstudios.libs.platformspellchecker.native.CorrectiveAction {
+	return when (enum) {
+		CorrectiveAction.NONE ->  com.darkrockstudios.libs.platformspellchecker.native.CorrectiveAction.NONE
+		CorrectiveAction.GET_SUGGESTIONS ->  com.darkrockstudios.libs.platformspellchecker.native.CorrectiveAction.GET_SUGGESTIONS
+		CorrectiveAction.REPLACE ->  com.darkrockstudios.libs.platformspellchecker.native.CorrectiveAction.REPLACE
+		CorrectiveAction.DELETE ->  com.darkrockstudios.libs.platformspellchecker.native.CorrectiveAction.DELETE
+		else -> error("Unknown corrective action enum value: $enum")
+	}
 }

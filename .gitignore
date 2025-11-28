@@ -17,3 +17,4 @@ exampleApp/build
 PlatformSpellChecker/build
 .claude
 .idea/artifacts
+.kotlin

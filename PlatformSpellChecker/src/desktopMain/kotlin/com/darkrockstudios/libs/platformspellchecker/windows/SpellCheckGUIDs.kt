@@ -8,7 +8,7 @@ import com.sun.jna.platform.win32.Guid.IID
  * These values are from the Windows SDK spellcheck.h header.
  * Source: https://sources.debian.org/src/rust-winapi/0.3.8-2/src/um/spellcheck.rs/
  */
-object SpellCheckGUIDs {
+internal object SpellCheckGUIDs {
     // Class ID for SpellCheckerFactory - used with CoCreateInstance
     val CLSID_SpellCheckerFactory = CLSID("{7AB36653-1796-484B-BDFA-E74F1DB7C1DC}")
 
@@ -26,7 +26,7 @@ object SpellCheckGUIDs {
 /**
  * CORRECTIVE_ACTION enumeration values from spellcheck.h
  */
-object CorrectiveAction {
+internal object CorrectiveAction {
     const val NONE = 0           // No errors
     const val GET_SUGGESTIONS = 1 // User should be prompted with suggestions
     const val REPLACE = 2         // Auto-replace with the suggestion
