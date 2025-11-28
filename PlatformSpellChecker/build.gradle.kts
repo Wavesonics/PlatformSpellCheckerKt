@@ -37,6 +37,14 @@ kotlin {
                 implementation(libs.jna.platform)
             }
         }
+
+        val desktopTest by getting {
+            dependencies {
+                implementation(libs.kotlin.test)
+                implementation(libs.kotlin.test.junit)
+                implementation(libs.kotlinx.coroutines.test)
+            }
+        }
     }
 }
 
@@ -54,12 +62,3 @@ android {
     }
 }
 
-// Task to run the spell check test
-tasks.register<JavaExec>("runSpellCheckTest") {
-    group = "verification"
-    description = "Run the Windows Spell Checker test"
-    mainClass.set("com.darkrockstudios.libs.platformspellchecker.SpellCheckTestKt")
-
-    val desktopMain = kotlin.targets.getByName("desktop").compilations.getByName("main")
-    classpath = (desktopMain.output.allOutputs + desktopMain.runtimeDependencyFiles) as FileCollection
-}
