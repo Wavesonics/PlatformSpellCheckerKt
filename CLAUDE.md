@@ -1,42 +1,128 @@
-# SpellCheckTest - Android Spell Checker App
+# SpellCheckTest - Kotlin Multiplatform Spell Checker
 
 ## Project Overview
-An Android application to explore plugging into the system's spell checking API.
+A Kotlin Multiplatform project demonstrating platform-specific spell checking functionality with a shared Compose Multiplatform UI.
 
 ## Tech Stack
 - **Language**: Kotlin
-- **UI Framework**: Jetpack Compose
+- **Build System**: Gradle with Kotlin DSL
+- **UI Framework**: Compose Multiplatform
 - **Architecture**: MVVM (Model-View-ViewModel)
 - **State Management**: StateFlow
+- **Dependency Injection**: Koin (Multiplatform)
+- **Platforms**: Android, Desktop (JVM)
 
 ## Project Structure
 
-### Main Components
+```
+SpellCheckTest/
+├── PlatformSpellChecker/          # KMP Library Module
+│   ├── build.gradle.kts
+│   └── src/
+│       ├── commonMain/            # Expect declarations
+│       ├── androidMain/           # Android actual implementation
+│       └── desktopMain/           # Desktop actual implementation (stubbed)
+│
+├── exampleApp/                    # Compose Multiplatform App Module
+│   ├── build.gradle.kts
+│   └── src/
+│       ├── commonMain/            # Shared UI and ViewModel
+│       ├── androidMain/           # Android app entry point
+│       └── desktopMain/           # Desktop app entry point
+│
+├── gradle/
+│   └── libs.versions.toml         # Version catalog
+├── build.gradle.kts               # Root build file
+└── settings.gradle.kts            # Module includes
+```
 
-#### UI Layer
-- **MainActivity.kt** - Main activity hosting the Compose UI
-- **SpellCheckContent** - Composable function containing:
-  - Text input field (OutlinedTextField)
-  - "Spell Check" button
-  - LazyColumn for displaying spelling suggestions
+## Module Details
 
-#### ViewModel Layer
-- **SpellCheckViewModel.kt** - Manages UI state and business logic
-  - `SpellCheckUiState` - Data class holding suggestions list and loading state
-  - `performSpellCheck(text: String)` - Performs spell check operation
-  - `clearSuggestions()` - Clears suggestion list
-  - Uses StateFlow for reactive state management
+### PlatformSpellChecker (KMP Library)
 
-## Current Implementation
+A Kotlin Multiplatform library providing spell checking functionality.
+
+#### Common API (`commonMain`)
+- **PlatformSpellChecker.kt** - Expect class declaration
+  - `suspend fun performSpellCheck(text: String): List<String>` - Check sentences
+  - `suspend fun checkWord(word: String): List<String>` - Check single words
+
+#### Android Implementation (`androidMain`)
+- **PlatformSpellChecker.android.kt** - Actual implementation using Android's TextServicesManager
+  - Uses `SpellCheckerSession` for spell checking
+  - Tracks concurrent operations with cookies and ConcurrentHashMap
+  - Supports both word-level and sentence-level spell checking
+
+#### Desktop Implementation (`desktopMain`)
+- **PlatformSpellChecker.desktop.kt** - Stubbed implementation
+  - Returns placeholder messages
+  - Ready for future implementation (Hunspell, LanguageTool, etc.)
+
+### exampleApp (Compose Multiplatform App)
+
+A sample application demonstrating the PlatformSpellChecker library.
+
+#### Shared Code (`commonMain`)
+- **App.kt** - Main composable entry point with Koin integration
+- **SpellCheckViewModel.kt** - ViewModel managing UI state
+  - `TabUiState` - Data class with text, suggestions, and loading state
+  - `wordTabState` / `sentenceTabState` - StateFlows for each tab
+- **ui/SpellCheckContent.kt** - Main container with TabRow navigation
+- **ui/WordCheckTab.kt** - Single word checking tab with adaptive layout
+- **ui/SentenceCheckTab.kt** - Sentence checking tab with adaptive layout
+- **ui/theme/** - Material 3 theming (Color.kt, Theme.kt, Type.kt)
+
+#### Android (`androidMain`)
+- **MainActivity.kt** - Android Activity hosting the Compose UI
+- **SpellCheckApplication.kt** - Application class initializing Koin
+- **AndroidManifest.xml** - App manifest
+- **res/** - Android resources (icons, themes, strings)
+
+#### Desktop (`desktopMain`)
+- **Main.kt** - Desktop application entry point
+  - Creates window with Compose UI
+  - Initializes Koin with desktop module
+
+## Building and Running
+
+### Android
+```bash
+./gradlew :exampleApp:assembleDebug
+# Or run from Android Studio
+```
+
+### Desktop
+```bash
+./gradlew :exampleApp:run
+# Or create distributable:
+./gradlew :exampleApp:packageDistributionForCurrentOS
+```
 
 ## How It Works
-1. User enters text in the input field
-2. User clicks "Spell Check" button
-3. ViewModel's `performSpellCheck()` is called
-4. ViewModel updates `uiState` with suggestions
-5. UI automatically updates LazyColumn with new suggestions
 
-## Development Notes
-- Uses version catalog for dependency management (gradle/libs.versions.toml)
-- Follows Material 3 design guidelines
-- State hoisting pattern for compose components
+### Word Check Flow
+1. User enters a word in the "Word" tab
+2. ViewModel calls `spellChecker.checkWord()`
+3. Platform implementation performs spell check
+4. Results displayed: suggestions if misspelled, or "correctly spelled" message
+
+### Sentence Check Flow
+1. User enters text in the "Sentence" tab
+2. ViewModel calls `spellChecker.performSpellCheck()`
+3. Platform implementation checks each word
+4. Results show misspelled words with suggestions: "'word' → 'suggestion'"
+
+## Key Features
+- **Kotlin Multiplatform**: Share business logic across platforms
+- **Compose Multiplatform**: Single UI codebase for Android and Desktop
+- **Expect/Actual Pattern**: Platform-specific implementations with common API
+- **Adaptive Layouts**: UI adjusts for landscape/portrait orientation
+- **Reactive UI**: StateFlow ensures automatic UI updates
+- **Dependency Injection**: Koin for clean architecture
+
+## Dependencies (libs.versions.toml)
+- Kotlin 2.1.0
+- Compose Multiplatform 1.7.1
+- Koin 4.0.0 (Multiplatform)
+- Lifecycle ViewModel 2.8.4 (Multiplatform)
+- Kotlinx Coroutines 1.9.0
