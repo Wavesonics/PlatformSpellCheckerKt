@@ -24,6 +24,18 @@ kotlin {
         }
     }
 
+    // iOS targets
+    listOf(
+        iosArm64(),
+        iosSimulatorArm64(),
+        iosX64()
+    ).forEach { iosTarget ->
+        iosTarget.binaries.framework {
+            baseName = "ExampleApp"
+            isStatic = true
+        }
+    }
+
     sourceSets {
         commonMain.dependencies {
             implementation(project(":PlatformSpellChecker"))
@@ -56,6 +68,22 @@ kotlin {
                 implementation(compose.desktop.currentOs)
                 implementation(libs.kotlinx.coroutines.swing)
             }
+        }
+
+        val iosMain by creating {
+            dependsOn(commonMain.get())
+        }
+
+        val iosArm64Main by getting {
+            dependsOn(iosMain)
+        }
+
+        val iosSimulatorArm64Main by getting {
+            dependsOn(iosMain)
+        }
+
+        val iosX64Main by getting {
+            dependsOn(iosMain)
         }
     }
 }

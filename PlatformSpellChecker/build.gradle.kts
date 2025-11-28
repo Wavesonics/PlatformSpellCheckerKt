@@ -20,6 +20,11 @@ kotlin {
         }
     }
 
+    // iOS targets
+    iosArm64()
+    iosSimulatorArm64()
+    iosX64()
+
     sourceSets {
         commonMain.dependencies {
             implementation(libs.kotlinx.coroutines.core)
