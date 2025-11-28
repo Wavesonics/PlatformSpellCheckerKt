@@ -32,6 +32,19 @@ class SpellCheckViewModel(
         }
     }
 
+    fun checkWord(word: String) {
+        viewModelScope.launch {
+            _uiState.value = _uiState.value.copy(isLoading = true)
+
+            val suggestions = repository.checkWord(word)
+
+            _uiState.value = _uiState.value.copy(
+                suggestions = suggestions,
+                isLoading = false
+            )
+        }
+    }
+
     fun clearSuggestions() {
         _uiState.value = _uiState.value.copy(suggestions = emptyList())
     }
