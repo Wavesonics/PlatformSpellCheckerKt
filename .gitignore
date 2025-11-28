@@ -13,3 +13,7 @@
 .externalNativeBuild
 .cxx
 local.properties
+exampleApp/build
+PlatformSpellChecker/build
+.claude
+.idea/artifacts

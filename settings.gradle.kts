@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "SpellCheckTest"
+rootProject.name = "PlatformSpellChecker"
 include(":PlatformSpellChecker")
 include(":exampleApp")

@@ -1,4 +1,4 @@
-# SpellCheckTest - Kotlin Multiplatform Spell Checker
+# PlatformSpellChecker - Kotlin Multiplatform Spell Checker
 
 ## Project Overview
 A Kotlin Multiplatform project demonstrating platform-specific spell checking functionality with a shared Compose Multiplatform UI.
@@ -15,7 +15,7 @@ A Kotlin Multiplatform project demonstrating platform-specific spell checking fu
 ## Project Structure
 
 ```
-SpellCheckTest/
+PlatformSpellChecker/
 ├── PlatformSpellChecker/          # KMP Library Module
 │   ├── build.gradle.kts
 │   └── src/
