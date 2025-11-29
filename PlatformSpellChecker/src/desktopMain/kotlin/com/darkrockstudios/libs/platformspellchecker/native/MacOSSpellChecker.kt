@@ -8,20 +8,14 @@ import java.util.Locale
  * macOS implementation of NativeSpellChecker.
  *
  * Uses NSSpellChecker via JNA bindings to provide spell checking on macOS.
- *
- * NSSpellChecker provides:
- * - checkSpellingOfString:startingAt: for spell checking
- * - guessesForWord: for suggestions
- * - learnWord: for adding to dictionary
- * - ignoreWord:inSpellDocumentWithTag: for ignoring words
- *
- * Reference: https://developer.apple.com/documentation/appkit/nsspellchecker
  */
 class MacOSSpellChecker private constructor(
     override val languageTag: String,
     private val spellChecker: NSSpellCheckerWrapper
 ) : NativeSpellChecker {
 
+    // We keep a local set for fast lookups in isWordCorrect,
+    // but the native spellChecker session handles ignores during checkText.
     private val ignoredWords = mutableSetOf<String>()
 
     override fun checkText(text: String): List<SpellingError> {
@@ -30,46 +24,44 @@ class MacOSSpellChecker private constructor(
         val errors = mutableListOf<SpellingError>()
 
         try {
-            // Split text into words and check each one
-            // This is a workaround for the NSRange struct return issue
-            var currentIndex = 0
-            val words = text.split(Regex("\\s+"))
-            var textPosition = 0
+            // Use a substring window approach to work around JNA struct-return limitations.
+            // Passing non-zero startingAt values can fail, so we slice the string instead
+            // and always check from position 0.
+            var remainingText = text
+            var globalOffset = 0L
 
-            for (word in words) {
-                if (word.isBlank()) {
-                    textPosition = text.indexOf(word, textPosition) + word.length
-                    continue
+            val maxLoops = text.length * 2
+            var loopCount = 0
+
+            while (remainingText.isNotBlank() && loopCount < maxLoops) {
+                loopCount++
+
+                val errorRange = spellChecker.checkSpelling(remainingText, 0)
+
+                if (!errorRange.isFound()) {
+                    break
                 }
 
-                // Find the actual position of this word in the text
-                val wordStart = text.indexOf(word, textPosition)
-                if (wordStart == -1) continue
+                val errorStartGlobal = globalOffset + errorRange.location
+                val errorLength = errorRange.length
 
-                // Clean the word of punctuation for checking
-                var cleanWord = word.trim()
-                for (punct in listOf(".", ",", "!", "?", ";", ":", "'", "\"")) {
-                    cleanWord = cleanWord.removePrefix(punct).removeSuffix(punct)
-                }
-
-                if (cleanWord.isEmpty() || ignoredWords.contains(cleanWord.lowercase())) {
-                    textPosition = wordStart + word.length
-                    continue
-                }
-
-                // Check if the word is correct
-                if (!spellChecker.isWordCorrect(cleanWord)) {
-                    errors.add(
-                        SpellingError(
-                            startIndex = wordStart,
-                            length = cleanWord.length,
-                            correctiveAction = CorrectiveAction.GET_SUGGESTIONS,
-                            replacement = null
-                        )
+                errors.add(
+                    SpellingError(
+                        startIndex = errorStartGlobal.toInt(),
+                        length = errorLength.toInt(),
+                        correctiveAction = CorrectiveAction.GET_SUGGESTIONS,
+                        replacement = null
                     )
+                )
+
+                val nextStartInSubstring = errorRange.location + errorLength
+
+                if (nextStartInSubstring >= remainingText.length) {
+                    break
                 }
 
-                textPosition = wordStart + word.length
+                remainingText = remainingText.substring(nextStartInSubstring.toInt())
+                globalOffset += nextStartInSubstring
             }
 
             return errors
@@ -94,6 +86,7 @@ class MacOSSpellChecker private constructor(
         if (word.isBlank()) return true
 
         val cleanWord = word.trim()
+
         if (ignoredWords.contains(cleanWord.lowercase())) {
             return true
         }
@@ -121,6 +114,7 @@ class MacOSSpellChecker private constructor(
 
         try {
             val cleanWord = word.trim()
+
             ignoredWords.add(cleanWord.lowercase())
             spellChecker.ignoreWord(cleanWord)
         } catch (e: Exception) {
@@ -160,14 +154,11 @@ class MacOSSpellChecker private constructor(
          */
         fun create(languageTag: String): MacOSSpellChecker? {
             return try {
-                // Normalize the language tag (NSSpellChecker uses underscores)
                 val normalizedTag = languageTag.replace("-", "_")
 
                 val wrapper = NSSpellCheckerWrapper.shared() ?: return null
 
-                // Try to set the language
                 if (!wrapper.setLanguage(normalizedTag)) {
-                    // If exact match fails, try just the language part
                     val languagePart = normalizedTag.split("_").firstOrNull()
                     if (languagePart != null && !wrapper.setLanguage(languagePart)) {
                         Napier.w("Could not set language to $languageTag, using default")
@@ -190,7 +181,6 @@ class MacOSSpellChecker private constructor(
             return try {
                 val wrapper = NSSpellCheckerWrapper.shared() ?: return null
 
-                // Get the current language from the spell checker
                 val currentLanguage = wrapper.getLanguage()
                 val languageTag = currentLanguage
                     ?: Locale.getDefault().toLanguageTag()

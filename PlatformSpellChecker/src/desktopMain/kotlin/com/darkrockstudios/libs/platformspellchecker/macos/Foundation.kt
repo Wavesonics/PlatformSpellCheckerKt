@@ -3,6 +3,7 @@ package com.darkrockstudios.libs.platformspellchecker.macos
 import com.sun.jna.Library
 import com.sun.jna.Native
 import com.sun.jna.Pointer
+import com.sun.jna.Structure
 
 /**
  * JNA bindings for macOS Objective-C runtime and Foundation framework.
@@ -243,10 +244,17 @@ object ObjC {
     }
 }
 
-/**
- * Represents an NSRange structure.
- */
-data class NSRange(val location: Long, val length: Long) {
+@Structure.FieldOrder("location", "length")
+open class NSRange : Structure, Structure.ByValue {
+    @JvmField var location: Long = 0
+    @JvmField var length: Long = 0
+
+    constructor()
+    constructor(location: Long, length: Long) {
+        this.location = location
+        this.length = length
+    }
+
     /**
      * Converts to a Pointer for passing to Objective-C methods.
      */
@@ -256,6 +264,8 @@ data class NSRange(val location: Long, val length: Long) {
         memory.setLong(8, length)
         return memory
     }
+
+    fun isFound(): Boolean = location != Long.MAX_VALUE
 
     companion object {
         /**
