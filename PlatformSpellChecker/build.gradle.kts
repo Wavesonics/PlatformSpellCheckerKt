@@ -109,6 +109,7 @@ mavenPublishing {
     signAllPublications()
 
     // Publishes to Maven Central via central.sonatype.com
-    publishToMavenCentral(com.vanniktech.maven.publish.SonatypeHost.CENTRAL_PORTAL)
+    // automaticRelease = true will automatically close and release the repository
+    publishToMavenCentral(com.vanniktech.maven.publish.SonatypeHost.CENTRAL_PORTAL, automaticRelease = true)
 }
 
