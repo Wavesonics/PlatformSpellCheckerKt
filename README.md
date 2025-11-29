@@ -17,10 +17,11 @@ on each supported platform. It then provides a Kotlin friendly API.
 class PlatformSpellChecker {
     /**
      * Performs spell check on a sentence or multi-word text.
-     * Returns a list of suggestions in the format "'misspelledWord' → 'suggestion'".
-     * Returns "No spelling errors found" if the text is correctly spelled.
+     * Returns a list of [SpellingCorrection] objects containing the misspelled words,
+     * their positions in the original text, and suggested corrections.
+     * Returns an empty list if no spelling errors are found.
      */
-    suspend fun performSpellCheck(text: String): List<String>
+    suspend fun performSpellCheck(text: String): List<SpellingCorrection>
 
     /**
      * Checks a single word for spelling errors.
@@ -34,7 +35,9 @@ class PlatformSpellChecker {
 ```kotlin
 val spellChecker = PlatformSpellChecker()
 
-spellChecker.checkWord("mispelledWord").forEach { println(it) }
+spellChecker.checkWord("mispelledWord").forEach { suggestion ->
+    println(suggestion)
+}
 ```
 
 ## Supported Platforms
