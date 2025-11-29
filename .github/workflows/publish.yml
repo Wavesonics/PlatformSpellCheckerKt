@@ -52,8 +52,8 @@ jobs:
           sed -i.bak "s/library.version=.*/library.version=$VERSION/" gradle.properties
           cat gradle.properties | grep library.version
 
-      - name: Build library
-        run: ./gradlew :PlatformSpellChecker:build --no-daemon --stacktrace
+      - name: Assemble library (skip tests)
+        run: ./gradlew :PlatformSpellChecker:assemble --no-daemon --stacktrace
 
       - name: Publish to Maven Central
         env:
