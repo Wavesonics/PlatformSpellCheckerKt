@@ -1,57 +1,103 @@
 package com.darkrockstudios.libs.platformspellchecker.native
 
+import com.darkrockstudios.libs.platformspellchecker.linux.HunspellLibrary
+import com.darkrockstudios.libs.platformspellchecker.linux.HunspellWrapper
+import io.github.aakira.napier.Napier
+
 /**
- * Linux implementation of NativeSpellChecker.
+ * Linux implementation of NativeSpellChecker using Hunspell.
  *
- * TODO: Implement using one of the following options:
+ * Hunspell is the most widely used spell checker on Linux systems.
+ * It's used by LibreOffice, Firefox, Chrome, and many other applications.
  *
- * Option 1: Hunspell (most common)
- * - Use JNA to bind to libhunspell
- * - Hunspell_create, Hunspell_spell, Hunspell_suggest, Hunspell_add, etc.
- * - Dictionary files typically in /usr/share/hunspell/
- * - Reference: https://github.com/hunspell/hunspell
+ * Dictionary files are searched in standard locations:
+ * - /usr/share/hunspell/
+ * - /usr/share/myspell/
+ * - ~/.local/share/hunspell/
  *
- * Option 2: Enchant (meta spell-checker)
- * - Provides unified API across multiple backends (Hunspell, Aspell, etc.)
- * - Use JNA to bind to libenchant
- * - Reference: https://abiword.github.io/enchant/
+ * User dictionaries are stored in ~/.local/share/hunspell/{lang}_user.dic
  *
- * Option 3: Aspell
- * - Use JNA to bind to libaspell
- * - Reference: http://aspell.net/
+ * Reference: https://github.com/hunspell/hunspell
  */
 class LinuxSpellChecker private constructor(
-    override val languageTag: String
+    override val languageTag: String,
+    private val hunspell: HunspellWrapper
 ) : NativeSpellChecker {
 
     override fun checkText(text: String): List<SpellingError> {
-        // TODO: Implement using Hunspell/Enchant
-        return emptyList()
+        if (text.isBlank()) return emptyList()
+
+        val errors = mutableListOf<SpellingError>()
+
+        // Match words (including apostrophes for contractions like "don't")
+        val wordPattern = Regex("""\b[\p{L}']+\b""")
+
+        for (match in wordPattern.findAll(text)) {
+            val word = match.value
+            val startIndex = match.range.first
+
+            // Skip words that are all uppercase (likely acronyms)
+            if (word.all { it.isUpperCase() } && word.length > 1) {
+                continue
+            }
+
+            // Skip words that are just apostrophes or very short
+            if (word.length < 2 || word.all { it == '\'' }) {
+                continue
+            }
+
+            // Check if the word is correct
+            if (!hunspell.isWordCorrect(word)) {
+                errors.add(
+                    SpellingError(
+                        startIndex = startIndex,
+                        length = word.length,
+                        correctiveAction = CorrectiveAction.GET_SUGGESTIONS,
+                        replacement = null
+                    )
+                )
+            }
+        }
+
+        return errors
     }
 
     override fun getSuggestions(word: String): List<String> {
-        // TODO: Implement using Hunspell/Enchant
-        return emptyList()
+        if (word.isBlank()) return emptyList()
+        return hunspell.getSuggestions(word.trim())
     }
 
     override fun isWordCorrect(word: String): Boolean {
-        // TODO: Implement using Hunspell/Enchant
-        return true
+        if (word.isBlank()) return true
+        return hunspell.isWordCorrect(word.trim())
     }
 
     override fun addToDictionary(word: String) {
-        // TODO: Implement using Hunspell/Enchant
+        if (word.isBlank()) return
+        hunspell.addToUserDictionary(word.trim())
     }
 
     override fun ignoreWord(word: String) {
-        // TODO: Implement - may need session-based ignore list
+        if (word.isBlank()) return
+        hunspell.ignoreWord(word.trim())
     }
 
     override fun close() {
-        // TODO: Clean up Hunspell handle
+        try {
+            hunspell.close()
+        } catch (e: Exception) {
+            Napier.e("Error closing Hunspell: ${e.message}", e)
+        }
     }
 
     companion object {
+        /**
+         * Checks if Hunspell is available on this system.
+         */
+        fun isAvailable(): Boolean {
+            return HunspellLibrary.isAvailable()
+        }
+
         /**
          * Checks if a language is supported.
          *
@@ -59,11 +105,7 @@ class LinuxSpellChecker private constructor(
          * @return true if supported (dictionary file exists)
          */
         fun isLanguageSupported(languageTag: String): Boolean {
-            // TODO: Check if dictionary files exist for this language
-            // Typical paths:
-            // - /usr/share/hunspell/{lang}.dic and {lang}.aff
-            // - /usr/share/myspell/{lang}.dic and {lang}.aff
-            return false
+            return HunspellWrapper.isLanguageSupported(languageTag)
         }
 
         /**
@@ -73,8 +115,13 @@ class LinuxSpellChecker private constructor(
          * @return LinuxSpellChecker instance, or null if creation failed
          */
         fun create(languageTag: String): LinuxSpellChecker? {
-            // TODO: Implement
-            return null
+            return try {
+                val wrapper = HunspellWrapper.create(languageTag) ?: return null
+                LinuxSpellChecker(languageTag, wrapper)
+            } catch (e: Exception) {
+                Napier.e("Error creating Linux spell checker: ${e.message}", e)
+                null
+            }
         }
 
         /**
@@ -83,18 +130,28 @@ class LinuxSpellChecker private constructor(
          * @return LinuxSpellChecker instance, or null if creation failed
          */
         fun createDefault(): LinuxSpellChecker? {
-            // TODO: Use LANG environment variable or locale settings
-            return null
+            return try {
+                val wrapper = HunspellWrapper.createDefault() ?: return null
+                LinuxSpellChecker(wrapper.languageTag, wrapper)
+            } catch (e: Exception) {
+                Napier.e("Error creating default Linux spell checker: ${e.message}", e)
+                null
+            }
+        }
+
+        /**
+         * Gets a list of available languages.
+         *
+         * @return List of BCP47 language tags
+         */
+        fun getAvailableLanguages(): List<String> {
+            return HunspellWrapper.getAvailableLanguages()
         }
 
         /**
          * Gets a list of available dictionary paths to search.
          */
-        fun getDictionaryPaths(): List<String> = listOf(
-            "/usr/share/hunspell",
-            "/usr/share/myspell",
-            "/usr/share/myspell/dicts",
-            System.getProperty("user.home") + "/.local/share/hunspell"
-        )
+        fun getDictionaryPaths(): List<String> = HunspellWrapper.DICTIONARY_PATHS +
+                (System.getProperty("user.home") + "/.local/share/hunspell")
     }
 }

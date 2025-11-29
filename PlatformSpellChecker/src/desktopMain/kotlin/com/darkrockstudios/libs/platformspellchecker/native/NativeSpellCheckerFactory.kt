@@ -32,7 +32,7 @@ object NativeSpellCheckerFactory {
     fun isAvailable(): Boolean = when (currentOS) {
         OperatingSystem.WINDOWS -> true
         OperatingSystem.MACOS -> true
-        OperatingSystem.LINUX -> false // Not yet implemented
+        OperatingSystem.LINUX -> LinuxSpellChecker.isAvailable()
         OperatingSystem.UNKNOWN -> false
     }
 
