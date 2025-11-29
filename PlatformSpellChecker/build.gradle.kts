@@ -65,3 +65,28 @@ android {
     }
 }
 
+// Task to build the native macOS library
+tasks.register("buildNativeLibrary") {
+    group = "build"
+    description = "Build the native NSSpellChecker JNI library for macOS"
+
+    doLast {
+        val os = System.getProperty("os.name").lowercase()
+        if (os.contains("mac")) {
+            exec {
+                workingDir = file("src/desktopMain/native")
+                commandLine("bash", "build.sh")
+            }
+        } else {
+            println("Native library build is only supported on macOS")
+        }
+    }
+}
+
+// Make desktop compilation depend on native library build
+tasks.matching { it.name.contains("compileKotlinDesktop") }.configureEach {
+    if (System.getProperty("os.name").lowercase().contains("mac")) {
+        dependsOn("buildNativeLibrary")
+    }
+}
+

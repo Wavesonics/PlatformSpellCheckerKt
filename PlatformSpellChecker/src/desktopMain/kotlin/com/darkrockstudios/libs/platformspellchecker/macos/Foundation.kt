@@ -247,6 +247,8 @@ object ObjC {
  * Represents an NSRange structure.
  */
 data class NSRange(val location: Long, val length: Long) {
+    val notFound: Boolean get() = location == NSSpellCheckerJNI.NSNotFound
+
     /**
      * Converts to a Pointer for passing to Objective-C methods.
      */

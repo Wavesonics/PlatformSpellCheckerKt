@@ -30,46 +30,35 @@ class MacOSSpellChecker private constructor(
         val errors = mutableListOf<SpellingError>()
 
         try {
-            // Split text into words and check each one
-            // This is a workaround for the NSRange struct return issue
-            var currentIndex = 0
-            val words = text.split(Regex("\\s+"))
-            var textPosition = 0
+            var startingPosition = 0L
 
-            for (word in words) {
-                if (word.isBlank()) {
-                    textPosition = text.indexOf(word, textPosition) + word.length
-                    continue
+            // Use the proper checkSpelling method now that NSRange returns work
+            while (startingPosition < text.length) {
+                val range = spellChecker.checkSpelling(text, startingPosition)
+
+                // Check if no more misspellings found
+                if (range.notFound) {
+                    break
                 }
 
-                // Find the actual position of this word in the text
-                val wordStart = text.indexOf(word, textPosition)
-                if (wordStart == -1) continue
+                // Get the misspelled word
+                val misspelledWord = text.substring(range.location.toInt(),
+                                                   (range.location + range.length).toInt())
 
-                // Clean the word of punctuation for checking
-                var cleanWord = word.trim()
-                for (punct in listOf(".", ",", "!", "?", ";", ":", "'", "\"")) {
-                    cleanWord = cleanWord.removePrefix(punct).removeSuffix(punct)
-                }
-
-                if (cleanWord.isEmpty() || ignoredWords.contains(cleanWord.lowercase())) {
-                    textPosition = wordStart + word.length
-                    continue
-                }
-
-                // Check if the word is correct
-                if (!spellChecker.isWordCorrect(cleanWord)) {
+                // Skip if word is in ignored list
+                if (!ignoredWords.contains(misspelledWord.lowercase())) {
                     errors.add(
                         SpellingError(
-                            startIndex = wordStart,
-                            length = cleanWord.length,
+                            startIndex = range.location.toInt(),
+                            length = range.length.toInt(),
                             correctiveAction = CorrectiveAction.GET_SUGGESTIONS,
                             replacement = null
                         )
                     )
                 }
 
-                textPosition = wordStart + word.length
+                // Move to the next position after this word
+                startingPosition = range.location + range.length
             }
 
             return errors
