@@ -54,10 +54,25 @@ class SpellCheckViewModel(
         viewModelScope.launch {
             _sentenceTabState.value = _sentenceTabState.value.copy(isLoading = true)
 
-            val suggestions = spellChecker.performSpellCheck(_sentenceTabState.value.text)
+            val corrections = spellChecker.performSpellCheck(_sentenceTabState.value.text)
+
+            // Convert corrections to display strings for the UI
+            val displayStrings = if (corrections.isEmpty()) {
+                listOf("No spelling errors found")
+            } else {
+                corrections.flatMap { correction ->
+                    if (correction.suggestions.isEmpty()) {
+                        listOf("'${correction.misspelledWord}' may be misspelled (no suggestions)")
+                    } else {
+                        correction.suggestions.map { suggestion ->
+                            "'${correction.misspelledWord}' → '$suggestion'"
+                        }
+                    }
+                }
+            }
 
             _sentenceTabState.value = _sentenceTabState.value.copy(
-                suggestions = suggestions,
+                suggestions = displayStrings,
                 isLoading = false
             )
         }

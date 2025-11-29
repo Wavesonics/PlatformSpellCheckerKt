@@ -29,14 +29,16 @@ actual class PlatformSpellChecker(context: Context) {
         )!!
     }
 
-    private data class OperationContext(
-        val continuation: Continuation<List<String>>,
-        val operationType: OperationType,
-        val text: String
-    )
+    private sealed class OperationContext {
+        data class WordCheck(
+            val continuation: Continuation<List<String>>,
+            val text: String
+        ) : OperationContext()
 
-    private enum class OperationType {
-        WORD_CHECK, SENTENCE_CHECK
+        data class SentenceCheck(
+            val continuation: Continuation<List<SpellingCorrection>>,
+            val text: String
+        ) : OperationContext()
     }
 
     private val spellCheckerSessionListener = object : SpellCheckerSession.SpellCheckerSessionListener {
@@ -45,12 +47,16 @@ actual class PlatformSpellChecker(context: Context) {
             val cookie = results?.firstOrNull()?.cookie ?: return
             val context = pendingOperations.remove(cookie) ?: return
 
-            val suggestions = when (context.operationType) {
-                OperationType.WORD_CHECK -> processWordSuggestions(results, context.text)
-                OperationType.SENTENCE_CHECK -> processSimpleSuggestions(results)
+            when (context) {
+                is OperationContext.WordCheck -> {
+                    val suggestions = processWordSuggestions(results, context.text)
+                    context.continuation.resume(suggestions)
+                }
+                is OperationContext.SentenceCheck -> {
+                    // Fallback for simple suggestions (shouldn't normally be called for sentence check)
+                    context.continuation.resume(emptyList())
+                }
             }
-
-            context.continuation.resume(suggestions)
         }
 
         override fun onGetSentenceSuggestions(results: Array<out SentenceSuggestionsInfo>?) {
@@ -59,19 +65,27 @@ actual class PlatformSpellChecker(context: Context) {
             val cookie = firstResult.getSuggestionsInfoAt(0)?.cookie ?: return
             val context = pendingOperations.remove(cookie) ?: return
 
-            val suggestions = processSentenceSuggestions(results, context.text)
-            context.continuation.resume(suggestions)
+            when (context) {
+                is OperationContext.SentenceCheck -> {
+                    val corrections = processSentenceSuggestions(results, context.text)
+                    context.continuation.resume(corrections)
+                }
+                is OperationContext.WordCheck -> {
+                    // Shouldn't happen, but handle gracefully
+                    context.continuation.resume(emptyList())
+                }
+            }
         }
     }
 
-    actual suspend fun performSpellCheck(text: String): List<String> {
+    actual suspend fun performSpellCheck(text: String): List<SpellingCorrection> {
         if (text.isBlank()) {
             return emptyList()
         }
 
         return suspendCancellableCoroutine { continuation ->
             val trackingId = sequenceGenerator.incrementAndGet()
-            val context = OperationContext(continuation, OperationType.SENTENCE_CHECK, text)
+            val context = OperationContext.SentenceCheck(continuation, text)
             pendingOperations[trackingId] = context
 
             // Use cookie parameter to track this request
@@ -98,7 +112,7 @@ actual class PlatformSpellChecker(context: Context) {
 
         return suspendCancellableCoroutine { continuation ->
             val trackingId = sequenceGenerator.incrementAndGet()
-            val context = OperationContext(continuation, OperationType.WORD_CHECK, trimmedWord)
+            val context = OperationContext.WordCheck(continuation, trimmedWord)
             pendingOperations[trackingId] = context
 
             // Use cookie parameter to track this request
@@ -138,26 +152,8 @@ actual class PlatformSpellChecker(context: Context) {
         return suggestions
     }
 
-    private fun processSimpleSuggestions(results: Array<out SuggestionsInfo>?): List<String> {
-        val suggestions = mutableListOf<String>()
-
-        results?.forEach { suggestionsInfo ->
-            if (suggestionsInfo.suggestionsCount > 0) {
-                for (i in 0 until suggestionsInfo.suggestionsCount) {
-                    suggestions.add(suggestionsInfo.getSuggestionAt(i))
-                }
-            }
-        }
-
-        if (suggestions.isEmpty()) {
-            suggestions.add("No spelling errors found")
-        }
-
-        return suggestions
-    }
-
-    private fun processSentenceSuggestions(results: Array<out SentenceSuggestionsInfo>?, text: String): List<String> {
-        val suggestions = mutableListOf<String>()
+    private fun processSentenceSuggestions(results: Array<out SentenceSuggestionsInfo>?, text: String): List<SpellingCorrection> {
+        val corrections = mutableListOf<SpellingCorrection>()
 
         results?.forEach { sentenceSuggestionsInfo ->
             val suggestionsCount = sentenceSuggestionsInfo.suggestionsCount
@@ -168,18 +164,23 @@ actual class PlatformSpellChecker(context: Context) {
                     val length = sentenceSuggestionsInfo.getLengthAt(i)
                     val misspelledWord = text.substring(offset, offset + length)
 
+                    val wordSuggestions = mutableListOf<String>()
                     for (j in 0 until suggestionsInfo.suggestionsCount) {
-                        val suggestion = suggestionsInfo.getSuggestionAt(j)
-                        suggestions.add("'$misspelledWord' → '$suggestion'")
+                        wordSuggestions.add(suggestionsInfo.getSuggestionAt(j))
                     }
+
+                    corrections.add(
+                        SpellingCorrection(
+                            misspelledWord = misspelledWord,
+                            startIndex = offset,
+                            length = length,
+                            suggestions = wordSuggestions
+                        )
+                    )
                 }
             }
         }
 
-        if (suggestions.isEmpty()) {
-            suggestions.add("No spelling errors found")
-        }
-
-        return suggestions
+        return corrections
     }
 }

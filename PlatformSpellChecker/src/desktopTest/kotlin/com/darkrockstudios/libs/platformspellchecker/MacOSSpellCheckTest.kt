@@ -150,22 +150,20 @@ class MacOSSpellCheckTest {
     @Test
     fun `PlatformSpellChecker performSpellCheck finds misspellings`() = runTest {
         val platformChecker = PlatformSpellChecker()
-        val results = platformChecker.performSpellCheck("This is a tset sentance")
-        println("Spell check results: $results")
-        assertTrue(results.isNotEmpty(), "Expected misspellings to be found")
-        // Results should contain suggestions with arrow notation
-        assertTrue(results.any { it.contains("→") },
-            "Expected suggestions with arrow notation, got: $results")
+        val corrections = platformChecker.performSpellCheck("This is a tset sentance")
+        println("Spell check corrections: $corrections")
+        assertTrue(corrections.isNotEmpty(), "Expected misspellings to be found")
+        // Results should contain SpellingCorrection objects with suggestions
+        assertTrue(corrections.any { it.suggestions.isNotEmpty() },
+            "Expected corrections with suggestions, got: $corrections")
     }
 
     @Test
-    fun `PlatformSpellChecker performSpellCheck returns no errors message for correct text`() = runTest {
+    fun `PlatformSpellChecker performSpellCheck returns empty for correct text`() = runTest {
         val platformChecker = PlatformSpellChecker()
-        val results = platformChecker.performSpellCheck("This is a test sentence")
-        println("Spell check results for correct text: $results")
-        assertTrue(results.size == 1, "Expected single result for correct text, got ${results.size}")
-        assertTrue(results[0].contains("No spelling errors"),
-            "Expected 'No spelling errors' message, got: ${results[0]}")
+        val corrections = platformChecker.performSpellCheck("This is a test sentence")
+        println("Spell check corrections for correct text: $corrections")
+        assertTrue(corrections.isEmpty(), "Expected no corrections for correct text, got ${corrections.size}")
     }
 
     @Test
