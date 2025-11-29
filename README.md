@@ -11,6 +11,13 @@
 This Kotlin Multiplatform library wraps the OS's native spell checker
 on each supported platform. It then provides a Kotlin friendly API.
 
+
+### Dependency
+
+```kotlin
+implementation("com.darkrockstudios:platform-spellcheckerkt:0.9.0")
+```
+
 ## Usage
 
 ```kotlin
