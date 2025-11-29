@@ -1,4 +1,5 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
@@ -9,18 +10,13 @@ plugins {
 
 kotlin {
     androidTarget {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "11"
-            }
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_17)
         }
     }
-
     jvm("desktop") {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "17"
-            }
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_17)
         }
     }
 
@@ -71,19 +67,19 @@ kotlin {
         }
 
         val iosMain by creating {
-            dependsOn(commonMain.get())
+
         }
 
         val iosArm64Main by getting {
-            dependsOn(iosMain)
+
         }
 
         val iosSimulatorArm64Main by getting {
-            dependsOn(iosMain)
+
         }
 
         val iosX64Main by getting {
-            dependsOn(iosMain)
+
         }
     }
 }
