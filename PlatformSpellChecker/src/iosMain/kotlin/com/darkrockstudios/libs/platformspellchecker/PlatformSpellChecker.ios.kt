@@ -19,15 +19,16 @@ actual class PlatformSpellChecker {
 
     /**
      * Performs spell check on a sentence or multi-word text.
-     * Returns a list of suggestions in the format "'misspelledWord' → 'suggestion'".
-     * Returns "No spelling errors found" if the text is correctly spelled.
+     * Returns a list of [SpellingCorrection] objects containing the misspelled words,
+     * their positions in the original text, and suggested corrections.
+     * Returns an empty list if no spelling errors are found.
      */
-    actual suspend fun performSpellCheck(text: String): List<String> {
+    actual suspend fun performSpellCheck(text: String): List<SpellingCorrection> {
         if (text.isBlank()) {
-            return listOf("Please enter some text to check")
+            return emptyList()
         }
 
-        val results = mutableListOf<String>()
+        val results = mutableListOf<SpellingCorrection>()
         val nsString = text as NSString
         val range = NSMakeRange(0u, text.length.toULong())
 
@@ -59,26 +60,22 @@ actual class PlatformSpellChecker {
                 language = language
             ) as? List<*>
 
-            if (suggestions != null && suggestions.isNotEmpty()) {
-                val topSuggestion = suggestions.first() as? String
-                if (topSuggestion != null) {
-                    results.add("'$misspelledWord' → '$topSuggestion'")
-                } else {
-                    results.add("'$misspelledWord' (no suggestions)")
-                }
-            } else {
-                results.add("'$misspelledWord' (no suggestions)")
-            }
+            val suggestionList = suggestions?.mapNotNull { it as? String } ?: emptyList()
+
+            // Create SpellingCorrection object
+            val correction = SpellingCorrection(
+                misspelledWord = misspelledWord,
+                startIndex = misspelledRange.useContents { location.toInt() },
+                length = misspelledRange.useContents { length.toInt() },
+                suggestions = suggestionList
+            )
+            results.add(correction)
 
             // Move to the next position after this misspelled word
             currentOffset = misspelledRange.useContents { location + length }
         }
 
-        return if (results.isEmpty()) {
-            listOf("No spelling errors found")
-        } else {
-            results
-        }
+        return results
     }
 
     /**
