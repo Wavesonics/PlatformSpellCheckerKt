@@ -1,5 +1,5 @@
 [versions]
-agp = "8.7.3"
+agp = "8.11.2"
 kotlin = "2.2.21"
 koin = "4.1.1"
 compose-multiplatform = "1.9.3"
@@ -7,6 +7,7 @@ coroutines = "1.10.2"
 lifecycle = "2.9.6"
 jna = "5.18.1"
 napier = "2.7.1"
+dokka = "2.1.0"
 
 # Android-specific
 coreKtx = "1.17.0"
@@ -61,3 +62,4 @@ kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref 
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
