@@ -45,12 +45,13 @@ spellChecker.checkWord("mispelledWord").forEach { suggestion ->
 * Android
 * iOS
 * JVM
+  * Windows
   * Linux
+      * _Linux has no native spell checker API, so this library looks to see if the `hunspell` is installed, and uses it, otherwise it reports Spell Checking is not supported._
   * macOS
     * **Known issues:**
       * _There an issue with JNA calling into certain platform APIs, so sentence level correct is sorta hacked together right now_
       * _MacOS has a bit of a weird spell checker, the words it considers "correct" are not always what I would expect, but who am I to question the wisdom of Tim Apple._
-  * Windows
 
 ## Possible Future Platforms
 * **Kotlin/Native** support is certainly possible for the desktop platforms, but I haven't had need for it yet.
