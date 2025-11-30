@@ -23,32 +23,57 @@ implementation("com.darkrockstudios:platform-spellcheckerkt:0.9.0")
 
 ## Usage
 
-```kotlin
-class PlatformSpellChecker {
-    /**
-     * Performs spell check on a sentence or multi-word text.
-     * Returns a list of [SpellingCorrection] objects containing the misspelled words,
-     * their positions in the original text, and suggested corrections.
-     * Returns an empty list if no spelling errors are found.
-     */
-    suspend fun performSpellCheck(text: String): List<SpellingCorrection>
+The simplest way to get a spell checker instance is through the PlatformSpellCheckerFactory. This ensures Android has a Context and provides a uniform capability check across platforms.
 
-    /**
-     * Checks a single word for spelling errors.
-     * Returns spelling suggestions if the word is misspelled,
-     * or "'word' is correctly spelled" if the word is correct.
-     */
-    suspend fun checkWord(word: String): List<String>
+- Android: initialize the factory once with your Application context
+```kotlin
+// Android
+class SpellCheckApplication : Application() {
+    override fun onCreate() {
+        super.onCreate()
+        PlatformSpellCheckerFactory.initialize(this)
+    }
 }
 ```
 
+- Create a checker (all platforms)
 ```kotlin
-val spellChecker = PlatformSpellChecker()
+val factory = PlatformSpellCheckerFactory()
 
-spellChecker.checkWord("mispelledWord").forEach { suggestion ->
-    println(suggestion)
+// Use the user's current/system language
+val checkerDefault = factory.createSpellChecker()
+
+// Or request a specific locale (validated). Country is optional.
+val checkerEnUs = factory.createSpellChecker(SpLocale.EN_US)
+
+// Use the checker
+val suggestions = checkerEnUs.checkWord("mispelledWord")
+suggestions.forEach { println(it) }
+```
+
+- Optional capability checks
+```kotlin
+val supported = factory.hasLanguage(SpLocale.EN_GB)
+if (supported) {
+    val ukChecker = factory.createSpellChecker(SpLocale.EN_GB)
 }
 ```
+
+You can also query some helpful utilities via the factory:
+```kotlin
+val factory = PlatformSpellCheckerFactory()
+
+// Is a spell checker available on this platform at runtime?
+val available = factory.isAvailable()
+
+// What locale does the system currently use?
+val systemLocale: SpLocale = factory.currentSystemLocale()
+
+// A best-effort list of available locales on this device
+val locales: List<SpLocale> = factory.availableLocales()
+```
+
+Note: Direct constructors like `PlatformSpellChecker()` (Desktop/iOS) and `PlatformSpellChecker(context)` (Android) are still supported, but using the factory is recommended for portability and validation.
 
 ## Supported Platforms
 

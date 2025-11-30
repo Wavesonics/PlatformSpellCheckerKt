@@ -12,10 +12,22 @@ import io.github.aakira.napier.Napier
  * using the system's dictionaries and language settings.
  */
 @OptIn(ExperimentalForeignApi::class)
-actual class PlatformSpellChecker {
+actual class PlatformSpellChecker(
+    private val locale: SpLocale? = null
+) {
 
     private val textChecker = UITextChecker()
-    private val language = "en_US" // Default to US English
+    private val language: String by lazy {
+        // Determine the language tag for UITextChecker (expects underscore format like en_US)
+        if (locale != null) {
+            if (locale.country.isNullOrBlank()) locale.language else "${locale.language}_${locale.country}"
+        } else {
+            // Use system preferred language and convert from BCP47 (en-US) to underscore (en_US)
+            val preferred = (NSLocale.preferredLanguages.firstOrNull() as? String)
+                ?: NSLocale.currentLocale.localeIdentifier
+            preferred.replace('-', '_')
+        }
+    }
 
     /**
      * Performs spell check on a sentence or multi-word text.
@@ -116,4 +128,6 @@ actual class PlatformSpellChecker {
             listOf("'$word' is misspelled but no suggestions are available")
         }
     }
+
+    
 }

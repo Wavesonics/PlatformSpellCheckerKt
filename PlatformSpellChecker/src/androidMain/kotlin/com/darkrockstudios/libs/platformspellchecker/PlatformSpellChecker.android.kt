@@ -1,6 +1,8 @@
 package com.darkrockstudios.libs.platformspellchecker
 
 import android.content.Context
+import android.os.Build
+import android.os.LocaleList
 import android.view.textservice.SentenceSuggestionsInfo
 import android.view.textservice.SpellCheckerSession
 import android.view.textservice.SuggestionsInfo
@@ -12,8 +14,10 @@ import java.util.concurrent.atomic.AtomicInteger
 import kotlin.coroutines.Continuation
 import kotlin.coroutines.resume
 
-actual class PlatformSpellChecker(context: Context) {
-
+actual class PlatformSpellChecker(
+    context: Context,
+    private val locale: SpLocale? = null
+) {
     private val textServicesManager = context.getSystemService(Context.TEXT_SERVICES_MANAGER_SERVICE) as TextServicesManager
 
     private val sequenceGenerator = AtomicInteger(0)
@@ -21,11 +25,17 @@ actual class PlatformSpellChecker(context: Context) {
     private val pendingOperations = ConcurrentHashMap<Int, OperationContext>()
 
     private val spellCheckerSession: SpellCheckerSession by lazy {
+        // If a locale was provided, build a java.util.Locale and do not refer to spell checker language settings
+        val referToSettings = locale == null
+        val targetLocale = locale?.let {
+            if (it.country.isNullOrBlank()) java.util.Locale(it.language)
+            else java.util.Locale(it.language, it.country)
+        }
         textServicesManager.newSpellCheckerSession(
             null,
-            null,
+            targetLocale,
             spellCheckerSessionListener,
-            true
+            referToSettings
         )!!
     }
 

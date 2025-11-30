@@ -21,4 +21,6 @@ expect class PlatformSpellChecker {
      * or "'word' is correctly spelled" if the word is correct.
      */
     suspend fun checkWord(word: String): List<String>
+
+    
 }

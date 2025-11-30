@@ -15,11 +15,19 @@ import kotlinx.coroutines.withContext
  * - macOS: NSSpellChecker via JNA/Objective-C runtime
  * - Linux: Hunspell/Enchant (to be implemented)
  */
-actual class PlatformSpellChecker {
+actual class PlatformSpellChecker(
+    private val locale: SpLocale? = null
+) {
 
     private val spellChecker: NativeSpellChecker? by lazy {
         try {
-            NativeSpellCheckerFactory.createDefault()
+            val checker = if (locale != null) {
+                val tag = if (locale.country.isNullOrBlank()) locale.language else "${locale.language}-${locale.country}"
+                NativeSpellCheckerFactory.create(tag)
+            } else {
+                NativeSpellCheckerFactory.createDefault()
+            }
+            checker
         } catch (e: Exception) {
             Napier.e("Failed to create spell checker: ${e.message}", e)
             null
@@ -113,4 +121,6 @@ actual class PlatformSpellChecker {
             listOf("Error checking word: ${e.message}")
         }
     }
+
+    
 }
