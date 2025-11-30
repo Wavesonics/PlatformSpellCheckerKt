@@ -18,7 +18,13 @@ class WindowsSpellCheckTest {
 
 	@Before
 	fun setup() {
-		// Skip tests if en-US is not supported (e.g., running on non-Windows or without spell checker)
+		// Skip tests if not running on Windows
+		assumeTrue(
+			"Windows tests can only run on Windows",
+			System.getProperty("os.name").lowercase().contains("windows")
+		)
+
+		// Skip tests if en-US is not supported
 		val isSupported = WindowsSpellChecker.isLanguageSupported("en-US")
 		assumeTrue("en-US spell checker not available", isSupported)
 
