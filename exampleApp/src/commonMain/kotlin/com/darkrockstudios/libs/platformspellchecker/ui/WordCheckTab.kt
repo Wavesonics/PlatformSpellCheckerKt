@@ -1,29 +1,19 @@
 package com.darkrockstudios.libs.platformspellchecker.ui
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.darkrockstudios.libs.platformspellchecker.CorrectWord
+import com.darkrockstudios.libs.platformspellchecker.MisspelledWord
 import com.darkrockstudios.libs.platformspellchecker.SpellCheckViewModel
+import com.darkrockstudios.libs.platformspellchecker.WordCheckResult
 
 @Composable
 fun WordCheckTab(
@@ -52,7 +42,7 @@ fun WordCheckTab(
             )
 
             SuggestionsSection(
-                suggestions = uiState.suggestions,
+	            result = uiState.result,
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxHeight()
@@ -75,7 +65,7 @@ fun WordCheckTab(
             )
 
             SuggestionsSection(
-                suggestions = uiState.suggestions,
+	            result = uiState.result,
                 modifier = Modifier.fillMaxSize()
             )
         }
@@ -129,20 +119,50 @@ private fun InputSection(
 
 @Composable
 private fun SuggestionsSection(
-    suggestions: List<String>,
+	result: WordCheckResult?,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        items(suggestions) { suggestion ->
-            Text(
-                text = suggestion,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
-            )
+	    when (result) {
+		    null -> {
+			    // Show nothing by default
+		    }
+
+		    is CorrectWord -> {
+			    item {
+				    Text(
+					    text = "'${result.word}' is spelled correctly",
+					    modifier = Modifier
+						    .fillMaxWidth()
+						    .padding(8.dp)
+				    )
+			    }
+		    }
+
+		    is MisspelledWord -> {
+			    if (result.suggestions.isEmpty()) {
+				    item {
+					    Text(
+						    text = "'${result.word}' may be misspelled (no suggestions)",
+						    modifier = Modifier
+							    .fillMaxWidth()
+							    .padding(8.dp)
+					    )
+				    }
+			    } else {
+				    items(result.suggestions) { suggestion ->
+					    Text(
+						    text = "'${result.word}' → '$suggestion'",
+						    modifier = Modifier
+							    .fillMaxWidth()
+							    .padding(8.dp)
+					    )
+				    }
+			    }
+		    }
         }
     }
 }

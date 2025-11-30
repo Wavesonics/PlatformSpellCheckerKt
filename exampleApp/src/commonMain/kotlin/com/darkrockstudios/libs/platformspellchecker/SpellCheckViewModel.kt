@@ -7,32 +7,38 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-data class TabUiState(
+data class WordTabUiState(
+	val text: String = "",
+	val result: WordCheckResult? = null,
+	val isLoading: Boolean = false
+)
+
+data class SentenceTabUiState(
     val text: String = "",
-    val suggestions: List<String> = emptyList(),
+    val corrections: List<SpellingCorrection> = emptyList(),
     val isLoading: Boolean = false
 )
 
 class SpellCheckViewModel(
     private val spellChecker: PlatformSpellChecker
 ) : ViewModel() {
-    private val _wordTabState = MutableStateFlow(TabUiState(text = "boooks"))
-    private val _sentenceTabState = MutableStateFlow(TabUiState(text = "Ths is a tst sentence with erors"))
+	private val _wordTabState = MutableStateFlow(WordTabUiState(text = "boooks"))
+	private val _sentenceTabState = MutableStateFlow(SentenceTabUiState(text = "Ths is a tst sentence with erors"))
 
-    val wordTabState: StateFlow<TabUiState> = _wordTabState.asStateFlow()
-    val sentenceTabState: StateFlow<TabUiState> = _sentenceTabState.asStateFlow()
+	val wordTabState: StateFlow<WordTabUiState> = _wordTabState.asStateFlow()
+	val sentenceTabState: StateFlow<SentenceTabUiState> = _sentenceTabState.asStateFlow()
 
     fun updateWordText(text: String) {
         _wordTabState.value = _wordTabState.value.copy(
             text = text,
-            suggestions = emptyList()
+	        result = null
         )
     }
 
     fun updateSentenceText(text: String) {
         _sentenceTabState.value = _sentenceTabState.value.copy(
             text = text,
-            suggestions = emptyList()
+	        corrections = emptyList()
         )
     }
 
@@ -43,14 +49,14 @@ class SpellCheckViewModel(
 	        when (val result = spellChecker.checkWord(_wordTabState.value.text)) {
 		        is CorrectWord -> {
 			        _wordTabState.value = _wordTabState.value.copy(
-				        suggestions = emptyList(),
+				        result = result,
 				        isLoading = false
 			        )
 		        }
 
 		        is MisspelledWord -> {
 			        _wordTabState.value = _wordTabState.value.copy(
-				        suggestions = result.suggestions,
+				        result = result,
 				        isLoading = false
 			        )
 		        }
@@ -64,25 +70,10 @@ class SpellCheckViewModel(
 
 	        val corrections = spellChecker.checkMultiword(_sentenceTabState.value.text)
 
-            // Convert corrections to display strings for the UI
-            val displayStrings = if (corrections.isEmpty()) {
-                listOf("No spelling errors found")
-            } else {
-                corrections.flatMap { correction ->
-                    if (correction.suggestions.isEmpty()) {
-                        listOf("'${correction.misspelledWord}' may be misspelled (no suggestions)")
-                    } else {
-                        correction.suggestions.map { suggestion ->
-                            "'${correction.misspelledWord}' → '$suggestion'"
-                        }
-                    }
-                }
-            }
-
-            _sentenceTabState.value = _sentenceTabState.value.copy(
-                suggestions = displayStrings,
-                isLoading = false
-            )
+	        _sentenceTabState.value = _sentenceTabState.value.copy(
+		        corrections = corrections,
+		        isLoading = false
+	        )
         }
     }
 }
