@@ -19,44 +19,45 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun SpellCheckContent(
-    isCompactHeight: Boolean,
-    modifier: Modifier = Modifier,
-    viewModel: SpellCheckViewModel = koinViewModel()
+	isCompactHeight: Boolean,
+	modifier: Modifier = Modifier,
+	viewModel: SpellCheckViewModel = koinViewModel()
 ) {
-    var selectedTabIndex by rememberSaveable { mutableIntStateOf(0) }
-    val tabs = listOf("Word", "Sentence")
+	var selectedTabIndex by rememberSaveable { mutableIntStateOf(0) }
+	val tabs = listOf("Word", "Sentence")
 
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-    ) {
-        Text(
-            "Spell Check",
-            style = MaterialTheme.typography.headlineLarge,
-            modifier = Modifier.padding(16.dp)
-        )
+	Column(
+		modifier = modifier
+			.fillMaxSize()
+	) {
+		Text(
+			"Spell Check",
+			style = MaterialTheme.typography.headlineLarge,
+			modifier = Modifier.padding(16.dp)
+		)
 
-        TabRow(selectedTabIndex = selectedTabIndex) {
-            tabs.forEachIndexed { index, title ->
-                Tab(
-                    selected = selectedTabIndex == index,
-                    onClick = {
-                        selectedTabIndex = index
-                    },
-                    text = { Text(title) }
-                )
-            }
-        }
+		TabRow(selectedTabIndex = selectedTabIndex) {
+			tabs.forEachIndexed { index, title ->
+				Tab(
+					selected = selectedTabIndex == index,
+					onClick = {
+						selectedTabIndex = index
+					},
+					text = { Text(title) }
+				)
+			}
+		}
 
-        when (selectedTabIndex) {
-            0 -> WordCheckTab(
-                isCompactHeight = isCompactHeight,
-                viewModel = viewModel
-            )
-            1 -> SentenceCheckTab(
-                isCompactHeight = isCompactHeight,
-                viewModel = viewModel
-            )
-        }
-    }
+		when (selectedTabIndex) {
+			0 -> WordCheckTab(
+				isCompactHeight = isCompactHeight,
+				viewModel = viewModel
+			)
+
+			1 -> SentenceCheckTab(
+				isCompactHeight = isCompactHeight,
+				viewModel = viewModel
+			)
+		}
+	}
 }

@@ -9,8 +9,8 @@ package com.darkrockstudios.libs.platformspellchecker
  * @property suggestions A list of suggested corrections for the misspelled word.
  */
 data class SpellingCorrection(
-    val misspelledWord: String,
-    val startIndex: Int,
-    val length: Int,
-    val suggestions: List<String>
+	val misspelledWord: String,
+	val startIndex: Int,
+	val length: Int,
+	val suggestions: List<String>
 )

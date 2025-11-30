@@ -11,20 +11,20 @@ import platform.UIKit.UIViewController
  * This function is called from the iOS side to create the main UIViewController.
  */
 fun MainViewController(): UIViewController {
-    // Initialize Koin with iOS module
-    startKoin {
-        modules(iosModule)
-    }
+	// Initialize Koin with iOS module
+	startKoin {
+		modules(iosModule)
+	}
 
-    return ComposeUIViewController {
-        App(isCompactHeight = false)
-    }
+	return ComposeUIViewController {
+		App(isCompactHeight = false)
+	}
 }
 
 /**
  * Koin module for iOS with PlatformSpellChecker and ViewModel setup
  */
 private val iosModule = module {
-    single { PlatformSpellChecker() }
-    viewModel { SpellCheckViewModel(get()) }
+	single { PlatformSpellChecker() }
+	viewModel { SpellCheckViewModel(get()) }
 }

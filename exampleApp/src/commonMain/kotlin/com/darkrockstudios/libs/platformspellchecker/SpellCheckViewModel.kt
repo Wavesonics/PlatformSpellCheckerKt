@@ -14,13 +14,13 @@ data class WordTabUiState(
 )
 
 data class SentenceTabUiState(
-    val text: String = "",
-    val corrections: List<SpellingCorrection> = emptyList(),
-    val isLoading: Boolean = false
+	val text: String = "",
+	val corrections: List<SpellingCorrection> = emptyList(),
+	val isLoading: Boolean = false
 )
 
 class SpellCheckViewModel(
-    private val spellChecker: PlatformSpellChecker
+	private val spellChecker: PlatformSpellChecker
 ) : ViewModel() {
 	private val _wordTabState = MutableStateFlow(WordTabUiState(text = "boooks"))
 	private val _sentenceTabState = MutableStateFlow(SentenceTabUiState(text = "Ths is a tst sentence with erors"))
@@ -28,52 +28,42 @@ class SpellCheckViewModel(
 	val wordTabState: StateFlow<WordTabUiState> = _wordTabState.asStateFlow()
 	val sentenceTabState: StateFlow<SentenceTabUiState> = _sentenceTabState.asStateFlow()
 
-    fun updateWordText(text: String) {
-        _wordTabState.value = _wordTabState.value.copy(
-            text = text,
-	        result = null
-        )
-    }
+	fun updateWordText(text: String) {
+		_wordTabState.value = _wordTabState.value.copy(
+			text = text,
+			result = null
+		)
+	}
 
-    fun updateSentenceText(text: String) {
-        _sentenceTabState.value = _sentenceTabState.value.copy(
-            text = text,
-	        corrections = emptyList()
-        )
-    }
+	fun updateSentenceText(text: String) {
+		_sentenceTabState.value = _sentenceTabState.value.copy(
+			text = text,
+			corrections = emptyList()
+		)
+	}
 
-    fun checkWord() {
-        viewModelScope.launch {
-            _wordTabState.value = _wordTabState.value.copy(isLoading = true)
+	fun checkWord() {
+		viewModelScope.launch {
+			_wordTabState.value = _wordTabState.value.copy(isLoading = true)
 
-	        when (val result = spellChecker.checkWord(_wordTabState.value.text)) {
-		        is CorrectWord -> {
-			        _wordTabState.value = _wordTabState.value.copy(
-				        result = result,
-				        isLoading = false
-			        )
-		        }
+			val result = spellChecker.checkWord(_wordTabState.value.text)
+			_wordTabState.value = _wordTabState.value.copy(
+				result = result,
+				isLoading = false
+			)
+		}
+	}
 
-		        is MisspelledWord -> {
-			        _wordTabState.value = _wordTabState.value.copy(
-				        result = result,
-				        isLoading = false
-			        )
-		        }
-	        }
-        }
-    }
+	fun performSpellCheck() {
+		viewModelScope.launch {
+			_sentenceTabState.value = _sentenceTabState.value.copy(isLoading = true)
 
-    fun performSpellCheck() {
-        viewModelScope.launch {
-            _sentenceTabState.value = _sentenceTabState.value.copy(isLoading = true)
+			val corrections = spellChecker.checkMultiword(_sentenceTabState.value.text)
 
-	        val corrections = spellChecker.checkMultiword(_sentenceTabState.value.text)
-
-	        _sentenceTabState.value = _sentenceTabState.value.copy(
-		        corrections = corrections,
-		        isLoading = false
-	        )
-        }
-    }
+			_sentenceTabState.value = _sentenceTabState.value.copy(
+				corrections = corrections,
+				isLoading = false
+			)
+		}
+	}
 }

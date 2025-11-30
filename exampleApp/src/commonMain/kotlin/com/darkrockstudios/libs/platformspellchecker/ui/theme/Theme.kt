@@ -7,27 +7,27 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+	primary = Purple80,
+	secondary = PurpleGrey80,
+	tertiary = Pink80
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+	primary = Purple40,
+	secondary = PurpleGrey40,
+	tertiary = Pink40
 )
 
 @Composable
 fun PlatformSpellCheckerTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable () -> Unit
+	darkTheme: Boolean = isSystemInDarkTheme(),
+	content: @Composable () -> Unit
 ) {
-    val colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme
+	val colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        content = content
-    )
+	MaterialTheme(
+		colorScheme = colorScheme,
+		typography = Typography,
+		content = content
+	)
 }

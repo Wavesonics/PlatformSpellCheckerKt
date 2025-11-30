@@ -7,12 +7,12 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 
 class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            val isCompactHeight = resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
-            App(isCompactHeight = isCompactHeight)
-        }
-    }
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
+		enableEdgeToEdge()
+		setContent {
+			val isCompactHeight = resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+			App(isCompactHeight = isCompactHeight)
+		}
+	}
 }

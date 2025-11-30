@@ -15,10 +15,13 @@ The big advantage here is that nothing needs to be bundled with your program.
 Especially dictionaries. Most likely, what ever the user's language is, they will
 already have the proper dictionary on their device for the system level Spell Checker.
 
+_**Note:** Each platform can and will give different results for the same word.
+This library does not attempt to correct these results._
+
 ### Dependency
 
 ```kotlin
-implementation("com.darkrockstudios:platform-spellcheckerkt:0.9.0")
+implementation("com.darkrockstudios:platform-spellcheckerkt:1.0.0")
 ```
 
 ## Usage
@@ -85,18 +88,6 @@ val locales: List<SpLocale> = factory.availableLocales()
 
 [badge-windows]: http://img.shields.io/badge/-windows-4D76CD.svg?style=flat
 
-[badge-wasm]: https://img.shields.io/badge/-wasm-624FE8.svg?style=flat
-
-[badge-wasmi]: https://img.shields.io/badge/-wasi-626FFF.svg?style=flat
-
-[badge-apple-silicon]: http://img.shields.io/badge/support-[AppleSilicon]-43BBFF.svg?style=flat
-
 [badge-ios]: http://img.shields.io/badge/-ios-CDCDCD.svg?style=flat
 
-[badge-ios-sim]: http://img.shields.io/badge/-iosSim-AFAFAF.svg?style=flat
-
 [badge-macos]: http://img.shields.io/badge/-macos-444444.svg?style=flat
-
-[badge-watchos]: http://img.shields.io/badge/-watchos-C0C0C0.svg?style=flat
-
-[badge-tvos]: http://img.shields.io/badge/-tvos-808080.svg?style=flat

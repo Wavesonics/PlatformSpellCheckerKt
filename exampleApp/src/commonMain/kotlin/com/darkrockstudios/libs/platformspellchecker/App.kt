@@ -11,16 +11,16 @@ import org.koin.compose.KoinContext
 
 @Composable
 fun App(
-    isCompactHeight: Boolean = false
+	isCompactHeight: Boolean = false
 ) {
-    KoinContext {
-        PlatformSpellCheckerTheme {
-            Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                SpellCheckContent(
-                    isCompactHeight = isCompactHeight,
-                    modifier = Modifier.padding(innerPadding)
-                )
-            }
-        }
-    }
+	KoinContext {
+		PlatformSpellCheckerTheme {
+			Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+				SpellCheckContent(
+					isCompactHeight = isCompactHeight,
+					modifier = Modifier.padding(innerPadding)
+				)
+			}
+		}
+	}
 }
