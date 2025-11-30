@@ -26,11 +26,11 @@ implementation("com.darkrockstudios:platform-spellcheckerkt:1.0.0")
 
 ## Usage
 
-The simplest way to get a spell checker instance is through the PlatformSpellCheckerFactory.
-This can be used in common code, but if you support Android, you will need to construct it in Platform specific code,
-and then pass it down into common code, because the Android varriant requires a `context`.
-
+### Create a Spell Checker
 ```kotlin
+// Android's PlatformSpellCheckerFactory requires a context, thus you will need to construct it
+// in platform-specific code and pass it down into common code.
+val factory = PlatformSpellCheckerFactory(context)
 val factory = PlatformSpellCheckerFactory()
 
 // Use the user's current/system language
@@ -44,16 +44,25 @@ if (factory.hasLanguage(SpLocale.EN_GB)) {
     val gbChecker = factory.createSpellChecker(SpLocale.EN_GB)
 }
 
-// Use the checker
-val result = checkerDefault.checkWord("mispelledWord")
-if(isMisspelled(result)) {
-    result.suggestions.forEach { println(it) }
-}
-
-
+// You can also create a checker manually
+val checker = PlatformSpellChecker(SpLocale.EN_US)
 ```
 
-You can also query some helpful utilities via the factory:
+### Use a Spell Checker
+
+```kotlin
+// Check a single word for spelling errors
+val result = checker.checkWord("mispelledWord")
+if (isMisspelled(result)) {
+	result.suggestions.forEach { println(it) }
+}
+
+// Sentence level correct is also supported
+val misspellings = checker.checkMultiword("This is a sentence with a mispelled word.")
+misspellings.forEach { println("${it.misspelledWord} at ${it.startIndex} with length ${it.length}") }
+```
+
+### Utilities
 ```kotlin
 val factory = PlatformSpellCheckerFactory()
 
