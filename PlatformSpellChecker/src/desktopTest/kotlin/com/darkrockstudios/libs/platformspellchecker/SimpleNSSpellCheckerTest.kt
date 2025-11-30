@@ -29,7 +29,7 @@ class SimpleNSSpellCheckerTest {
 		try {
 			// Test correct word
 			println("\n=== Testing 'hello' (should be correct) ===")
-			testWord(wrapper!!, "hello")
+			testWord(wrapper, "hello")
 
 			// Test misspelled word
 			println("\n=== Testing 'helllo' (should be misspelled) ===")
@@ -44,7 +44,7 @@ class SimpleNSSpellCheckerTest {
 			testWord(wrapper, "test")
 
 		} finally {
-			wrapper?.close()
+			wrapper.close()
 		}
 	}
 
