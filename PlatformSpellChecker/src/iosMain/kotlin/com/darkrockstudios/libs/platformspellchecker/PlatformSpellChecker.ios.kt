@@ -1,9 +1,9 @@
 package com.darkrockstudios.libs.platformspellchecker
 
-import kotlinx.cinterop.*
+import kotlinx.cinterop.ExperimentalForeignApi
+import kotlinx.cinterop.useContents
 import platform.Foundation.*
 import platform.UIKit.UITextChecker
-import io.github.aakira.napier.Napier
 
 /**
  * iOS implementation of PlatformSpellChecker using UITextChecker.
@@ -14,7 +14,7 @@ import io.github.aakira.napier.Napier
 @OptIn(ExperimentalForeignApi::class)
 actual class PlatformSpellChecker(
     private val locale: SpLocale? = null
-) {
+) : AutoCloseable {
 
     private val textChecker = UITextChecker()
     private val language: String by lazy {
@@ -91,19 +91,16 @@ actual class PlatformSpellChecker(
     }
 
     /**
-     * Checks a single word for spelling errors.
-     * Returns spelling suggestions if the word is misspelled,
-     * or "'word' is correctly spelled" if the word is correct.
+     * Checks a single word and returns suggestions only. Empty list if word is correct or no suggestions.
      */
-    actual suspend fun checkWord(word: String): List<String> {
-        if (word.isBlank()) {
-            return listOf("Please enter a word to check")
-        }
+    actual suspend fun checkWord(word: String, maxSuggestions: Int): List<String> {
+	    val trimmed = word.trim()
+	    if (trimmed.isEmpty() || trimmed.contains(" ")) return emptyList()
 
-        val range = NSMakeRange(0u, word.length.toULong())
+	    val range = NSMakeRange(0u, trimmed.length.toULong())
 
         val misspelledRange = textChecker.rangeOfMisspelledWordInString(
-            stringToCheck = word,
+	        stringToCheck = trimmed,
             range = range,
             startingAt = 0,
             wrap = false,
@@ -112,22 +109,35 @@ actual class PlatformSpellChecker(
 
         // If NSNotFound, the word is correctly spelled
         if (misspelledRange.useContents { location } == NSNotFound.toULong()) {
-            return listOf("'$word' is correctly spelled")
+	        return emptyList()
         }
 
         // Get suggestions for the misspelled word
         val suggestions = textChecker.guessesForWordRange(
             range = misspelledRange,
-            inString = word,
+	        inString = trimmed,
             language = language
-        ) as? List<*>
+        )
 
-        return if (suggestions != null && suggestions.isNotEmpty()) {
-            suggestions.mapNotNull { it as? String }
-        } else {
-            listOf("'$word' is misspelled but no suggestions are available")
-        }
+	    val max = if (maxSuggestions <= 0) 5 else maxSuggestions
+	    return suggestions?.mapNotNull { it as? String }?.take(max) ?: emptyList()
     }
 
-    
+	actual suspend fun isWordCorrect(word: String): Boolean {
+		if (word.isBlank()) return false
+
+		val range = NSMakeRange(0u, word.length.toULong())
+		val misspelledRange = textChecker.rangeOfMisspelledWordInString(
+			stringToCheck = word,
+			range = range,
+			startingAt = 0,
+			wrap = false,
+			language = language
+		)
+		return misspelledRange.useContents { location } == NSNotFound.toULong()
+    }
+
+	actual override fun close() {
+		// No resources to free for UITextChecker
+	}
 }

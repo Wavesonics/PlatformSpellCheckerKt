@@ -138,13 +138,11 @@ class MacOSSpellCheckTest {
     }
 
     @Test
-    fun `PlatformSpellChecker checkWord returns correct message for correct word`() = runTest {
+    fun `PlatformSpellChecker checkWord returns empty list for correct word`() = runTest {
         val platformChecker = PlatformSpellChecker()
         val results = platformChecker.checkWord("test")
         println("Results for 'test': $results")
-        assertTrue(results.size == 1, "Expected single result for correctly spelled word, got ${results.size}")
-        assertTrue(results[0].contains("correctly spelled"),
-            "Expected 'correctly spelled' message, got: ${results[0]}")
+	    assertTrue(results.isEmpty(), "Expected empty list for correctly spelled word, got ${results}")
     }
 
     @Test

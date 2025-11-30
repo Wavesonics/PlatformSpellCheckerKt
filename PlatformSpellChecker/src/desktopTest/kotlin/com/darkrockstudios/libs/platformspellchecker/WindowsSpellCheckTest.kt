@@ -77,11 +77,10 @@ class WindowsSpellCheckTest {
     }
 
     @Test
-    fun `PlatformSpellChecker checkWord returns correct message for correct word`() = runTest {
+    fun `PlatformSpellChecker checkWord returns empty list for correct word`() = runTest {
         val platformChecker = PlatformSpellChecker()
         val results = platformChecker.checkWord("test")
-        assertTrue(results.size == 1, "Expected single result for correctly spelled word")
-        assertTrue(results[0].contains("correctly spelled"), "Expected 'correctly spelled' message")
+	    assertTrue(results.isEmpty(), "Expected empty list for correctly spelled word")
     }
 
     @Test

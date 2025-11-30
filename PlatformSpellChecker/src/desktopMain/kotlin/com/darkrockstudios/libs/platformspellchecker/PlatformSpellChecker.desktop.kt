@@ -17,7 +17,7 @@ import kotlinx.coroutines.withContext
  */
 actual class PlatformSpellChecker(
     private val locale: SpLocale? = null
-) {
+) : AutoCloseable {
 
     private val spellChecker: NativeSpellChecker? by lazy {
         try {
@@ -90,37 +90,36 @@ actual class PlatformSpellChecker(
         }
     }
 
-    actual suspend fun checkWord(word: String): List<String> = withContext(Dispatchers.IO) {
-        if (word.isBlank()) {
-            return@withContext emptyList()
-        }
+	actual suspend fun checkWord(word: String, maxSuggestions: Int): List<String> = withContext(Dispatchers.IO) {
+		val trimmed = word.trim()
+		if (trimmed.isEmpty() || trimmed.contains(" ")) return@withContext emptyList()
 
-        val trimmedWord = word.trim()
-        if (trimmedWord.contains(" ")) {
-            return@withContext listOf("Please provide a single word only")
-        }
+		val checker = spellChecker ?: return@withContext emptyList()
 
-        val checker = spellChecker
-        if (checker == null) {
-            val osName = NativeSpellCheckerFactory.getOSName()
-            return@withContext listOf("Spell checking not available on $osName")
-        }
-
-        try {
-            if (checker.isWordCorrect(trimmedWord)) {
-                return@withContext listOf("'$trimmedWord' is correctly spelled")
-            }
-
-            val suggestions = checker.getSuggestions(trimmedWord)
-            if (suggestions.isNotEmpty()) {
-                suggestions.take(5)
-            } else {
-                listOf("'$trimmedWord' may be misspelled (no suggestions available)")
-            }
+		val max = if (maxSuggestions <= 0) 5 else maxSuggestions
+		return@withContext try {
+			if (checker.isWordCorrect(trimmed)) emptyList()
+			else checker.getSuggestions(trimmed).take(max)
         } catch (e: Exception) {
-            listOf("Error checking word: ${e.message}")
+			Napier.e("Error checking word: ${e.message}", e)
+			emptyList()
         }
     }
 
-    
+	actual suspend fun isWordCorrect(word: String): Boolean = withContext(Dispatchers.IO) {
+		val trimmed = word.trim()
+		if (trimmed.isEmpty() || trimmed.contains(" ")) return@withContext false
+
+		val checker = spellChecker ?: return@withContext false
+		return@withContext try {
+			checker.isWordCorrect(trimmed)
+		} catch (e: Exception) {
+			Napier.e("Error checking word correctness: ${e.message}", e)
+			false
+		}
+	}
+
+	actual override fun close() {
+		runCatching { spellChecker?.close() }
+	}
 }
