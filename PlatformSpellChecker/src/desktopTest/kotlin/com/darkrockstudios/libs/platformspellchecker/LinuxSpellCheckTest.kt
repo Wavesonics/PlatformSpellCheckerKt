@@ -124,9 +124,14 @@ class LinuxSpellCheckTest {
         assumeTrue("Not on Linux", System.getProperty("os.name").lowercase().contains("linux"))
 
         val platformChecker = PlatformSpellChecker()
-        val results = platformChecker.checkWord("tset")
-        assertTrue(results.isNotEmpty(), "Expected suggestions for 'tset'")
-        println("PlatformSpellChecker suggestions for 'tset': $results")
+	    val result = platformChecker.checkWord("tset")
+	    when (result) {
+		    is CorrectWord -> kotlin.test.fail("Expected misspelled result for 'tset'")
+		    is MisspelledWord -> {
+			    assertTrue(result.suggestions.isNotEmpty(), "Expected suggestions for 'tset'")
+			    println("PlatformSpellChecker suggestions for 'tset': ${result.suggestions}")
+		    }
+	    }
     }
 
     @Test
@@ -134,8 +139,8 @@ class LinuxSpellCheckTest {
         assumeTrue("Not on Linux", System.getProperty("os.name").lowercase().contains("linux"))
 
         val platformChecker = PlatformSpellChecker()
-        val results = platformChecker.checkWord("test")
-	    assertTrue(results.isEmpty(), "Expected empty list for correctly spelled word")
+	    val result = platformChecker.checkWord("test")
+	    assertTrue(result is CorrectWord, "Expected CorrectWord for correctly spelled word")
     }
 
     @Test
@@ -143,7 +148,7 @@ class LinuxSpellCheckTest {
         assumeTrue("Not on Linux", System.getProperty("os.name").lowercase().contains("linux"))
 
         val platformChecker = PlatformSpellChecker()
-        val corrections = platformChecker.performSpellCheck("This is a tset sentance")
+	    val corrections = platformChecker.checkMultiword("This is a tset sentance")
         assertTrue(corrections.isNotEmpty(), "Expected misspellings to be found")
         println("PlatformSpellChecker corrections: $corrections")
         // Results should contain SpellingCorrection objects with suggestions
@@ -155,7 +160,7 @@ class LinuxSpellCheckTest {
         assumeTrue("Not on Linux", System.getProperty("os.name").lowercase().contains("linux"))
 
         val platformChecker = PlatformSpellChecker()
-        val corrections = platformChecker.performSpellCheck("This is a test sentence")
+	    val corrections = platformChecker.checkMultiword("This is a test sentence")
         assertTrue(corrections.isEmpty(), "Expected no corrections for correct text")
     }
 }

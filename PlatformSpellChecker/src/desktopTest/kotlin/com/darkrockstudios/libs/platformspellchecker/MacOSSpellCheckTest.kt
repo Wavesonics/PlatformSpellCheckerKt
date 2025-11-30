@@ -132,23 +132,26 @@ class MacOSSpellCheckTest {
     @Test
     fun `PlatformSpellChecker checkWord returns suggestions for misspelled word`() = runTest {
         val platformChecker = PlatformSpellChecker()
-        val results = platformChecker.checkWord("tset")
-        println("Results for 'tset': $results")
-        assertTrue(results.isNotEmpty(), "Expected suggestions for 'tset'")
+	    val result = platformChecker.checkWord("tset")
+	    println("Result for 'tset': $result")
+	    when (result) {
+		    is CorrectWord -> kotlin.test.fail("Expected misspelled result for 'tset'")
+		    is MisspelledWord -> assertTrue(result.suggestions.isNotEmpty(), "Expected suggestions for 'tset'")
+	    }
     }
 
     @Test
     fun `PlatformSpellChecker checkWord returns empty list for correct word`() = runTest {
         val platformChecker = PlatformSpellChecker()
-        val results = platformChecker.checkWord("test")
-        println("Results for 'test': $results")
-	    assertTrue(results.isEmpty(), "Expected empty list for correctly spelled word, got ${results}")
+	    val result = platformChecker.checkWord("test")
+	    println("Result for 'test': $result")
+	    assertTrue(result is CorrectWord, "Expected CorrectWord for correctly spelled word, got ${result}")
     }
 
     @Test
     fun `PlatformSpellChecker performSpellCheck finds misspellings`() = runTest {
         val platformChecker = PlatformSpellChecker()
-        val corrections = platformChecker.performSpellCheck("This is a tset sentance")
+	    val corrections = platformChecker.checkMultiword("This is a tset sentance")
         println("Spell check corrections: $corrections")
         assertTrue(corrections.isNotEmpty(), "Expected misspellings to be found")
         // Results should contain SpellingCorrection objects with suggestions
@@ -159,7 +162,7 @@ class MacOSSpellCheckTest {
     @Test
     fun `PlatformSpellChecker performSpellCheck returns empty for correct text`() = runTest {
         val platformChecker = PlatformSpellChecker()
-        val corrections = platformChecker.performSpellCheck("This is a test sentence")
+	    val corrections = platformChecker.checkMultiword("This is a test sentence")
         println("Spell check corrections for correct text: $corrections")
         assertTrue(corrections.isEmpty(), "Expected no corrections for correct text, got ${corrections.size}")
     }

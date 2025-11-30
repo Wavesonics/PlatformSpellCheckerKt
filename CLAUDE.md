@@ -44,9 +44,9 @@ A Kotlin Multiplatform library providing spell checking functionality.
 
 #### Common API (`commonMain`)
 - **PlatformSpellChecker.kt** - Expect class declaration
-  - `suspend fun performSpellCheck(text: String): List<String>` - Check sentences
-  - `suspend fun checkWord(word: String, maxSuggestions: Int = 5): List<String>` - Get suggestions for a single word (
-    empty list if correct)
+    - `suspend fun performSpellCheck(text: String): List<SpellingCorrection>` - Check sentences
+    - `suspend fun checkWord(word: String, maxSuggestions: Int = 5): WordCheckResult` - Check a single word. Returns
+      `CorrectWord` when correct, otherwise `MisspelledWord` with up to `maxSuggestions` suggestions (may be empty).
 
 #### Android Implementation (`androidMain`)
 - **PlatformSpellChecker.android.kt** - Actual implementation using Android's TextServicesManager

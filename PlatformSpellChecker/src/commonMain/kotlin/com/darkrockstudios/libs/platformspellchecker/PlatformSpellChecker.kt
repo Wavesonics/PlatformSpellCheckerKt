@@ -13,15 +13,13 @@ expect class PlatformSpellChecker {
      * their positions in the original text, and suggested corrections.
      * Returns an empty list if no spelling errors are found.
      */
-    suspend fun performSpellCheck(text: String): List<SpellingCorrection>
+    suspend fun checkMultiword(text: String): List<SpellingCorrection>
 
     /**
-     * Checks a single word for spelling errors and returns spelling suggestions.
-     * Implementations should return an empty list when the word is already correct
-     * or when no suggestions are available. The number of returned suggestions
-     * should not exceed [maxSuggestions].
+     * Checks a single word and returns a structured result indicating if it is spelled correctly.
+     * When misspelled, includes up to [maxSuggestions] suggestions (may be empty).
      */
-    suspend fun checkWord(word: String, maxSuggestions: Int = 5): List<String>
+    suspend fun checkWord(word: String, maxSuggestions: Int = 5): WordCheckResult
 
 	/**
 	 * Checks if a single word exists in the active dictionary and is considered correctly spelled.

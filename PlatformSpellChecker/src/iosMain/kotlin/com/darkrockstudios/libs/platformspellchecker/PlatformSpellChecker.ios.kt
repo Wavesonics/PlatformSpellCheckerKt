@@ -35,7 +35,7 @@ actual class PlatformSpellChecker(
      * their positions in the original text, and suggested corrections.
      * Returns an empty list if no spelling errors are found.
      */
-    actual suspend fun performSpellCheck(text: String): List<SpellingCorrection> {
+    actual suspend fun checkMultiword(text: String): List<SpellingCorrection> {
         if (text.isBlank()) {
             return emptyList()
         }
@@ -90,14 +90,11 @@ actual class PlatformSpellChecker(
         return results
     }
 
-    /**
-     * Checks a single word and returns suggestions only. Empty list if word is correct or no suggestions.
-     */
-    actual suspend fun checkWord(word: String, maxSuggestions: Int): List<String> {
+	actual suspend fun checkWord(word: String, maxSuggestions: Int): WordCheckResult {
 	    val trimmed = word.trim()
-	    if (trimmed.isEmpty() || trimmed.contains(" ")) return emptyList()
+		if (trimmed.isEmpty() || trimmed.contains(" ")) return CorrectWord(trimmed)
 
-	    val range = NSMakeRange(0u, trimmed.length.toULong())
+		val range = NSMakeRange(0u, trimmed.length.toULong())
 
         val misspelledRange = textChecker.rangeOfMisspelledWordInString(
 	        stringToCheck = trimmed,
@@ -107,12 +104,10 @@ actual class PlatformSpellChecker(
             language = language
         )
 
-        // If NSNotFound, the word is correctly spelled
         if (misspelledRange.useContents { location } == NSNotFound.toULong()) {
-	        return emptyList()
+	        return CorrectWord(trimmed)
         }
 
-        // Get suggestions for the misspelled word
         val suggestions = textChecker.guessesForWordRange(
             range = misspelledRange,
 	        inString = trimmed,
@@ -120,7 +115,8 @@ actual class PlatformSpellChecker(
         )
 
 	    val max = if (maxSuggestions <= 0) 5 else maxSuggestions
-	    return suggestions?.mapNotNull { it as? String }?.take(max) ?: emptyList()
+		val list = suggestions?.mapNotNull { it as? String }?.take(max) ?: emptyList()
+		return MisspelledWord(trimmed, list)
     }
 
 	actual suspend fun isWordCorrect(word: String): Boolean {

@@ -61,8 +61,6 @@ data class SpLocale(
         val BG_BG = SpLocale("bg", "BG")
         val MK = SpLocale("mk")
         val MK_MK = SpLocale("mk", "MK")
-        val RU = SpLocale("ru")
-        val RU_RU = SpLocale("ru", "RU")
         val UK = SpLocale("uk") // Ukrainian language code (may be confused with United Kingdom)
         val UK_UA = SpLocale("uk", "UA") // Ukrainian
         val LT = SpLocale("lt")

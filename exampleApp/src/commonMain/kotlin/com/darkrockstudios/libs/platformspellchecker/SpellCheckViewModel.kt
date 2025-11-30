@@ -2,7 +2,6 @@ package com.darkrockstudios.libs.platformspellchecker
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.darkrockstudios.libs.platformspellchecker.PlatformSpellChecker
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -41,12 +40,21 @@ class SpellCheckViewModel(
         viewModelScope.launch {
             _wordTabState.value = _wordTabState.value.copy(isLoading = true)
 
-            val suggestions = spellChecker.checkWord(_wordTabState.value.text)
+	        when (val result = spellChecker.checkWord(_wordTabState.value.text)) {
+		        is CorrectWord -> {
+			        _wordTabState.value = _wordTabState.value.copy(
+				        suggestions = emptyList(),
+				        isLoading = false
+			        )
+		        }
 
-            _wordTabState.value = _wordTabState.value.copy(
-                suggestions = suggestions,
-                isLoading = false
-            )
+		        is MisspelledWord -> {
+			        _wordTabState.value = _wordTabState.value.copy(
+				        suggestions = result.suggestions,
+				        isLoading = false
+			        )
+		        }
+	        }
         }
     }
 
@@ -54,7 +62,7 @@ class SpellCheckViewModel(
         viewModelScope.launch {
             _sentenceTabState.value = _sentenceTabState.value.copy(isLoading = true)
 
-            val corrections = spellChecker.performSpellCheck(_sentenceTabState.value.text)
+	        val corrections = spellChecker.checkMultiword(_sentenceTabState.value.text)
 
             // Convert corrections to display strings for the UI
             val displayStrings = if (corrections.isEmpty()) {

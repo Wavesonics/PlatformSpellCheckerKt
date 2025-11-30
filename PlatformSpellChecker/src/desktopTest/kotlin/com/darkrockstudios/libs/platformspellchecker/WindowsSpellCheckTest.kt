@@ -72,21 +72,24 @@ class WindowsSpellCheckTest {
     @Test
     fun `PlatformSpellChecker checkWord returns suggestions for misspelled word`() = runTest {
         val platformChecker = PlatformSpellChecker()
-        val results = platformChecker.checkWord("tset")
-        assertTrue(results.isNotEmpty(), "Expected suggestions for 'tset'")
+	    val result = platformChecker.checkWord("tset")
+	    when (result) {
+		    is CorrectWord -> kotlin.test.fail("Expected misspelled result for 'tset'")
+		    is MisspelledWord -> assertTrue(result.suggestions.isNotEmpty(), "Expected suggestions for 'tset'")
+	    }
     }
 
     @Test
     fun `PlatformSpellChecker checkWord returns empty list for correct word`() = runTest {
         val platformChecker = PlatformSpellChecker()
-        val results = platformChecker.checkWord("test")
-	    assertTrue(results.isEmpty(), "Expected empty list for correctly spelled word")
+	    val result = platformChecker.checkWord("test")
+	    assertTrue(result is CorrectWord, "Expected CorrectWord for correctly spelled word")
     }
 
     @Test
     fun `PlatformSpellChecker performSpellCheck finds misspellings`() = runTest {
         val platformChecker = PlatformSpellChecker()
-        val corrections = platformChecker.performSpellCheck("This is a tset sentance")
+	    val corrections = platformChecker.checkMultiword("This is a tset sentance")
         assertTrue(corrections.isNotEmpty(), "Expected misspellings to be found")
         // Results should contain SpellingCorrection objects with suggestions
         assertTrue(corrections.any { it.suggestions.isNotEmpty() }, "Expected corrections with suggestions")
@@ -95,7 +98,7 @@ class WindowsSpellCheckTest {
     @Test
     fun `PlatformSpellChecker performSpellCheck returns empty for correct text`() = runTest {
         val platformChecker = PlatformSpellChecker()
-        val corrections = platformChecker.performSpellCheck("This is a test sentence")
+	    val corrections = platformChecker.checkMultiword("This is a test sentence")
         assertTrue(corrections.isEmpty(), "Expected no corrections for correct text")
     }
 }

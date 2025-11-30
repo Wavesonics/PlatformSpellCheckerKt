@@ -34,7 +34,7 @@ actual class PlatformSpellChecker(
         }
     }
 
-    actual suspend fun performSpellCheck(text: String): List<SpellingCorrection> = withContext(Dispatchers.IO) {
+	actual suspend fun checkMultiword(text: String): List<SpellingCorrection> = withContext(Dispatchers.IO) {
         if (text.isBlank()) {
             return@withContext emptyList()
         }
@@ -90,20 +90,24 @@ actual class PlatformSpellChecker(
         }
     }
 
-	actual suspend fun checkWord(word: String, maxSuggestions: Int): List<String> = withContext(Dispatchers.IO) {
+	actual suspend fun checkWord(word: String, maxSuggestions: Int): WordCheckResult = withContext(Dispatchers.IO) {
 		val trimmed = word.trim()
-		if (trimmed.isEmpty() || trimmed.contains(" ")) return@withContext emptyList()
+		if (trimmed.isEmpty() || trimmed.contains(" ")) return@withContext CorrectWord(trimmed)
 
-		val checker = spellChecker ?: return@withContext emptyList()
+		val checker = spellChecker ?: return@withContext CorrectWord(trimmed)
 
 		val max = if (maxSuggestions <= 0) 5 else maxSuggestions
 		return@withContext try {
-			if (checker.isWordCorrect(trimmed)) emptyList()
-			else checker.getSuggestions(trimmed).take(max)
-        } catch (e: Exception) {
+			if (checker.isWordCorrect(trimmed)) {
+				CorrectWord(trimmed)
+			} else {
+				val suggestions = checker.getSuggestions(trimmed).take(max)
+				MisspelledWord(trimmed, suggestions)
+			}
+		} catch (e: Exception) {
 			Napier.e("Error checking word: ${e.message}", e)
-			emptyList()
-        }
+			CorrectWord(trimmed)
+		}
     }
 
 	actual suspend fun isWordCorrect(word: String): Boolean = withContext(Dispatchers.IO) {

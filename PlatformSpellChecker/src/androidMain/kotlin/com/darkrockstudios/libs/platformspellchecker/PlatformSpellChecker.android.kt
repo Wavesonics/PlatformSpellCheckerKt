@@ -35,7 +35,7 @@ actual class PlatformSpellChecker(
 
     private sealed class OperationContext {
         data class WordCheck(
-            val continuation: Continuation<List<String>>,
+	        val continuation: Continuation<WordCheckResult>,
             val text: String,
             val max: Int
         ) : OperationContext()
@@ -65,8 +65,13 @@ actual class PlatformSpellChecker(
 
             when (context) {
                 is OperationContext.WordCheck -> {
-	                val suggestions = extractSuggestions(results, context.max)
-	                context.continuation.resume(suggestions)
+	                val inDict = isWordCorrectFromResults(results)
+	                if (inDict) {
+		                context.continuation.resume(CorrectWord(context.text))
+	                } else {
+		                val suggestions = extractSuggestions(results, context.max)
+		                context.continuation.resume(MisspelledWord(context.text, suggestions))
+	                }
                 }
 
 	            is OperationContext.WordIsCorrect -> {
@@ -98,7 +103,7 @@ actual class PlatformSpellChecker(
                 }
                 is OperationContext.WordCheck -> {
                     // Shouldn't happen, but handle gracefully
-                    context.continuation.resume(emptyList())
+	                context.continuation.resume(CorrectWord(context.text))
                 }
 	            is OperationContext.WordIsCorrect -> {
 		            // Shouldn't happen for sentence suggestions
@@ -113,7 +118,7 @@ actual class PlatformSpellChecker(
         }
     }
 
-    actual suspend fun performSpellCheck(text: String): List<SpellingCorrection> {
+	actual suspend fun checkMultiword(text: String): List<SpellingCorrection> {
         if (text.isBlank()) {
             return emptyList()
         }
@@ -135,9 +140,9 @@ actual class PlatformSpellChecker(
         }
     }
 
-	actual suspend fun checkWord(word: String, maxSuggestions: Int): List<String> {
+	actual suspend fun checkWord(word: String, maxSuggestions: Int): WordCheckResult {
         val trimmedWord = word.trim()
-		if (trimmedWord.isEmpty() || trimmedWord.contains(" ")) return emptyList()
+		if (trimmedWord.isEmpty() || trimmedWord.contains(" ")) return CorrectWord(trimmedWord)
 		val max = if (maxSuggestions <= 0) 5 else maxSuggestions
 
         return suspendCancellableCoroutine { continuation ->
