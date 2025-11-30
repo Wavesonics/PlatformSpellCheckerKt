@@ -200,7 +200,7 @@ actual class PlatformSpellChecker(
 			val suggestionsCount = sentenceSuggestionsInfo.suggestionsCount
 			for (i in 0 until suggestionsCount) {
 				val suggestionsInfo = sentenceSuggestionsInfo.getSuggestionsInfoAt(i)
-				if (suggestionsInfo != null && suggestionsInfo.suggestionsCount > 0) {
+				if (suggestionsInfo != null) {
 					val offset = sentenceSuggestionsInfo.getOffsetAt(i)
 					val length = sentenceSuggestionsInfo.getLengthAt(i)
 					val misspelledWord = text.substring(offset, offset + length)
