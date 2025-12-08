@@ -9,6 +9,7 @@ jna = "5.18.1"
 napier = "2.7.1"
 dokka = "2.1.0"
 maven-central-publish = "0.30.0"
+jvm = "17"
 
 # Android-specific
 coreKtx = "1.17.0"

@@ -10,13 +10,13 @@ plugins {
 kotlin {
 	androidTarget {
 		compilerOptions {
-			jvmTarget.set(JvmTarget.JVM_17)
+			jvmTarget.set(JvmTarget.fromTarget(libs.versions.jvm.get()))
 		}
 	}
 
 	jvm("desktop") {
 		compilerOptions {
-			jvmTarget.set(JvmTarget.JVM_17)
+			jvmTarget.set(JvmTarget.fromTarget(libs.versions.jvm.get()))
 		}
 	}
 
@@ -62,8 +62,9 @@ android {
 	}
 
 	compileOptions {
-		sourceCompatibility = JavaVersion.VERSION_11
-		targetCompatibility = JavaVersion.VERSION_11
+		val jvmVersion = libs.versions.jvm.get()
+		sourceCompatibility = JavaVersion.toVersion(jvmVersion)
+		targetCompatibility = JavaVersion.toVersion(jvmVersion)
 	}
 }
 
@@ -109,7 +110,6 @@ mavenPublishing {
 	signAllPublications()
 
 	// Publishes to Maven Central via central.sonatype.com
-	// automaticRelease = true will automatically close and release the repository
 	publishToMavenCentral(com.vanniktech.maven.publish.SonatypeHost.CENTRAL_PORTAL, automaticRelease = true)
 }
 
