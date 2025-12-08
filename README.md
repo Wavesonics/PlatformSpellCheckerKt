@@ -89,9 +89,9 @@ val locales: List<SpLocale> = factory.availableLocales()
 | WASM-JS       | ❌         | Can't work I don't think because there is no standard browser spell checker API as far as I have found.                                                                                                                                                                                                                                                                |
 
 
-[badge-android]: http://img.shields.io/badge/-android-6EDB8D.svg?style=flat
+[badge-android]: http://img.shields.io/badge/-Android-6EDB8D.svg?style=flat
 
-[badge-jvm]: http://img.shields.io/badge/-jvm-DB413D.svg?style=flat
+[badge-jvm]: http://img.shields.io/badge/-Desktop%2FJVM-DB413D.svg?style=flat
 
 [badge-linux]: http://img.shields.io/badge/-linux-2D3F6C.svg?style=flat
 
