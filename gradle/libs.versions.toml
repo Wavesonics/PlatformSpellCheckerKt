@@ -1,4 +1,6 @@
 [versions]
+android-compileSdk = "36"
+android-minSdk = "23"
 agp = "8.11.2"
 kotlin = "2.2.21"
 koin = "4.1.1"
