@@ -86,12 +86,12 @@ kotlin {
 
 android {
 	namespace = "com.darkrockstudios.libs.platformspellchecker"
-	compileSdk = 36
+	compileSdk = libs.versions.android.compileSdk.get().toInt()
 
 	defaultConfig {
 		applicationId = "com.darkrockstudios.libs.platformspellchecker"
-		minSdk = 26
-		targetSdk = 36
+		minSdk = libs.versions.android.minSdk.get().toInt()
+		targetSdk = libs.versions.android.compileSdk.get().toInt()
 		versionCode = 1
 		versionName = "1.0"
 

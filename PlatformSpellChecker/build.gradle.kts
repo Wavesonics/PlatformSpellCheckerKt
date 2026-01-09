@@ -55,10 +55,10 @@ kotlin {
 
 android {
 	namespace = "com.darkrockstudios.libs.platformspellchecker"
-	compileSdk = 35
+	compileSdk = libs.versions.android.compileSdk.get().toInt()
 
 	defaultConfig {
-		minSdk = 26
+		minSdk = libs.versions.android.minSdk.get().toInt()
 	}
 
 	compileOptions {
