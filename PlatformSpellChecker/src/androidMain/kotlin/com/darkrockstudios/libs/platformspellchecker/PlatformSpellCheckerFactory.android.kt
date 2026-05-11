@@ -3,6 +3,7 @@ package com.darkrockstudios.libs.platformspellchecker
 import android.content.Context
 import android.os.Build
 import android.os.LocaleList
+import android.view.textservice.TextServicesManager
 
 actual class PlatformSpellCheckerFactory(private val context: Context) {
 
@@ -36,7 +37,17 @@ actual class PlatformSpellCheckerFactory(private val context: Context) {
 	}
 
 	actual fun isAvailable(): Boolean {
-		return context.getSystemService(Context.TEXT_SERVICES_MANAGER_SERVICE) != null
+		// `getSystemService` is non-null on every Android device shipping
+		// TextServicesManager (API 14+), so it tells us nothing about whether a
+		// spell-checker is actually usable. The honest probe is
+		// `isSpellCheckerEnabled()`, which returns false on AOSP emulator images
+		// without a Google-keyboard spell-checker provider — exactly the case
+		// where requests would otherwise hang silently at the framework
+		// boundary. Consumers can use this to gate UI ("spell check unavailable
+		// on this device") instead of waiting for per-call timeouts.
+		val tsm = context.getSystemService(Context.TEXT_SERVICES_MANAGER_SERVICE) as? TextServicesManager
+			?: return false
+		return tsm.isSpellCheckerEnabled
 	}
 
 	actual fun currentSystemLocale(): SpLocale {
