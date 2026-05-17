@@ -77,6 +77,11 @@ class LinuxSpellChecker private constructor(
 		hunspell.addToUserDictionary(word.trim())
 	}
 
+	override fun removeFromDictionary(word: String) {
+		if (word.isBlank()) return
+		hunspell.removeFromUserDictionary(word.trim())
+	}
+
 	override fun ignoreWord(word: String) {
 		if (word.isBlank()) return
 		hunspell.ignoreWord(word.trim())

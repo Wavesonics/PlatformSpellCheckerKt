@@ -85,6 +85,19 @@ class NSSpellCheckerWrapper private constructor(private val spellChecker: Pointe
 	}
 
 	/**
+	 * Removes a word previously added via [learnWord].
+	 */
+	fun unlearnWord(word: String) {
+		val nsWord = ObjC.createNSString(word) ?: return
+		try {
+			val selector = ObjC.selector("unlearnWord:") ?: return
+			ObjC.msgSend(spellChecker, selector, nsWord)
+		} finally {
+			ObjC.release(nsWord)
+		}
+	}
+
+	/**
 	 * Ignores a word for this session.
 	 */
 	fun ignoreWord(word: String) {

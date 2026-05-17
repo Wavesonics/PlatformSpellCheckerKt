@@ -109,6 +109,16 @@ class MacOSSpellChecker private constructor(
 		}
 	}
 
+	override fun removeFromDictionary(word: String) {
+		if (word.isBlank()) return
+
+		try {
+			spellChecker.unlearnWord(word.trim())
+		} catch (e: Exception) {
+			Napier.e("Error removing word from dictionary: ${e.message}", e)
+		}
+	}
+
 	override fun ignoreWord(word: String) {
 		if (word.isBlank()) return
 

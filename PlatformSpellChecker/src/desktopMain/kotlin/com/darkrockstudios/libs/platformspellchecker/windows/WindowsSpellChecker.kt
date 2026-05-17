@@ -6,6 +6,7 @@ import com.sun.jna.platform.win32.COM.COMUtils
 import com.sun.jna.platform.win32.Ole32
 import com.sun.jna.platform.win32.WTypes
 import com.sun.jna.ptr.PointerByReference
+import io.github.aakira.napier.Napier
 import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -105,6 +106,17 @@ class WindowsSpellChecker private constructor(
 	override fun addToDictionary(word: String) {
 		check(!closed.get()) { "WindowsSpellChecker has been closed" }
 		spellChecker.add(word)
+	}
+
+	/**
+	 * No-op on Windows: the basic [ISpellChecker] VTable does not expose a
+	 * remove operation. Removal would require [ISpellChecker2] (Windows 8.1+),
+	 * which is not currently bound. Logs a warning so callers know the request
+	 * was dropped.
+	 */
+	override fun removeFromDictionary(word: String) {
+		check(!closed.get()) { "WindowsSpellChecker has been closed" }
+		Napier.w("removeFromDictionary is not supported by the Windows basic ISpellChecker API (word='$word')")
 	}
 
 	/**

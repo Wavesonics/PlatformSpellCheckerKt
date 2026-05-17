@@ -128,6 +128,31 @@ class HunspellWrapper private constructor(
 		library.Hunspell_remove(handle, word)
 	}
 
+	/**
+	 * Removes a word from the user's personal dictionary, both at runtime and
+	 * from the persisted user-dictionary file. No-op if the word was not in
+	 * the file.
+	 */
+	fun removeFromUserDictionary(word: String) {
+		check(!closed.get()) { "HunspellWrapper has been closed" }
+		if (word.isBlank()) return
+
+		removeWord(word)
+
+		userDictionaryPath?.let { dictFile ->
+			if (!dictFile.exists()) return@let
+			try {
+				val target = word.trim()
+				val remaining = dictFile.readLines()
+					.filter { it.trim() != target }
+				dictFile.writeText(if (remaining.isEmpty()) "" else remaining.joinToString("\n") + "\n")
+				Napier.d("Removed '$word' from user dictionary: $dictFile")
+			} catch (e: Exception) {
+				Napier.e("Failed to rewrite user dictionary: ${e.message}", e)
+			}
+		}
+	}
+
 	override fun close() {
 		if (closed.compareAndSet(false, true)) {
 			library.Hunspell_destroy(handle)
