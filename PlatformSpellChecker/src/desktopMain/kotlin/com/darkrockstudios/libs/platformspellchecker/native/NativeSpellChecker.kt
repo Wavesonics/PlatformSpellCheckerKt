@@ -47,6 +47,15 @@ interface NativeSpellChecker : AutoCloseable {
 	fun addToDictionary(word: String)
 
 	/**
+	 * Removes a word previously added via [addToDictionary]. Best-effort:
+	 * platforms whose native API does not expose a remove operation should
+	 * log a warning and no-op.
+	 *
+	 * @param word The word to remove
+	 */
+	fun removeFromDictionary(word: String)
+
+	/**
 	 * Ignores a word for this session.
 	 *
 	 * @param word The word to ignore

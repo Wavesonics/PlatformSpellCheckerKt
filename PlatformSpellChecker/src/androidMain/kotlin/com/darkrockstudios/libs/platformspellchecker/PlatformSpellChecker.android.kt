@@ -36,6 +36,8 @@ actual class PlatformSpellChecker(
 
 	private val pendingOperations = ConcurrentHashMap<Int, OperationContext>()
 
+	private val userDict = UserDictionary()
+
 	private val spellCheckerSession: SpellCheckerSession by lazy {
 		val targetLocale = locale?.toJavaLocale() ?: java.util.Locale.getDefault()
 
@@ -120,7 +122,7 @@ actual class PlatformSpellChecker(
 
 	actual suspend fun checkMultiword(text: String): List<SpellingCorrection> {
 		if (text.isBlank()) return emptyList()
-		return withTimeoutFailingOpen("checkMultiword", text, emptyList()) {
+		val raw = withTimeoutFailingOpen("checkMultiword", text, emptyList<SpellingCorrection>()) {
 			suspendCancellableCoroutine { continuation ->
 				val trackingId = sequenceGenerator.incrementAndGet()
 				pendingOperations[trackingId] = OperationContext.SentenceCheck(continuation, text)
@@ -133,11 +135,13 @@ actual class PlatformSpellChecker(
 				continuation.invokeOnCancellation { pendingOperations.remove(trackingId) }
 			}
 		}
+		return raw.filterNot { userDict.isKnown(it.misspelledWord) }
 	}
 
 	actual suspend fun checkWord(word: String, maxSuggestions: Int): WordCheckResult {
 		val trimmedWord = word.trim()
 		if (trimmedWord.isEmpty() || trimmedWord.contains(" ")) return CorrectWord(trimmedWord)
+		if (userDict.isKnown(trimmedWord)) return CorrectWord(trimmedWord)
 		val max = if (maxSuggestions <= 0) 5 else maxSuggestions
 
 		return withTimeoutFailingOpen<WordCheckResult>("checkWord", trimmedWord, CorrectWord(trimmedWord)) {
@@ -158,6 +162,7 @@ actual class PlatformSpellChecker(
 	actual suspend fun isWordCorrect(word: String): Boolean {
 		val trimmed = word.trim()
 		if (trimmed.isEmpty() || trimmed.contains(" ")) return false
+		if (userDict.isKnown(trimmed)) return true
 
 		return withTimeoutFailingOpen("isWordCorrect", trimmed, true) {
 			suspendCancellableCoroutine { continuation ->
@@ -170,6 +175,30 @@ actual class PlatformSpellChecker(
 			}
 		}
 	}
+
+	actual suspend fun addToDictionary(word: String, scope: DictionaryScope) {
+		// SpellCheckerSession has no native add/learn API and the system
+		// UserDictionary provider requires the signature-level
+		// WRITE_USER_DICTIONARY permission as of API 23, so System falls back
+		// to app-local persistence regardless of caller intent.
+		if (scope == DictionaryScope.System) {
+			Napier.w("DictionaryScope.System is not supported on Android; falling back to AppLocal")
+		}
+		userDict.add(word)
+	}
+
+	actual suspend fun removeFromDictionary(word: String, scope: DictionaryScope) {
+		if (scope == DictionaryScope.System) {
+			Napier.w("DictionaryScope.System is not supported on Android; falling back to AppLocal")
+		}
+		userDict.remove(word)
+	}
+
+	actual suspend fun ignoreWord(word: String) {
+		userDict.ignore(word)
+	}
+
+	actual fun userDictionary(): Set<String> = userDict.snapshot()
 
 	// SpellCheckerSession dispatches requests over an async IPC bind to the
 	// provider app. If the bind never completes — e.g. the provider's process

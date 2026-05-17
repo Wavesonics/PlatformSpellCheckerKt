@@ -17,6 +17,7 @@ actual class PlatformSpellChecker(
 ) : AutoCloseable {
 
 	private val textChecker = UITextChecker()
+	private val userDict = UserDictionary()
 	private val language: String by lazy {
 		// Determine the language tag for UITextChecker (expects underscore format like en_US)
 		if (locale != null) {
@@ -74,14 +75,15 @@ actual class PlatformSpellChecker(
 
 			val suggestionList = suggestions?.mapNotNull { it as? String } ?: emptyList()
 
-			// Create SpellingCorrection object
-			val correction = SpellingCorrection(
-				misspelledWord = misspelledWord,
-				startIndex = misspelledRange.useContents { location.toInt() },
-				length = misspelledRange.useContents { length.toInt() },
-				suggestions = suggestionList
-			)
-			results.add(correction)
+			if (!userDict.isKnown(misspelledWord)) {
+				val correction = SpellingCorrection(
+					misspelledWord = misspelledWord,
+					startIndex = misspelledRange.useContents { location.toInt() },
+					length = misspelledRange.useContents { length.toInt() },
+					suggestions = suggestionList
+				)
+				results.add(correction)
+			}
 
 			// Move to the next position after this misspelled word
 			currentOffset = misspelledRange.useContents { location + length }
@@ -93,6 +95,7 @@ actual class PlatformSpellChecker(
 	actual suspend fun checkWord(word: String, maxSuggestions: Int): WordCheckResult {
 		val trimmed = word.trim()
 		if (trimmed.isEmpty() || trimmed.contains(" ")) return CorrectWord(trimmed)
+		if (userDict.isKnown(trimmed)) return CorrectWord(trimmed)
 
 		val range = NSMakeRange(0u, trimmed.length.toULong())
 
@@ -121,6 +124,7 @@ actual class PlatformSpellChecker(
 
 	actual suspend fun isWordCorrect(word: String): Boolean {
 		if (word.isBlank()) return false
+		if (userDict.isKnown(word.trim())) return true
 
 		val range = NSMakeRange(0u, word.length.toULong())
 		val misspelledRange = textChecker.rangeOfMisspelledWordInString(
@@ -132,6 +136,37 @@ actual class PlatformSpellChecker(
 		)
 		return misspelledRange.useContents { location } == NSNotFound.toULong()
 	}
+
+	actual suspend fun addToDictionary(word: String, scope: DictionaryScope) {
+		val trimmed = word.trim()
+		if (trimmed.isEmpty()) return
+		when (scope) {
+			DictionaryScope.AppLocal -> userDict.add(trimmed)
+			DictionaryScope.System -> UITextChecker.learnWord(trimmed)
+		}
+	}
+
+	actual suspend fun removeFromDictionary(word: String, scope: DictionaryScope) {
+		val trimmed = word.trim()
+		if (trimmed.isEmpty()) return
+		when (scope) {
+			DictionaryScope.AppLocal -> userDict.remove(trimmed)
+			DictionaryScope.System -> UITextChecker.unlearnWord(trimmed)
+		}
+	}
+
+	actual suspend fun ignoreWord(word: String) {
+		val trimmed = word.trim()
+		if (trimmed.isEmpty()) return
+		textChecker.ignoreWord(trimmed)
+		// Also mirror to the local set so isWordCorrect/checkWord (which check
+		// the spell-checker via range queries) see the ignore on the very next
+		// call. UITextChecker.ignoreWord influences rangeOfMisspelledWord too,
+		// but mirroring keeps semantics consistent if Apple changes that.
+		userDict.ignore(trimmed)
+	}
+
+	actual fun userDictionary(): Set<String> = userDict.snapshot()
 
 	actual override fun close() {
 		// No resources to free for UITextChecker
