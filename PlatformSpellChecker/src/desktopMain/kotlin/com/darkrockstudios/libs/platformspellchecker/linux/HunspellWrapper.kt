@@ -6,6 +6,9 @@ import com.sun.jna.ptr.PointerByReference
 import io.github.aakira.napier.Napier
 import java.io.File
 import java.nio.charset.Charset
+import java.nio.file.AtomicMoveNotSupportedException
+import java.nio.file.Files
+import java.nio.file.StandardCopyOption
 import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -145,7 +148,22 @@ class HunspellWrapper private constructor(
 				val target = word.trim()
 				val remaining = dictFile.readLines()
 					.filter { !it.trim().equals(target, ignoreCase = true) }
-				dictFile.writeText(if (remaining.isEmpty()) "" else remaining.joinToString("\n") + "\n")
+				val newContent = if (remaining.isEmpty()) "" else remaining.joinToString("\n") + "\n"
+				// Write to a sibling temp file and atomically rename. On POSIX
+				// (rename(2)) this is atomic, so a crash mid-write leaves the
+				// original file intact instead of truncated/empty.
+				val tmp = File(dictFile.parentFile, "${dictFile.name}.tmp")
+				tmp.writeText(newContent)
+				try {
+					Files.move(
+						tmp.toPath(),
+						dictFile.toPath(),
+						StandardCopyOption.ATOMIC_MOVE,
+						StandardCopyOption.REPLACE_EXISTING,
+					)
+				} catch (_: AtomicMoveNotSupportedException) {
+					Files.move(tmp.toPath(), dictFile.toPath(), StandardCopyOption.REPLACE_EXISTING)
+				}
 				Napier.d("Removed '$word' from user dictionary: $dictFile")
 			} catch (e: Exception) {
 				Napier.e("Failed to rewrite user dictionary: ${e.message}", e)
