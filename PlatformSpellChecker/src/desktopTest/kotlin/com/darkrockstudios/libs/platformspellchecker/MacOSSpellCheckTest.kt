@@ -6,6 +6,7 @@ import com.darkrockstudios.libs.platformspellchecker.native.MacOSSpellChecker
 import com.darkrockstudios.libs.platformspellchecker.native.NativeSpellCheckerFactory
 import com.darkrockstudios.libs.platformspellchecker.native.OperatingSystem
 import kotlinx.coroutines.test.runTest
+import org.junit.After
 import org.junit.Assume.assumeTrue
 import org.junit.Before
 import org.junit.Test
@@ -35,6 +36,12 @@ class MacOSSpellCheckTest {
 
 		spellChecker = MacOSSpellChecker.create("en-US")
 		assumeTrue("Failed to create spell checker", spellChecker != null)
+	}
+
+	@After
+	fun tearDown() {
+		spellChecker?.close()
+		spellChecker = null
 	}
 
 	@Test
@@ -82,7 +89,6 @@ class MacOSSpellCheckTest {
 
 	@Test
 	fun `misspelled word returns false`() {
-		// Use a clearly misspelled word
 		val isCorrect = spellChecker!!.isWordCorrect("xyzabc")
 		kotlin.test.assertFalse(isCorrect, "Expected 'xyzabc' to be marked as misspelled")
 	}
@@ -172,22 +178,35 @@ class MacOSSpellCheckTest {
 	}
 
 	@Test
-	fun `test wrapper getSuggestions directly`() {
+	fun `wrapper getSuggestions uses modern range-inString variant`() {
+		// Exercises both null-language (automatic) and explicit-from-availableLanguages
+		// paths so a selector or marshalling regression is caught here.
 		val wrapper = NSSpellCheckerWrapper.shared()
 		assertNotNull(wrapper, "Should be able to create wrapper")
+		wrapper ?: return
 
-		if (wrapper != null) {
-			try {
-				val suggestions = wrapper.getSuggestions("helllo", "en_US")
-				println("Direct wrapper suggestions for 'helllo': $suggestions")
-				assertTrue(suggestions.isNotEmpty() || true, "Suggestions test (may be empty)")
-			} catch (e: Exception) {
-				println("Exception getting suggestions: ${e.message}")
-				e.printStackTrace()
-				throw e
-			} finally {
-				wrapper.close()
-			}
+		try {
+			// 'recieve' -> 'receive' is empirically stable across macOS versions;
+			// avoid asserting on suggestions whose form drifts between OS releases.
+			val autoSuggestions = wrapper.getSuggestions("recieve", null)
+			println("getSuggestions('recieve', null) -> $autoSuggestions")
+			assertTrue(
+				autoSuggestions.any { it.equals("receive", ignoreCase = true) },
+				"Expected 'receive' for 'recieve' (auto-detect), got: $autoSuggestions"
+			)
+
+			val available = MacOSSpellChecker.getAvailableLanguages()
+			val englishLang = available.firstOrNull { it.startsWith("en") }
+			assumeTrue("No English language in availableLanguages", englishLang != null)
+
+			val explicitSuggestions = wrapper.getSuggestions("recieve", englishLang)
+			println("getSuggestions('recieve', '$englishLang') -> $explicitSuggestions")
+			assertTrue(
+				explicitSuggestions.any { it.equals("receive", ignoreCase = true) },
+				"Expected 'receive' for 'recieve' (lang=$englishLang), got: $explicitSuggestions"
+			)
+		} finally {
+			wrapper.close()
 		}
 	}
 }

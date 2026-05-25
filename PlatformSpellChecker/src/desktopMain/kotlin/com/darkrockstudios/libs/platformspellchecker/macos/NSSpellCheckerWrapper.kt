@@ -1,30 +1,40 @@
 package com.darkrockstudios.libs.platformspellchecker.macos
 
 import com.sun.jna.Pointer
+import java.util.concurrent.atomic.AtomicLong
 
 class NSSpellCheckerWrapper private constructor(private val spellChecker: Pointer) : AutoCloseable {
 
-	private var spellDocumentTag: Long = 0
+	private val spellDocumentTag: Long = nextDocumentTag.getAndIncrement()
 
-	init {
-		spellDocumentTag = System.currentTimeMillis()
-	}
-
-	fun checkSpelling(text: String, startingAt: Long = 0): NSRange {
+	/** Find the first misspelling in [text]. [language] null = automatic detection. */
+	fun checkSpelling(text: String, startingAt: Long = 0, language: String? = null): NSRange {
 		val nsString = ObjC.createNSString(text) ?: return NSRange(Long.MAX_VALUE, 0)
+		val nsLanguage: Pointer? = if (language != null) {
+			ObjC.createNSString(language) ?: run {
+				ObjC.release(nsString)
+				return NSRange(Long.MAX_VALUE, 0)
+			}
+		} else null
 
 		try {
-			val selector = ObjC.selector("checkSpellingOfString:startingAt:")
+			val selector =
+				ObjC.selector("checkSpellingOfString:startingAt:language:wrap:inSpellDocumentWithTag:wordCount:")
 				?: return NSRange(Long.MAX_VALUE, 0)
 
 			return MacOSSpellCheckerLib.INSTANCE.objc_msgSend(
 				spellChecker,
 				selector,
 				nsString,
-				startingAt
+				startingAt,
+				nsLanguage,
+				0.toByte(),      // wrap = NO
+				spellDocumentTag,
+				null             // wordCount
 			)
 		} finally {
 			ObjC.release(nsString)
+			nsLanguage?.let { ObjC.release(it) }
 		}
 	}
 
@@ -33,7 +43,12 @@ class NSSpellCheckerWrapper private constructor(private val spellChecker: Pointe
 	 */
 	fun getSuggestions(word: String, language: String? = null): List<String> {
 		val nsWord = ObjC.createNSString(word) ?: return emptyList()
-		val nsLanguage = language?.let { ObjC.createNSString(it) }
+		val nsLanguage: Pointer? = if (language != null) {
+			ObjC.createNSString(language) ?: run {
+				ObjC.release(nsWord)
+				return emptyList()
+			}
+		} else null
 
 		try {
 			val selector = ObjC.selector("guessesForWordRange:inString:language:inSpellDocumentWithTag:")
@@ -62,12 +77,10 @@ class NSSpellCheckerWrapper private constructor(private val spellChecker: Pointe
 		}
 	}
 
-	/**
-	 * Checks if a word is spelled correctly.
-	 */
-	fun isWordCorrect(word: String): Boolean {
+	/** [language] null = automatic detection. */
+	fun isWordCorrect(word: String, language: String? = null): Boolean {
 		// If checkSpelling returns NSNotFound (MAX_VALUE), the word is correct.
-		val range = checkSpelling(word, 0)
+		val range = checkSpelling(word, 0, language)
 		return range.location == Long.MAX_VALUE
 	}
 
@@ -135,12 +148,14 @@ class NSSpellCheckerWrapper private constructor(private val spellChecker: Pointe
 
 	override fun close() {
 		val closeSelector = ObjC.selector("closeSpellDocumentWithTag:")
-		if (closeSelector != null && spellDocumentTag != 0L) {
+		if (closeSelector != null) {
 			ObjC.msgSend(spellChecker, closeSelector, spellDocumentTag, 0)
 		}
 	}
 
 	companion object {
+		private val nextDocumentTag = AtomicLong(System.currentTimeMillis())
+
 		/**
 		 * Gets the shared NSSpellChecker instance.
 		 */
