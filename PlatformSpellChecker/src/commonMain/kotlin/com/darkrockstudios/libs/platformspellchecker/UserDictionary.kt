@@ -38,7 +38,11 @@ internal class UserDictionary {
 		mutex.withLock { ignoredWords = ignoredWords + key }
 	}
 
-	fun snapshot(): Set<String> = addedWords
+	// Returns a defensive copy: the volatile `addedWords` is the LinkedHashSet
+	// returned by Set.plus, and handing it out directly lets a caller downcast
+	// to MutableSet and corrupt internal state until the next mutation
+	// reassigns the reference.
+	fun snapshot(): Set<String> = addedWords.toSet()
 
 	/** True when [word] should be treated as correctly spelled by the caller. */
 	fun isKnown(word: String): Boolean {
