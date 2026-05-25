@@ -1,5 +1,6 @@
 package com.darkrockstudios.libs.platformspellchecker
 
+import io.github.aakira.napier.Napier
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.useContents
 import platform.Foundation.*
@@ -158,11 +159,16 @@ actual class PlatformSpellChecker(
 	actual suspend fun ignoreWord(word: String) {
 		val trimmed = word.trim()
 		if (trimmed.isEmpty()) return
-		textChecker.ignoreWord(trimmed)
-		// Also mirror to the local set so isWordCorrect/checkWord (which check
-		// the spell-checker via range queries) see the ignore on the very next
-		// call. UITextChecker.ignoreWord influences rangeOfMisspelledWord too,
-		// but mirroring keeps semantics consistent if Apple changes that.
+		try {
+			textChecker.ignoreWord(trimmed)
+		} catch (e: Exception) {
+			Napier.e("Error ignoring '$trimmed': ${e.message}", e)
+		}
+		// Mirror to the local set so isWordCorrect/checkWord (which check the
+		// spell-checker via range queries) see the ignore on the very next
+		// call, even if the native call above threw. UITextChecker.ignoreWord
+		// already influences rangeOfMisspelledWord; mirroring keeps semantics
+		// consistent if Apple changes that.
 		userDict.ignore(trimmed)
 	}
 
