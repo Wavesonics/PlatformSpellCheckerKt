@@ -144,7 +144,7 @@ class HunspellWrapper private constructor(
 			try {
 				val target = word.trim()
 				val remaining = dictFile.readLines()
-					.filter { it.trim() != target }
+					.filter { !it.trim().equals(target, ignoreCase = true) }
 				dictFile.writeText(if (remaining.isEmpty()) "" else remaining.joinToString("\n") + "\n")
 				Napier.d("Removed '$word' from user dictionary: $dictFile")
 			} catch (e: Exception) {
