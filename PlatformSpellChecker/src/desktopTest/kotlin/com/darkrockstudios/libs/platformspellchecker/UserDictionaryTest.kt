@@ -65,4 +65,33 @@ class UserDictionaryTest {
 		assertFalse(dict.isKnown(""))
 		assertEquals(emptySet(), dict.snapshot())
 	}
+
+	@Test
+	fun `replace swaps added words and clears ignores`() = runTest {
+		val dict = UserDictionary()
+		dict.add("alpha")
+		dict.ignore("gamma")
+		assertTrue(dict.isKnown("alpha"))
+		assertTrue(dict.isKnown("gamma"))
+
+		dict.replace(listOf("Beta", "delta"))
+
+		assertFalse(dict.isKnown("alpha"))
+		assertFalse(dict.isKnown("gamma"))
+		assertTrue(dict.isKnown("beta"))
+		assertTrue(dict.isKnown("DELTA"))
+		assertEquals(setOf("beta", "delta"), dict.snapshot())
+	}
+
+	@Test
+	fun `replace with empty collection clears the dictionary`() = runTest {
+		val dict = UserDictionary()
+		dict.add("alpha")
+		dict.add("beta")
+
+		dict.replace(emptyList())
+
+		assertFalse(dict.isKnown("alpha"))
+		assertEquals(emptySet(), dict.snapshot())
+	}
 }

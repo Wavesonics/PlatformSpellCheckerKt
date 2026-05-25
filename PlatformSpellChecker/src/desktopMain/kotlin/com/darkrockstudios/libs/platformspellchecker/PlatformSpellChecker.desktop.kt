@@ -187,6 +187,10 @@ actual class PlatformSpellChecker(
 		userDict.ignore(trimmed)
 	}
 
+	actual suspend fun setUserDictionary(words: Collection<String>) {
+		userDict.replace(words)
+	}
+
 	actual fun userDictionary(): Set<String> = userDict.snapshot()
 
 	actual override fun close() {

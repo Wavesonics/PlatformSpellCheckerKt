@@ -198,6 +198,10 @@ actual class PlatformSpellChecker(
 		userDict.ignore(word)
 	}
 
+	actual suspend fun setUserDictionary(words: Collection<String>) {
+		userDict.replace(words)
+	}
+
 	actual fun userDictionary(): Set<String> = userDict.snapshot()
 
 	// SpellCheckerSession dispatches requests over an async IPC bind to the

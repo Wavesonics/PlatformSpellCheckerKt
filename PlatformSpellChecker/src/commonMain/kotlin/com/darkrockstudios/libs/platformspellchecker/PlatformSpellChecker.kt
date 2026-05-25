@@ -63,6 +63,21 @@ expect class PlatformSpellChecker {
 	suspend fun ignoreWord(word: String)
 
 	/**
+	 * Atomically replaces the [DictionaryScope.AppLocal] user dictionary with
+	 * [words] (normalized the same way as [addToDictionary]: trimmed,
+	 * case-insensitive) and resets this checker's session ignore set. Use to
+	 * switch between independent dictionary contexts without tearing down the
+	 * checker.
+	 *
+	 * Does not touch [DictionaryScope.System] entries — those live in the OS
+	 * dictionary. Does not clear native platform-level session ignores
+	 * (UITextChecker, NSSpellChecker, Hunspell, ISpellChecker retain them
+	 * until [close]); callers that rely heavily on [ignoreWord] should close
+	 * and recreate the checker for a fully clean slate.
+	 */
+	suspend fun setUserDictionary(words: Collection<String>)
+
+	/**
 	 * @return a snapshot of the words currently in the app-local user dictionary.
 	 * Useful for persisting the dictionary between app sessions. Does not include
 	 * words added with [DictionaryScope.System] on platforms with native learn

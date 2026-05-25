@@ -53,6 +53,9 @@ A Kotlin Multiplatform library providing spell checking functionality.
       `DictionaryScope.System` uses the native learn API: OS-wide on iOS/macOS, per-user/language on Windows,
       per-user file on Linux (Hunspell). Android has no native learn API and falls back to AppLocal.
       Windows basic `ISpellChecker` does not expose remove, so `removeFromDictionary(_, System)` is a no-op there.
+    - `suspend fun setUserDictionary(words: Collection<String>)` - Atomically replaces the AppLocal set
+      and clears session ignores. Use to swap dictionary contexts without recreating the checker. Does
+      not touch `System` entries; does not clear native platform-level session ignores.
 - **DictionaryScope.kt** - `AppLocal` vs `System` selector for the dictionary mutation methods above.
 - **UserDictionary.kt** - Internal helper that backs the app-local set with case-insensitive,
   thread-safe storage shared by every platform actual.

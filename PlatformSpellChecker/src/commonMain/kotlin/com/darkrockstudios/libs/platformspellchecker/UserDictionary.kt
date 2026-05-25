@@ -38,6 +38,20 @@ internal class UserDictionary {
 		mutex.withLock { ignoredWords = ignoredWords + key }
 	}
 
+	/**
+	 * Atomically replaces [addedWords] with the normalized form of [words] and
+	 * clears [ignoredWords]. A single mutex acquire instead of n round-trips
+	 * through [add], and either every read sees the old dictionary or every
+	 * read sees the new one — never a partial view.
+	 */
+	suspend fun replace(words: Collection<String>) {
+		val normalized = words.mapNotNullTo(LinkedHashSet<String>()) { it.normalize() }
+		mutex.withLock {
+			addedWords = normalized
+			ignoredWords = emptySet()
+		}
+	}
+
 	// Returns a defensive copy: the volatile `addedWords` is the LinkedHashSet
 	// returned by Set.plus, and handing it out directly lets a caller downcast
 	// to MutableSet and corrupt internal state until the next mutation
