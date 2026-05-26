@@ -44,10 +44,13 @@ actual class PlatformSpellCheckerFactory(private val context: Context) {
 		// without a Google-keyboard spell-checker provider — exactly the case
 		// where requests would otherwise hang silently at the framework
 		// boundary. Consumers can use this to gate UI ("spell check unavailable
-		// on this device") instead of waiting for per-call timeouts.
+		// on this device") instead of waiting for per-call timeouts. The
+		// `isSpellCheckerEnabled` getter only exists on API 31+; below that we
+		// have no programmatic probe, so report available and let per-call
+		// timeouts catch a missing provider.
 		val tsm = context.getSystemService(Context.TEXT_SERVICES_MANAGER_SERVICE) as? TextServicesManager
 			?: return false
-		return tsm.isSpellCheckerEnabled
+		return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) tsm.isSpellCheckerEnabled else true
 	}
 
 	actual fun currentSystemLocale(): SpLocale {
