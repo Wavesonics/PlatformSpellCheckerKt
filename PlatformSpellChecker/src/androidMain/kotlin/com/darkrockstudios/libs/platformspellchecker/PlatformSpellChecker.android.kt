@@ -2,11 +2,7 @@ package com.darkrockstudios.libs.platformspellchecker
 
 import android.content.Context
 import android.os.Build
-import android.view.textservice.SentenceSuggestionsInfo
-import android.view.textservice.SpellCheckerSession
-import android.view.textservice.SuggestionsInfo
-import android.view.textservice.TextInfo
-import android.view.textservice.TextServicesManager
+import android.view.textservice.*
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -105,17 +101,20 @@ actual class PlatformSpellChecker(
 		}
 
 		override fun onGetSentenceSuggestions(results: Array<out SentenceSuggestionsInfo>?) {
-			val firstResult = results?.firstOrNull() ?: return
-			val cookie = firstResult.getSuggestionsInfoAt(0)?.cookie ?: return
+			if (results.isNullOrEmpty()) return
+			val cookie = findCookie(results) ?: return
 			val context = pendingOperations.remove(cookie) ?: return
 
 			when (context) {
 				is OperationContext.SentenceCheck ->
 					context.continuation.resume(processSentenceSuggestions(results, context.text))
-				is OperationContext.WordCheck ->
-					context.continuation.resume(CorrectWord(context.text))
+				is OperationContext.WordCheck -> {
+					val suggestions = extractSingleWordSuggestions(results, context.max)
+					if (suggestions == null) context.continuation.resume(CorrectWord(context.text))
+					else context.continuation.resume(MisspelledWord(context.text, suggestions))
+				}
 				is OperationContext.WordIsCorrect ->
-					context.continuation.resume(true)
+					context.continuation.resume(extractSingleWordSuggestions(results, 1) == null)
 			}
 		}
 	}
@@ -149,8 +148,10 @@ actual class PlatformSpellChecker(
 				val trackingId = sequenceGenerator.incrementAndGet()
 				pendingOperations[trackingId] = OperationContext.WordCheck(continuation, trimmedWord, max)
 
-				spellCheckerSession.getSuggestions(
-					TextInfo(trimmedWord, trackingId, 0),
+				// Modern spell-checker providers frequently may implement only getSentenceSuggestions;
+				// Route single-word checks through the sentence API.
+				spellCheckerSession.getSentenceSuggestions(
+					arrayOf(TextInfo(trimmedWord, trackingId, 0)),
 					max
 				)
 
@@ -169,7 +170,10 @@ actual class PlatformSpellChecker(
 				val trackingId = sequenceGenerator.incrementAndGet()
 				pendingOperations[trackingId] = OperationContext.WordIsCorrect(continuation, trimmed)
 
-				spellCheckerSession.getSuggestions(TextInfo(trimmed, trackingId, 0), 1)
+				spellCheckerSession.getSentenceSuggestions(
+					arrayOf(TextInfo(trimmed, trackingId, 0)),
+					1
+				)
 
 				continuation.invokeOnCancellation { pendingOperations.remove(trackingId) }
 			}
@@ -251,6 +255,36 @@ actual class PlatformSpellChecker(
 			}
 		}
 		return corrections
+	}
+
+	private fun findCookie(results: Array<out SentenceSuggestionsInfo>): Int? {
+		for (sentence in results) {
+			for (i in 0 until sentence.suggestionsCount) {
+				val info = sentence.getSuggestionsInfoAt(i) ?: continue
+				return info.cookie
+			}
+		}
+		return null
+	}
+
+	// Returns null when the provider reported no spelling error for the input
+	// otherwise returns the suggestion list (which may be empty).
+	private fun extractSingleWordSuggestions(
+		results: Array<out SentenceSuggestionsInfo>,
+		max: Int,
+	): List<String>? {
+		val errorMask = SuggestionsInfo.RESULT_ATTR_LOOKS_LIKE_TYPO or
+				SuggestionsInfo.RESULT_ATTR_LOOKS_LIKE_GRAMMAR_ERROR
+		for (sentence in results) {
+			for (i in 0 until sentence.suggestionsCount) {
+				val info = sentence.getSuggestionsInfoAt(i) ?: continue
+				if ((info.suggestionsAttributes and errorMask) == 0) continue
+				val cap = if (max > 0) max else info.suggestionsCount
+				return (0 until minOf(info.suggestionsCount, cap))
+					.map { info.getSuggestionAt(it) }
+			}
+		}
+		return null
 	}
 
 	private fun isWordCorrectFromResults(results: Array<out SuggestionsInfo>?): Boolean {
