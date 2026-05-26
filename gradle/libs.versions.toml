@@ -12,6 +12,8 @@ maven-central-publish = "0.30.0"
 jvm = "17"
 
 # Android-specific
+android-compileSdk = "36"
+android-minSdk = "23"
 coreKtx = "1.18.0"
 activityCompose = "1.13.0"
 
