@@ -9,17 +9,19 @@ coroutines = "1.10.2"
 lifecycle = "2.9.6"
 jna = "5.18.1"
 napier = "2.7.1"
-dokka = "2.1.0"
+dokka = "2.2.0"
 maven-central-publish = "0.30.0"
 jvm = "17"
 
 # Android-specific
-coreKtx = "1.17.0"
-activityCompose = "1.12.0"
+android-compileSdk = "36"
+android-minSdk = "23"
+coreKtx = "1.18.0"
+activityCompose = "1.13.0"
 
 # Testing
 junit = "4.13.2"
-kotlin-test = "2.1.0"
+kotlin-test = "2.3.21"
 junitVersion = "1.3.0"
 espressoCore = "3.7.0"
 

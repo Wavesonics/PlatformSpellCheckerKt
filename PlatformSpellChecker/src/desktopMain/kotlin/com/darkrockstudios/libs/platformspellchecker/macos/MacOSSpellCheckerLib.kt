@@ -19,4 +19,16 @@ interface MacOSSpellCheckerLib : Library {
 	): Pointer
 
 	fun objc_msgSend(self: Pointer, selector: Pointer, string: Pointer, startingAt: Long): NSRange
+
+	// checkSpellingOfString:startingAt:language:wrap:inSpellDocumentWithTag:wordCount:
+	fun objc_msgSend(
+		self: Pointer,
+		selector: Pointer,
+		string: Pointer,
+		startingAt: Long,
+		language: Pointer?,
+		wrap: Byte,
+		tag: Long,
+		wordCount: Pointer?
+	): NSRange
 }

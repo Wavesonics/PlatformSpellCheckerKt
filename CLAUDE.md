@@ -47,6 +47,18 @@ A Kotlin Multiplatform library providing spell checking functionality.
     - `suspend fun performSpellCheck(text: String): List<SpellingCorrection>` - Check sentences
     - `suspend fun checkWord(word: String, maxSuggestions: Int = 5): WordCheckResult` - Check a single word. Returns
       `CorrectWord` when correct, otherwise `MisspelledWord` with up to `maxSuggestions` suggestions (may be empty).
+    - `suspend fun addToDictionary(word, scope = AppLocal)` / `removeFromDictionary(word, scope)` /
+      `suspend fun ignoreWord(word)` - Custom user-dictionary management. `DictionaryScope.AppLocal` is in-memory
+      for the lifetime of this checker (caller persists via `userDictionary(): Set<String>`).
+      `DictionaryScope.System` uses the native learn API: OS-wide on iOS/macOS, per-user/language on Windows,
+      per-user file on Linux (Hunspell). Android has no native learn API and falls back to AppLocal.
+      Windows basic `ISpellChecker` does not expose remove, so `removeFromDictionary(_, System)` is a no-op there.
+    - `suspend fun setUserDictionary(words: Collection<String>)` - Atomically replaces the AppLocal set
+      and clears session ignores. Use to swap dictionary contexts without recreating the checker. Does
+      not touch `System` entries; does not clear native platform-level session ignores.
+- **DictionaryScope.kt** - `AppLocal` vs `System` selector for the dictionary mutation methods above.
+- **UserDictionary.kt** - Internal helper that backs the app-local set with case-insensitive,
+  thread-safe storage shared by every platform actual.
 
 #### Android Implementation (`androidMain`)
 - **PlatformSpellChecker.android.kt** - Actual implementation using Android's TextServicesManager

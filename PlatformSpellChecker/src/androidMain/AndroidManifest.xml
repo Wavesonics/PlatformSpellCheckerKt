@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Declare that consumers of this library interact with apps providing the
+  Android system spell-checker service. Without this `<queries>` element,
+  the package-visibility rules added in API 30 (Android 11) silently block
+  our process from binding to the spell-checker service: the framework can
+  still report which provider _would_ be used (so `SpellCheckerSession.spellChecker`
+  returns its `SpellCheckerInfo`), but `bindService` is denied so the session
+  listener callbacks never fire — every request hangs until timeout.
+
+  Library manifests are merged into consumer apps automatically, so any app
+  using PlatformSpellChecker inherits this declaration without extra work.
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <queries>
+        <intent>
+            <action android:name="android.service.textservice.SpellCheckerService" />
+        </intent>
+    </queries>
+</manifest>

@@ -3,6 +3,8 @@ package com.darkrockstudios.libs.platformspellchecker.native
 import com.darkrockstudios.libs.platformspellchecker.macos.NSSpellCheckerWrapper
 import io.github.aakira.napier.Napier
 import java.util.*
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.atomic.AtomicBoolean
 
 /**
  * macOS implementation of NativeSpellChecker.
@@ -11,7 +13,9 @@ import java.util.*
  */
 class MacOSSpellChecker private constructor(
 	override val languageTag: String,
-	private val spellChecker: NSSpellCheckerWrapper
+	private val spellChecker: NSSpellCheckerWrapper,
+	/** Per-call language for NSSpellChecker, or null for automatic detection. */
+	private val effectiveLanguage: String?
 ) : NativeSpellChecker {
 
 	// We keep a local set for fast lookups in isWordCorrect,
@@ -36,7 +40,7 @@ class MacOSSpellChecker private constructor(
 			while (remainingText.isNotBlank() && loopCount < maxLoops) {
 				loopCount++
 
-				val errorRange = spellChecker.checkSpelling(remainingText, 0)
+				val errorRange = spellChecker.checkSpelling(remainingText, 0, effectiveLanguage)
 
 				if (!errorRange.isFound()) {
 					break
@@ -75,7 +79,7 @@ class MacOSSpellChecker private constructor(
 		if (word.isBlank()) return emptyList()
 
 		return try {
-			spellChecker.getSuggestions(word.trim(), languageTag)
+			spellChecker.getSuggestions(word.trim(), effectiveLanguage)
 		} catch (e: Exception) {
 			Napier.e("Error getting suggestions: ${e.message}", e)
 			emptyList()
@@ -92,7 +96,7 @@ class MacOSSpellChecker private constructor(
 		}
 
 		return try {
-			spellChecker.isWordCorrect(cleanWord)
+			spellChecker.isWordCorrect(cleanWord, effectiveLanguage)
 		} catch (e: Exception) {
 			Napier.e("Error checking word: ${e.message}", e)
 			true
@@ -106,6 +110,16 @@ class MacOSSpellChecker private constructor(
 			spellChecker.learnWord(word.trim())
 		} catch (e: Exception) {
 			Napier.e("Error adding word to dictionary: ${e.message}", e)
+		}
+	}
+
+	override fun removeFromDictionary(word: String) {
+		if (word.isBlank()) return
+
+		try {
+			spellChecker.unlearnWord(word.trim())
+		} catch (e: Exception) {
+			Napier.e("Error removing word from dictionary: ${e.message}", e)
 		}
 	}
 
@@ -131,6 +145,31 @@ class MacOSSpellChecker private constructor(
 	}
 
 	companion object {
+		private val warmupStarted = AtomicBoolean(false)
+		private val warmupComplete = CountDownLatch(1)
+
+		/**
+		 * First NSSpellChecker call per process can hit an IAC timeout
+		 * (`NSSpellServer findMisspelledWordInString timed out`) and silently
+		 * return NSNotFound. The first caller runs the warmup; concurrent
+		 * callers block on the latch until it completes, so nobody races past
+		 * with a cold server.
+		 */
+		private fun warmUpOnce(wrapper: NSSpellCheckerWrapper) {
+			if (warmupStarted.compareAndSet(false, true)) {
+				try {
+					wrapper.getSuggestions("warmup", null)
+					wrapper.checkSpelling("warmup", 0)
+				} catch (e: Exception) {
+					Napier.w("NSSpellChecker warmup failed (non-fatal): ${e.message}")
+				} finally {
+					warmupComplete.countDown()
+				}
+			} else {
+				warmupComplete.await()
+			}
+		}
+
 		/**
 		 * Checks if a language is supported.
 		 *
@@ -154,18 +193,20 @@ class MacOSSpellChecker private constructor(
 		 */
 		fun create(languageTag: String): MacOSSpellChecker? {
 			return try {
-				val normalizedTag = languageTag.replace("-", "_")
-
 				val wrapper = NSSpellCheckerWrapper.shared() ?: return null
+				warmUpOnce(wrapper)
 
-				if (!wrapper.setLanguage(normalizedTag)) {
-					val languagePart = normalizedTag.split("_").firstOrNull()
-					if (languagePart != null && !wrapper.setLanguage(languagePart)) {
-						Napier.w("Could not set language to $languageTag, using default")
-					}
+				// Pass language per-call instead of via setLanguage: (which
+				// Apple discourages and which mutates the shared singleton).
+				// Fall back to null = automatic detection if no exact match.
+				val available = NSSpellCheckerWrapper.availableLanguages()
+				val effectiveLanguage = when {
+					available.contains(languageTag) -> languageTag
+					available.contains(languageTag.replace("-", "_")) -> languageTag.replace("-", "_")
+					else -> null
 				}
 
-				MacOSSpellChecker(languageTag, wrapper)
+				MacOSSpellChecker(languageTag, wrapper, effectiveLanguage)
 			} catch (e: Exception) {
 				Napier.e("Error creating macOS spell checker: ${e.message}", e)
 				null
@@ -180,12 +221,13 @@ class MacOSSpellChecker private constructor(
 		fun createDefault(): MacOSSpellChecker? {
 			return try {
 				val wrapper = NSSpellCheckerWrapper.shared() ?: return null
+				warmUpOnce(wrapper)
 
 				val currentLanguage = wrapper.getLanguage()
 				val languageTag = currentLanguage
 					?: Locale.getDefault().toLanguageTag()
 
-				MacOSSpellChecker(languageTag, wrapper)
+				MacOSSpellChecker(languageTag, wrapper, effectiveLanguage = null)
 			} catch (e: Exception) {
 				Napier.e("Error creating default macOS spell checker: ${e.message}", e)
 				null
