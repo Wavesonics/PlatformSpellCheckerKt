@@ -209,14 +209,10 @@ actual class PlatformSpellChecker(
 
 	actual fun userDictionary(): Set<String> = userDict.snapshot()
 
-	// SpellCheckerSession dispatches requests over an async IPC bind to the
-	// provider app. If the bind never completes — e.g. the provider's process
-	// is suspended by OEM background restrictions — the callback never fires
-	// and the request hangs indefinitely. Cap each call so we degrade
-	// gracefully instead. We also fail open on any other provider failure: most
-	// notably the lazy [spellCheckerSession] init throws when the device has no
-	// provider for the locale (newSpellCheckerSession returns null), and that
-	// surfaces here on first use rather than at construction time.
+	// Fail open on any provider failure so spell-check degrades instead of
+	// crashing: a request can hang forever if the IPC bind never completes (OEM
+	// background restrictions), and the lazy [spellCheckerSession] init throws
+	// here on first use when the device has no provider for the locale.
 	private suspend inline fun <T> withTimeoutFailingOpen(
 		operation: String,
 		input: String,

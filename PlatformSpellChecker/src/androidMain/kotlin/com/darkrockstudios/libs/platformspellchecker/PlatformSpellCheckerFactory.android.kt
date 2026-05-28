@@ -2,7 +2,8 @@ package com.darkrockstudios.libs.platformspellchecker
 
 import android.content.Context
 import android.os.Build
-import android.os.LocaleList
+import android.view.textservice.SpellCheckerInfo
+import android.view.textservice.SpellCheckerSubtype
 import android.view.textservice.TextServicesManager
 
 actual class PlatformSpellCheckerFactory(private val context: Context) {
@@ -20,37 +21,26 @@ actual class PlatformSpellCheckerFactory(private val context: Context) {
 
 	actual fun hasLanguage(locale: SpLocale): Boolean {
 		if (locale.language.isBlank()) return false
-		val requestedLang = locale.language.lowercase()
+		val tsm = textServicesManager() ?: return false
+		if (spellCheckingDisabled(tsm)) return false
 
-		return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-			val list: LocaleList = context.resources.configuration.locales
-			(0 until list.size()).any { index ->
-				val l = list[index]
-				val sysLang = l.language?.lowercase().orEmpty()
-				sysLang.isNotBlank() && sysLang == requestedLang
-			}
-		} else {
-			val lc = context.resources.configuration.locale
-			val sysLang = lc?.language?.lowercase().orEmpty()
-			sysLang.isNotBlank() && sysLang == requestedLang
-		}
+		// Query what the providers actually support, not the device UI locale —
+		// matches iOS/desktop, which probe the spell-check engine.
+		val infos = tsm.enabledSpellCheckerInfos
+		if (infos.isEmpty()) return false
+
+		val supported = infos.flatMap { it.supportedLocales() }
+		// No enumerable subtypes: provider services locales implicitly. Can't
+		// disprove support, and word checks fail open, so allow it.
+		if (supported.isEmpty()) return true
+		return supported.any { it.language == locale.language.lowercase() }
 	}
 
 	actual fun isAvailable(): Boolean {
-		// `getSystemService` is non-null on every Android device shipping
-		// TextServicesManager (API 14+), so it tells us nothing about whether a
-		// spell-checker is actually usable. The honest probe is
-		// `isSpellCheckerEnabled()`, which returns false on AOSP emulator images
-		// without a Google-keyboard spell-checker provider — exactly the case
-		// where requests would otherwise hang silently at the framework
-		// boundary. Consumers can use this to gate UI ("spell check unavailable
-		// on this device") instead of waiting for per-call timeouts. The
-		// `isSpellCheckerEnabled` getter only exists on API 31+; below that we
-		// have no programmatic probe, so report available and let per-call
-		// timeouts catch a missing provider.
-		val tsm = context.getSystemService(Context.TEXT_SERVICES_MANAGER_SERVICE) as? TextServicesManager
-			?: return false
-		return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) tsm.isSpellCheckerEnabled else true
+		// getSystemService is non-null whenever TextServicesManager exists, so it
+		// proves nothing; isSpellCheckerEnabled (API 31+) is the real signal.
+		val tsm = textServicesManager() ?: return false
+		return !spellCheckingDisabled(tsm)
 	}
 
 	actual fun currentSystemLocale(): SpLocale {
@@ -61,19 +51,40 @@ actual class PlatformSpellCheckerFactory(private val context: Context) {
 	}
 
 	actual fun availableLocales(): List<SpLocale> {
-		return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-			val list = LocaleList.getDefault()
-			(0 until list.size()).map { idx ->
-				val l = list[idx]
-				val lang = l.language.ifBlank { "" }
-				val country = l.country.ifBlank { null }
-				SpLocale(lang, country)
-			}.distinct()
+		val tsm = textServicesManager() ?: return emptyList()
+		if (spellCheckingDisabled(tsm)) return emptyList()
+		return tsm.enabledSpellCheckerInfos.flatMap { it.supportedLocales() }.distinct()
+	}
+
+	private fun textServicesManager(): TextServicesManager? =
+		context.getSystemService(Context.TEXT_SERVICES_MANAGER_SERVICE) as? TextServicesManager
+
+	// isSpellCheckerEnabled is API 31+; below that we have no signal.
+	private fun spellCheckingDisabled(tsm: TextServicesManager): Boolean =
+		Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && !tsm.isSpellCheckerEnabled
+
+	private fun SpellCheckerInfo.supportedLocales(): List<SpLocale> =
+		(0 until subtypeCount).mapNotNull { getSubtypeAt(it).toSpLocaleOrNull() }
+
+	@Suppress("DEPRECATION")
+	private fun SpellCheckerSubtype.toSpLocaleOrNull(): SpLocale? {
+		// languageTag is BCP-47 (API 24+); forLanguageTag parses script/region
+		// subtags (zh-Hant-CN, es-419) correctly. getLocale() is the legacy
+		// underscore form (en_US). Fall back when the tag yields no language.
+		val parsed = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && languageTag.isNotBlank()) {
+			java.util.Locale.forLanguageTag(languageTag).takeIf { it.language.isNotBlank() }
+				?: legacyLocale(locale)
 		} else {
-			java.util.Locale.getAvailableLocales().mapNotNull { l ->
-				val lang = l.language
-				if (lang.isNullOrBlank()) null else SpLocale(lang, l.country.ifBlank { null })
-			}.distinctBy { it.language + (it.country ?: "") }
+			legacyLocale(locale)
 		}
+		val lang = parsed.language.lowercase()
+		if (lang.isBlank() || lang == "und") return null
+		val country = parsed.country.uppercase().ifBlank { null }
+		return SpLocale(lang, country)
+	}
+
+	private fun legacyLocale(raw: String): java.util.Locale {
+		val parts = raw.split('_', '-')
+		return java.util.Locale(parts.getOrNull(0).orEmpty(), parts.getOrNull(1).orEmpty())
 	}
 }
