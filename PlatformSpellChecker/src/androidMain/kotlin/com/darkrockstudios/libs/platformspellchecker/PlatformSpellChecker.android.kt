@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Build
 import android.view.textservice.*
 import io.github.aakira.napier.Napier
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withTimeout
@@ -212,7 +213,10 @@ actual class PlatformSpellChecker(
 	// provider app. If the bind never completes — e.g. the provider's process
 	// is suspended by OEM background restrictions — the callback never fires
 	// and the request hangs indefinitely. Cap each call so we degrade
-	// gracefully instead.
+	// gracefully instead. We also fail open on any other provider failure: most
+	// notably the lazy [spellCheckerSession] init throws when the device has no
+	// provider for the locale (newSpellCheckerSession returns null), and that
+	// surfaces here on first use rather than at construction time.
 	private suspend inline fun <T> withTimeoutFailingOpen(
 		operation: String,
 		input: String,
@@ -222,6 +226,11 @@ actual class PlatformSpellChecker(
 		withTimeout(operationTimeout) { block() }
 	} catch (_: TimeoutCancellationException) {
 		Napier.w("$operation('$input') timed out after $operationTimeout — spell-checker provider did not respond")
+		fallback
+	} catch (e: CancellationException) {
+		throw e
+	} catch (e: Exception) {
+		Napier.w("$operation('$input') failed — spell-checker provider unavailable", e)
 		fallback
 	}
 
