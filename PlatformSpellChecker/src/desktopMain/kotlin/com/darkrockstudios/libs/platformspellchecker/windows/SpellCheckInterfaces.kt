@@ -19,6 +19,27 @@ import com.sun.jna.ptr.PointerByReference
 class ISpellCheckerFactory(pvInstance: Pointer?) : Unknown(pvInstance) {
 
 	/**
+	 * Enumerates the BCP-47 language tags for which a dictionary is installed.
+	 *
+	 * @return language tags (e.g., "en-US", "es-ES"); empty if none or on failure.
+	 */
+	fun getSupportedLanguages(): List<String> {
+		val ppEnum = PointerByReference()
+		val hr = _invokeNativeInt(
+			3, // VTable index for get_SupportedLanguages
+			arrayOf(pointer, ppEnum)
+		)
+		COMUtils.checkRC(HRESULT(hr))
+		val enumPtr = ppEnum.value ?: return emptyList()
+		val enumString = IEnumString(enumPtr)
+		return try {
+			enumString.toList()
+		} finally {
+			enumString.Release()
+		}
+	}
+
+	/**
 	 * Determines if the specified language is supported by a registered spell checker.
 	 *
 	 * @param languageTag BCP47 language tag (e.g., "en-US")

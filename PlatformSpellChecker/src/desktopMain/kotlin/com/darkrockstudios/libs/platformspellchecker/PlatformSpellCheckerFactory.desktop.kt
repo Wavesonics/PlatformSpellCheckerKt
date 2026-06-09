@@ -40,7 +40,20 @@ actual class PlatformSpellCheckerFactory() {
 	}
 
 	actual fun availableLocales(): List<SpLocale> {
-		// Best-effort; native backends may not expose enumeration. Return current as a minimum.
-		return listOf(currentSystemLocale())
+		val tags = try {
+			com.darkrockstudios.libs.platformspellchecker.native.NativeSpellCheckerFactory.supportedLanguages()
+		} catch (_: Throwable) {
+			emptyList()
+		}
+		val locales = tags.mapNotNull { it.toSpLocaleOrNull() }.distinct()
+		return locales.ifEmpty { listOf(currentSystemLocale()) }
 	}
+}
+
+private fun String.toSpLocaleOrNull(): SpLocale? {
+	val jl = java.util.Locale.forLanguageTag(this)
+	val lang = jl.language.lowercase()
+	if (lang.isBlank() || lang == "und") return null
+	val country = jl.country.uppercase().ifBlank { null }
+	return SpLocale(lang, country)
 }

@@ -2,6 +2,8 @@ package com.darkrockstudios.libs.platformspellchecker
 
 import android.content.Context
 import android.os.Build
+import android.view.inputmethod.InputMethodManager
+import android.view.inputmethod.InputMethodSubtype
 import android.view.textservice.SpellCheckerInfo
 import android.view.textservice.SpellCheckerSubtype
 import android.view.textservice.TextServicesManager
@@ -53,7 +55,62 @@ actual class PlatformSpellCheckerFactory(private val context: Context) {
 	actual fun availableLocales(): List<SpLocale> {
 		val tsm = textServicesManager() ?: return emptyList()
 		if (spellCheckingDisabled(tsm)) return emptyList()
-		return tsm.enabledSpellCheckerInfos.flatMap { it.supportedLocales() }.distinct()
+		val supported = tsm.enabledSpellCheckerInfos.flatMap { it.supportedLocales() }.distinct()
+		if (supported.isEmpty()) return emptyList()
+
+		// Providers advertise every locale they *could* check (~80). Narrow to the
+		// languages the user actually uses — system language list plus enabled
+		// keyboard subtypes; fall back to the full capability list if there's no overlap.
+		val preferred = preferredLanguageCodes()
+		if (preferred.isEmpty()) return supported
+		val filtered = supported.filter { preferred.contains(it.language.lowercase()) }
+		return filtered.ifEmpty { supported }
+	}
+
+	private fun preferredLanguageCodes(): Set<String> =
+		systemLanguageCodes() + keyboardLanguageCodes()
+
+	private fun systemLanguageCodes(): Set<String> {
+		val config = context.resources.configuration
+		return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+			val list = config.locales
+			(0 until list.size()).mapNotNull { list.get(it).language.lowercase().ifBlank { null } }.toSet()
+		} else {
+			@Suppress("DEPRECATION")
+			setOfNotNull(config.locale?.language?.lowercase()?.ifBlank { null })
+		}
+	}
+
+	// The user's enabled keyboard languages: distinct from the system UI language
+	// list, and the signal users expect (a Spanish keyboard ⇒ Spanish dictionary).
+	private fun keyboardLanguageCodes(): Set<String> {
+		val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+			?: return emptySet()
+		val methods = try {
+			imm.enabledInputMethodList
+		} catch (_: Throwable) {
+			return emptySet()
+		}
+		return methods.flatMap { imi ->
+			val subtypes = try {
+				imm.getEnabledInputMethodSubtypeList(imi, true)
+			} catch (_: Throwable) {
+				emptyList()
+			}
+			subtypes.mapNotNull { it.languageCodeOrNull() }
+		}.toSet()
+	}
+
+	@Suppress("DEPRECATION")
+	private fun InputMethodSubtype.languageCodeOrNull(): String? {
+		val parsed = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && languageTag.isNotBlank()) {
+			java.util.Locale.forLanguageTag(languageTag).takeIf { it.language.isNotBlank() }
+				?: legacyLocale(locale)
+		} else {
+			legacyLocale(locale)
+		}
+		val lang = parsed.language.lowercase()
+		return if (lang.isBlank() || lang == "und") null else lang
 	}
 
 	private fun textServicesManager(): TextServicesManager? =

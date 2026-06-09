@@ -38,6 +38,26 @@ class WindowsSpellCheckTest {
 	}
 
 	@Test
+	fun `getSupportedLanguages enumerates installed dictionaries`() {
+		val languages = WindowsSpellChecker.getSupportedLanguages()
+		assertTrue(languages.isNotEmpty(), "Expected at least one installed dictionary")
+		assertTrue(
+			languages.any { it.startsWith("en", ignoreCase = true) },
+			"Expected an English dictionary in $languages",
+		)
+	}
+
+	@Test
+	fun `availableLocales reflects installed dictionaries`() {
+		val locales = PlatformSpellCheckerFactory().availableLocales()
+		assertTrue(locales.isNotEmpty(), "Expected at least one available locale")
+		assertTrue(
+			locales.any { it.language.equals("en", ignoreCase = true) },
+			"Expected English among available locales: $locales",
+		)
+	}
+
+	@Test
 	fun `correctly spelled word returns true`() {
 		assertTrue(spellChecker!!.isWordCorrect("hello"))
 	}

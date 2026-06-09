@@ -50,6 +50,18 @@ object NativeSpellCheckerFactory {
 	}
 
 	/**
+	 * Lists the BCP-47 language tags with an installed dictionary on this OS.
+	 *
+	 * @return supported language tags; empty if the backend can't enumerate.
+	 */
+	fun supportedLanguages(): List<String> = when (currentOS) {
+		OperatingSystem.WINDOWS -> WindowsSpellChecker.getSupportedLanguages()
+		OperatingSystem.MACOS -> MacOSSpellChecker.getAvailableLanguages()
+		OperatingSystem.LINUX -> LinuxSpellChecker.getAvailableLanguages()
+		OperatingSystem.UNKNOWN -> emptyList()
+	}
+
+	/**
 	 * Creates a spell checker for the specified language.
 	 *
 	 * @param languageTag BCP47 language tag (e.g., "en-US")

@@ -198,6 +198,20 @@ class WindowsSpellChecker private constructor(
 		}
 
 		/**
+		 * Lists the BCP-47 language tags with an installed dictionary.
+		 *
+		 * @return supported language tags, or empty if unavailable.
+		 */
+		fun getSupportedLanguages(): List<String> {
+			val factory = ensureInitialized() ?: return emptyList()
+			return try {
+				factory.getSupportedLanguages()
+			} catch (e: Exception) {
+				emptyList()
+			}
+		}
+
+		/**
 		 * Creates a spell checker for the specified language.
 		 *
 		 * @param languageTag BCP47 language tag (e.g., "en-US")
