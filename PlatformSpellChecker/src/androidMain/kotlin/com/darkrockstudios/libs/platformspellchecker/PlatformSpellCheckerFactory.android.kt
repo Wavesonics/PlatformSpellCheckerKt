@@ -28,7 +28,7 @@ actual class PlatformSpellCheckerFactory(private val context: Context) {
 
 		// Query what the providers actually support, not the device UI locale —
 		// matches iOS/desktop, which probe the spell-check engine.
-		val infos = tsm.enabledSpellCheckerInfos
+		val infos = enabledSpellCheckerInfosOrEmpty(tsm)
 		if (infos.isEmpty()) return false
 
 		val supported = infos.flatMap { it.supportedLocales() }
@@ -55,7 +55,7 @@ actual class PlatformSpellCheckerFactory(private val context: Context) {
 	actual fun availableLocales(): List<SpLocale> {
 		val tsm = textServicesManager() ?: return emptyList()
 		if (spellCheckingDisabled(tsm)) return emptyList()
-		val supported = tsm.enabledSpellCheckerInfos.flatMap { it.supportedLocales() }.distinct()
+		val supported = enabledSpellCheckerInfosOrEmpty(tsm).flatMap { it.supportedLocales() }.distinct()
 		if (supported.isEmpty()) return emptyList()
 
 		// Providers advertise every locale they *could* check (~80). Narrow to the
@@ -116,9 +116,25 @@ actual class PlatformSpellCheckerFactory(private val context: Context) {
 	private fun textServicesManager(): TextServicesManager? =
 		context.getSystemService(Context.TEXT_SERVICES_MANAGER_SERVICE) as? TextServicesManager
 
+	// Some OEM ROMs (e.g. ColorOS) ship a TextServicesManager that is missing
+	// getEnabledSpellCheckerInfos / isSpellCheckerEnabled, throwing NoSuchMethodError
+	// at runtime. Treat any failure as "no spell checkers" rather than crashing the host app.
+	private fun enabledSpellCheckerInfosOrEmpty(tsm: TextServicesManager): List<SpellCheckerInfo> =
+		try {
+			tsm.enabledSpellCheckerInfos.orEmpty()
+		} catch (_: Throwable) {
+			emptyList()
+		}
+
 	// isSpellCheckerEnabled is API 31+; below that we have no signal.
-	private fun spellCheckingDisabled(tsm: TextServicesManager): Boolean =
-		Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && !tsm.isSpellCheckerEnabled
+	private fun spellCheckingDisabled(tsm: TextServicesManager): Boolean {
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) return false
+		return try {
+			!tsm.isSpellCheckerEnabled
+		} catch (_: Throwable) {
+			false
+		}
+	}
 
 	private fun SpellCheckerInfo.supportedLocales(): List<SpLocale> =
 		(0 until subtypeCount).mapNotNull { getSubtypeAt(it).toSpLocaleOrNull() }
