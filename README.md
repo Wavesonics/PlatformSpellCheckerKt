@@ -1,6 +1,6 @@
 # Platform Spell Checker Kt
 
-[![CI](https://github.com/Wavesonics/PlatformSpellCheckerKt/actions/workflows/ci.yml/badge.svg)](https://github.com/Wavesonics/PlatformSpellCheckerKt/actions/workflows/ci.yml)
+[![CI](https://github.com/Darkrock-Studios/PlatformSpellCheckerKt/actions/workflows/ci.yml/badge.svg)](https://github.com/Darkrock-Studios/PlatformSpellCheckerKt/actions/workflows/ci.yml)
 [![Maven Central](https://img.shields.io/maven-central/v/com.darkrockstudios/platform-spellcheckerkt.svg)](https://search.maven.org/artifact/com.darkrockstudios/platform-spellcheckerkt)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 

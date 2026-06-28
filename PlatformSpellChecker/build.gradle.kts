@@ -90,7 +90,7 @@ mavenPublishing {
 	pom {
 		name.set("PlatformSpellChecker")
 		description.set("A Kotlin Multiplatform library providing spell checking functionality for Android, iOS, and Desktop platforms")
-		url.set("https://github.com/Wavesonics/PlatformSpellCheckerKt")
+		url.set("https://github.com/Darkrock-Studios/PlatformSpellCheckerKt")
 
 		licenses {
 			license {
@@ -101,16 +101,16 @@ mavenPublishing {
 
 		developers {
 			developer {
-				id.set("wavesonics")
+				id.set("darkrock-studios")
 				name.set("Adam Brown")
-				url.set("https://github.com/Wavesonics")
+				url.set("https://github.com/Darkrock-Studios")
 			}
 		}
 
 		scm {
-			connection.set("scm:git:git://github.com/Wavesonics/PlatformSpellCheckerKt.git")
-			developerConnection.set("scm:git:ssh://github.com/Wavesonics/PlatformSpellCheckerKt.git")
-			url.set("https://github.com/Wavesonics/PlatformSpellCheckerKt")
+			connection.set("scm:git:git://github.com/Darkrock-Studios/PlatformSpellCheckerKt.git")
+			developerConnection.set("scm:git:ssh://github.com/Darkrock-Studios/PlatformSpellCheckerKt.git")
+			url.set("https://github.com/Darkrock-Studios/PlatformSpellCheckerKt")
 		}
 	}
 
