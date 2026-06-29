@@ -1,0 +1,248 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>PlatformSpellChecker</title>
+<link href="../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../";</script>
+    <script>document.documentElement.classList.replace("no-js", "js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+      if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      } else {
+        const savedDarkMode = JSON.parse(storage)
+        if (savedDarkMode === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      }
+    </script>
+<script type="text/javascript" src="../scripts/sourceset_dependencies.js" async></script>
+<link href="../styles/style.css" rel="Stylesheet">
+<link href="../styles/main.css" rel="Stylesheet">
+<link href="../styles/prism.css" rel="Stylesheet">
+<link href="../styles/logo-styles.css" rel="Stylesheet">
+<link href="../ui-kit/ui-kit.min.css" rel="Stylesheet">
+<script type="text/javascript" src="../scripts/safe-local-storage_blocking.js"></script>
+<script type="text/javascript" src="../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../scripts/main.js" defer></script>
+<script type="text/javascript" src="../scripts/prism.js" async></script>
+<script type="text/javascript" src="../ui-kit/ui-kit.min.js" defer></script></head>
+<body>
+<div class="root">
+    <header class="navigation theme-dark" id="navigation-wrapper" role="banner">
+<a class="library-name--link" href="../index.html" tabindex="1">
+                    PlatformSpellCheckerKt
+            </a>        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle" type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">
+        </div>
+        <div class="navigation-controls">
+        <ul class="filter-section filter-section_loading" id="filter-section" aria-label="Target filter">
+                <button class="platform-tag platform-selector jvm-like" data-active="" aria-pressed="true" data-filter=":PlatformSpellChecker/androidMain">android</button>
+                <button class="platform-tag platform-selector common-like" data-active="" aria-pressed="true" data-filter=":PlatformSpellChecker/commonMain">common</button>
+                <button class="platform-tag platform-selector jvm-like" data-active="" aria-pressed="true" data-filter=":PlatformSpellChecker/desktopMain">desktop</button>
+                <button class="platform-tag platform-selector native-like" data-active="" aria-pressed="true" data-filter=":PlatformSpellChecker/iosMain">ios</button>
+            <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox" data-role="dropdown-toggle" aria-controls="platform-tags-listbox" aria-haspopup="listbox" aria-expanded="false" aria-label="Toggle source sets"></button>
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox" aria-label="Target filter">
+                    <div class="dropdown--header"><span>Target filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close target filter">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                        <li role="option" class="dropdown--option platform-selector-option jvm-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":PlatformSpellChecker/androidMain" data-filter=":PlatformSpellChecker/androidMain">
+                                <span class="checkbox--icon"></span>
+                                android
+                            </label>
+                        </li>
+                        <li role="option" class="dropdown--option platform-selector-option common-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":PlatformSpellChecker/commonMain" data-filter=":PlatformSpellChecker/commonMain">
+                                <span class="checkbox--icon"></span>
+                                common
+                            </label>
+                        </li>
+                        <li role="option" class="dropdown--option platform-selector-option jvm-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":PlatformSpellChecker/desktopMain" data-filter=":PlatformSpellChecker/desktopMain">
+                                <span class="checkbox--icon"></span>
+                                desktop
+                            </label>
+                        </li>
+                        <li role="option" class="dropdown--option platform-selector-option native-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":PlatformSpellChecker/iosMain" data-filter=":PlatformSpellChecker/iosMain">
+                                <span class="checkbox--icon"></span>
+                                ios
+                            </label>
+                        </li>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </ul>
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button" type="button">Switch theme
+            </button>
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
+                API
+            </div>
+        </div>
+    </header>
+    <div id="container">
+        <nav id="leftColumn" class="sidebar" data-item-type="SECTION" data-item-config="{&quot;defaultSize&quot;: 280, &quot;minSize&quot;: 200, &quot;maxSize&quot;: 400}">
+            <a class="toc--skip-link" href="#main">Skip to content</a>
+            <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list" data-role="dropdown-listbox" aria-label="Table of contents">
+                    <div class="dropdown--header">
+                            <span>
+                                    PlatformSpellCheckerKt
+                            </span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                    <div class="sidebar--inner" id="sideMenu"></div>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </nav>
+        <div id="resizer" class="resizer" data-item-type="BAR"></div>
+        <div id="main" data-item-type="SECTION" role="main">
+<div class="main-content" id="content" pageids="PlatformSpellChecker::////PointingToDeclaration//-640894354">
+  <div class="breadcrumbs"></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Platform</span><wbr><span>Spell</span><wbr><span><span>Checker</span></span></h1>
+    <div class="platform-hinted UnderCoverText with-platform-tabs" data-platform-hinted="data-platform-hinted">
+      <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":PlatformSpellChecker/androidMain" data-filterable-set=":PlatformSpellChecker/androidMain" data-active="" data-toggle=":PlatformSpellChecker/androidMain">android</button><button class="platform-bookmark" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain" data-toggle=":PlatformSpellChecker/commonMain">common</button><button class="platform-bookmark" data-filterable-current=":PlatformSpellChecker/desktopMain" data-filterable-set=":PlatformSpellChecker/desktopMain" data-toggle=":PlatformSpellChecker/desktopMain">desktop</button><button class="platform-bookmark" data-filterable-current=":PlatformSpellChecker/iosMain" data-filterable-set=":PlatformSpellChecker/iosMain" data-toggle=":PlatformSpellChecker/iosMain">ios</button></div>
+<div class="content sourceset-dependent-content" data-togglable=":PlatformSpellChecker/androidMain"><p class="paragraph">A Kotlin Multiplatform spell checker that wraps each operating system's <strong>native</strong> spell-checking engine behind one common Kotlin API — Android's <code class="lang-kotlin">TextServicesManager</code>, iOS/macOS's <code class="lang-kotlin">NSSpellChecker</code> / <code class="lang-kotlin">UITextChecker</code>, Windows' <code class="lang-kotlin">ISpellChecker</code> COM API, and Hunspell on Linux. Nothing is bundled: the library uses whatever dictionaries the user's device already has for their language.</p><blockquote class="quotation"><p class="paragraph">Results differ by platform — each OS decides what counts as "correct" and what to suggest. The library surfaces the native answer without trying to reconcile them.</p></blockquote><h2 class="">Create a checker</h2><p class="paragraph">Go through <code class="lang-kotlin">PlatformSpellCheckerFactory</code>. On Android the factory needs a <code class="lang-kotlin">Context</code>, so build it in platform code and pass it into common code; on Desktop and iOS the no-arg constructor works.</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">val factory = PlatformSpellCheckerFactory()             // Desktop / iOS<br>// val factory = PlatformSpellCheckerFactory(context)   // Android<br><br>if (!factory.isAvailable()) return                      // no native checker on this device<br><br>val checker = factory.createSpellChecker()              // the system's current language<br><br>// Validate a locale before requesting it — creating a checker for an unsupported locale throws.<br>val gb = if (factory.hasLanguage(SpLocale.EN_GB)) factory.createSpellChecker(SpLocale.EN_GB) else null</code></pre><span class="copy-tooltip"><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div><span class="copy-icon"></span></span></div><h2 class="">Check a single word</h2><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">when (val result = checker.checkWord("mispelled")) {<br>    is CorrectWord    -&gt; { /* spelled correctly */ }<br>    is MisspelledWord -&gt; result.suggestions.forEach(::println)   // closest first; may be empty<br>}</code></pre><span class="copy-tooltip"><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div><span class="copy-icon"></span></span></div><h2 class="">Check a sentence</h2><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">val corrections = checker.checkMultiword("This is a mispelled sentance.")<br>corrections.forEach { c -&gt;<br>    println("${c.misspelledWord} @ ${c.startIndex} (len ${c.length}) -&gt; ${c.suggestions}")<br>}</code></pre><span class="copy-tooltip"><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div><span class="copy-icon"></span></span></div><h2 class="">Manage the user dictionary</h2><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">checker.addToDictionary("Kotlin")                            // AppLocal (in-memory) by default<br>checker.addToDictionary("Darkrock", DictionaryScope.System)  // OS-level learn, where supported<br>checker.ignoreWord("typooo")                                 // ignored for this session only<br><br>val custom: Set&lt;String&gt; = checker.userDictionary()           // persist this yourself if you need to<br>checker.setUserDictionary(custom)                            // restore it into a fresh checker<br><br>checker.close()                                              // release native resources when done</code></pre><span class="copy-tooltip"><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div><span class="copy-icon"></span></span></div><p class="paragraph"><code class="lang-kotlin">DictionaryScope.AppLocal</code> lives only for the lifetime of this checker; <code class="lang-kotlin">DictionaryScope.System</code> uses the platform's native learn API (OS-wide on iOS/macOS, per-user on Windows/Linux). Android has no native learn API and falls back to <code class="lang-kotlin">AppLocal</code>.</p><h2 class="">Locales</h2><p class="paragraph"><code class="lang-kotlin">SpLocale</code> is a small <code class="lang-kotlin">language</code> + optional <code class="lang-kotlin">country</code> value with constants for the common cases (<code class="lang-kotlin">SpLocale.EN_US</code>, <code class="lang-kotlin">SpLocale.EN_GB</code>, <code class="lang-kotlin">SpLocale.DE_DE</code>, …). Use <code class="lang-kotlin">factory.currentSystemLocale()</code> and <code class="lang-kotlin">factory.availableLocales()</code> to discover what the device offers.</p><h2 class="">Platform support</h2><div class="table--container"><table><thead><tr><th>Platform</th><th>Backend</th></tr></thead><tbody><tr><td>Android</td><td><code class="org.jetbrains.dokka.pages.commenttable@35b4a955 lang-kotlin">TextServicesManager</code> / <code class="org.jetbrains.dokka.pages.commenttable@35b4a955 lang-kotlin">SpellCheckerSession</code></td></tr><tr><td>iOS</td><td><code class="org.jetbrains.dokka.pages.commenttable@35b4a955 lang-kotlin">UITextChecker</code></td></tr><tr><td>JVM — Windows</td><td><code class="org.jetbrains.dokka.pages.commenttable@35b4a955 lang-kotlin">ISpellChecker</code> (Win32 COM)</td></tr><tr><td>JVM — macOS</td><td><code class="org.jetbrains.dokka.pages.commenttable@35b4a955 lang-kotlin">NSSpellChecker</code> (partial)</td></tr><tr><td>JVM — Linux</td><td>Hunspell, if installed</td></tr></tbody></table></div></div><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><p class="paragraph">A Kotlin Multiplatform spell checker that wraps each operating system's <strong>native</strong> spell-checking engine behind one common Kotlin API — Android's <code class="lang-kotlin">TextServicesManager</code>, iOS/macOS's <code class="lang-kotlin">NSSpellChecker</code> / <code class="lang-kotlin">UITextChecker</code>, Windows' <code class="lang-kotlin">ISpellChecker</code> COM API, and Hunspell on Linux. Nothing is bundled: the library uses whatever dictionaries the user's device already has for their language.</p><blockquote class="quotation"><p class="paragraph">Results differ by platform — each OS decides what counts as "correct" and what to suggest. The library surfaces the native answer without trying to reconcile them.</p></blockquote><h2 class="">Create a checker</h2><p class="paragraph">Go through <code class="lang-kotlin">PlatformSpellCheckerFactory</code>. On Android the factory needs a <code class="lang-kotlin">Context</code>, so build it in platform code and pass it into common code; on Desktop and iOS the no-arg constructor works.</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">val factory = PlatformSpellCheckerFactory()             // Desktop / iOS<br>// val factory = PlatformSpellCheckerFactory(context)   // Android<br><br>if (!factory.isAvailable()) return                      // no native checker on this device<br><br>val checker = factory.createSpellChecker()              // the system's current language<br><br>// Validate a locale before requesting it — creating a checker for an unsupported locale throws.<br>val gb = if (factory.hasLanguage(SpLocale.EN_GB)) factory.createSpellChecker(SpLocale.EN_GB) else null</code></pre><span class="copy-tooltip"><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div><span class="copy-icon"></span></span></div><h2 class="">Check a single word</h2><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">when (val result = checker.checkWord("mispelled")) {<br>    is CorrectWord    -&gt; { /* spelled correctly */ }<br>    is MisspelledWord -&gt; result.suggestions.forEach(::println)   // closest first; may be empty<br>}</code></pre><span class="copy-tooltip"><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div><span class="copy-icon"></span></span></div><h2 class="">Check a sentence</h2><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">val corrections = checker.checkMultiword("This is a mispelled sentance.")<br>corrections.forEach { c -&gt;<br>    println("${c.misspelledWord} @ ${c.startIndex} (len ${c.length}) -&gt; ${c.suggestions}")<br>}</code></pre><span class="copy-tooltip"><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div><span class="copy-icon"></span></span></div><h2 class="">Manage the user dictionary</h2><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">checker.addToDictionary("Kotlin")                            // AppLocal (in-memory) by default<br>checker.addToDictionary("Darkrock", DictionaryScope.System)  // OS-level learn, where supported<br>checker.ignoreWord("typooo")                                 // ignored for this session only<br><br>val custom: Set&lt;String&gt; = checker.userDictionary()           // persist this yourself if you need to<br>checker.setUserDictionary(custom)                            // restore it into a fresh checker<br><br>checker.close()                                              // release native resources when done</code></pre><span class="copy-tooltip"><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div><span class="copy-icon"></span></span></div><p class="paragraph"><code class="lang-kotlin">DictionaryScope.AppLocal</code> lives only for the lifetime of this checker; <code class="lang-kotlin">DictionaryScope.System</code> uses the platform's native learn API (OS-wide on iOS/macOS, per-user on Windows/Linux). Android has no native learn API and falls back to <code class="lang-kotlin">AppLocal</code>.</p><h2 class="">Locales</h2><p class="paragraph"><code class="lang-kotlin">SpLocale</code> is a small <code class="lang-kotlin">language</code> + optional <code class="lang-kotlin">country</code> value with constants for the common cases (<code class="lang-kotlin">SpLocale.EN_US</code>, <code class="lang-kotlin">SpLocale.EN_GB</code>, <code class="lang-kotlin">SpLocale.DE_DE</code>, …). Use <code class="lang-kotlin">factory.currentSystemLocale()</code> and <code class="lang-kotlin">factory.availableLocales()</code> to discover what the device offers.</p><h2 class="">Platform support</h2><div class="table--container"><table><thead><tr><th>Platform</th><th>Backend</th></tr></thead><tbody><tr><td>Android</td><td><code class="org.jetbrains.dokka.pages.commenttable@35b4a955 lang-kotlin">TextServicesManager</code> / <code class="org.jetbrains.dokka.pages.commenttable@35b4a955 lang-kotlin">SpellCheckerSession</code></td></tr><tr><td>iOS</td><td><code class="org.jetbrains.dokka.pages.commenttable@35b4a955 lang-kotlin">UITextChecker</code></td></tr><tr><td>JVM — Windows</td><td><code class="org.jetbrains.dokka.pages.commenttable@35b4a955 lang-kotlin">ISpellChecker</code> (Win32 COM)</td></tr><tr><td>JVM — macOS</td><td><code class="org.jetbrains.dokka.pages.commenttable@35b4a955 lang-kotlin">NSSpellChecker</code> (partial)</td></tr><tr><td>JVM — Linux</td><td>Hunspell, if installed</td></tr></tbody></table></div></div><div class="content sourceset-dependent-content" data-togglable=":PlatformSpellChecker/desktopMain"><p class="paragraph">A Kotlin Multiplatform spell checker that wraps each operating system's <strong>native</strong> spell-checking engine behind one common Kotlin API — Android's <code class="lang-kotlin">TextServicesManager</code>, iOS/macOS's <code class="lang-kotlin">NSSpellChecker</code> / <code class="lang-kotlin">UITextChecker</code>, Windows' <code class="lang-kotlin">ISpellChecker</code> COM API, and Hunspell on Linux. Nothing is bundled: the library uses whatever dictionaries the user's device already has for their language.</p><blockquote class="quotation"><p class="paragraph">Results differ by platform — each OS decides what counts as "correct" and what to suggest. The library surfaces the native answer without trying to reconcile them.</p></blockquote><h2 class="">Create a checker</h2><p class="paragraph">Go through <code class="lang-kotlin">PlatformSpellCheckerFactory</code>. On Android the factory needs a <code class="lang-kotlin">Context</code>, so build it in platform code and pass it into common code; on Desktop and iOS the no-arg constructor works.</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">val factory = PlatformSpellCheckerFactory()             // Desktop / iOS<br>// val factory = PlatformSpellCheckerFactory(context)   // Android<br><br>if (!factory.isAvailable()) return                      // no native checker on this device<br><br>val checker = factory.createSpellChecker()              // the system's current language<br><br>// Validate a locale before requesting it — creating a checker for an unsupported locale throws.<br>val gb = if (factory.hasLanguage(SpLocale.EN_GB)) factory.createSpellChecker(SpLocale.EN_GB) else null</code></pre><span class="copy-tooltip"><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div><span class="copy-icon"></span></span></div><h2 class="">Check a single word</h2><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">when (val result = checker.checkWord("mispelled")) {<br>    is CorrectWord    -&gt; { /* spelled correctly */ }<br>    is MisspelledWord -&gt; result.suggestions.forEach(::println)   // closest first; may be empty<br>}</code></pre><span class="copy-tooltip"><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div><span class="copy-icon"></span></span></div><h2 class="">Check a sentence</h2><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">val corrections = checker.checkMultiword("This is a mispelled sentance.")<br>corrections.forEach { c -&gt;<br>    println("${c.misspelledWord} @ ${c.startIndex} (len ${c.length}) -&gt; ${c.suggestions}")<br>}</code></pre><span class="copy-tooltip"><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div><span class="copy-icon"></span></span></div><h2 class="">Manage the user dictionary</h2><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">checker.addToDictionary("Kotlin")                            // AppLocal (in-memory) by default<br>checker.addToDictionary("Darkrock", DictionaryScope.System)  // OS-level learn, where supported<br>checker.ignoreWord("typooo")                                 // ignored for this session only<br><br>val custom: Set&lt;String&gt; = checker.userDictionary()           // persist this yourself if you need to<br>checker.setUserDictionary(custom)                            // restore it into a fresh checker<br><br>checker.close()                                              // release native resources when done</code></pre><span class="copy-tooltip"><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div><span class="copy-icon"></span></span></div><p class="paragraph"><code class="lang-kotlin">DictionaryScope.AppLocal</code> lives only for the lifetime of this checker; <code class="lang-kotlin">DictionaryScope.System</code> uses the platform's native learn API (OS-wide on iOS/macOS, per-user on Windows/Linux). Android has no native learn API and falls back to <code class="lang-kotlin">AppLocal</code>.</p><h2 class="">Locales</h2><p class="paragraph"><code class="lang-kotlin">SpLocale</code> is a small <code class="lang-kotlin">language</code> + optional <code class="lang-kotlin">country</code> value with constants for the common cases (<code class="lang-kotlin">SpLocale.EN_US</code>, <code class="lang-kotlin">SpLocale.EN_GB</code>, <code class="lang-kotlin">SpLocale.DE_DE</code>, …). Use <code class="lang-kotlin">factory.currentSystemLocale()</code> and <code class="lang-kotlin">factory.availableLocales()</code> to discover what the device offers.</p><h2 class="">Platform support</h2><div class="table--container"><table><thead><tr><th>Platform</th><th>Backend</th></tr></thead><tbody><tr><td>Android</td><td><code class="org.jetbrains.dokka.pages.commenttable@35b4a955 lang-kotlin">TextServicesManager</code> / <code class="org.jetbrains.dokka.pages.commenttable@35b4a955 lang-kotlin">SpellCheckerSession</code></td></tr><tr><td>iOS</td><td><code class="org.jetbrains.dokka.pages.commenttable@35b4a955 lang-kotlin">UITextChecker</code></td></tr><tr><td>JVM — Windows</td><td><code class="org.jetbrains.dokka.pages.commenttable@35b4a955 lang-kotlin">ISpellChecker</code> (Win32 COM)</td></tr><tr><td>JVM — macOS</td><td><code class="org.jetbrains.dokka.pages.commenttable@35b4a955 lang-kotlin">NSSpellChecker</code> (partial)</td></tr><tr><td>JVM — Linux</td><td>Hunspell, if installed</td></tr></tbody></table></div></div><div class="content sourceset-dependent-content" data-togglable=":PlatformSpellChecker/iosMain"><p class="paragraph">A Kotlin Multiplatform spell checker that wraps each operating system's <strong>native</strong> spell-checking engine behind one common Kotlin API — Android's <code class="lang-kotlin">TextServicesManager</code>, iOS/macOS's <code class="lang-kotlin">NSSpellChecker</code> / <code class="lang-kotlin">UITextChecker</code>, Windows' <code class="lang-kotlin">ISpellChecker</code> COM API, and Hunspell on Linux. Nothing is bundled: the library uses whatever dictionaries the user's device already has for their language.</p><blockquote class="quotation"><p class="paragraph">Results differ by platform — each OS decides what counts as "correct" and what to suggest. The library surfaces the native answer without trying to reconcile them.</p></blockquote><h2 class="">Create a checker</h2><p class="paragraph">Go through <code class="lang-kotlin">PlatformSpellCheckerFactory</code>. On Android the factory needs a <code class="lang-kotlin">Context</code>, so build it in platform code and pass it into common code; on Desktop and iOS the no-arg constructor works.</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">val factory = PlatformSpellCheckerFactory()             // Desktop / iOS<br>// val factory = PlatformSpellCheckerFactory(context)   // Android<br><br>if (!factory.isAvailable()) return                      // no native checker on this device<br><br>val checker = factory.createSpellChecker()              // the system's current language<br><br>// Validate a locale before requesting it — creating a checker for an unsupported locale throws.<br>val gb = if (factory.hasLanguage(SpLocale.EN_GB)) factory.createSpellChecker(SpLocale.EN_GB) else null</code></pre><span class="copy-tooltip"><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div><span class="copy-icon"></span></span></div><h2 class="">Check a single word</h2><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">when (val result = checker.checkWord("mispelled")) {<br>    is CorrectWord    -&gt; { /* spelled correctly */ }<br>    is MisspelledWord -&gt; result.suggestions.forEach(::println)   // closest first; may be empty<br>}</code></pre><span class="copy-tooltip"><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div><span class="copy-icon"></span></span></div><h2 class="">Check a sentence</h2><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">val corrections = checker.checkMultiword("This is a mispelled sentance.")<br>corrections.forEach { c -&gt;<br>    println("${c.misspelledWord} @ ${c.startIndex} (len ${c.length}) -&gt; ${c.suggestions}")<br>}</code></pre><span class="copy-tooltip"><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div><span class="copy-icon"></span></span></div><h2 class="">Manage the user dictionary</h2><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">checker.addToDictionary("Kotlin")                            // AppLocal (in-memory) by default<br>checker.addToDictionary("Darkrock", DictionaryScope.System)  // OS-level learn, where supported<br>checker.ignoreWord("typooo")                                 // ignored for this session only<br><br>val custom: Set&lt;String&gt; = checker.userDictionary()           // persist this yourself if you need to<br>checker.setUserDictionary(custom)                            // restore it into a fresh checker<br><br>checker.close()                                              // release native resources when done</code></pre><span class="copy-tooltip"><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div><span class="copy-icon"></span></span></div><p class="paragraph"><code class="lang-kotlin">DictionaryScope.AppLocal</code> lives only for the lifetime of this checker; <code class="lang-kotlin">DictionaryScope.System</code> uses the platform's native learn API (OS-wide on iOS/macOS, per-user on Windows/Linux). Android has no native learn API and falls back to <code class="lang-kotlin">AppLocal</code>.</p><h2 class="">Locales</h2><p class="paragraph"><code class="lang-kotlin">SpLocale</code> is a small <code class="lang-kotlin">language</code> + optional <code class="lang-kotlin">country</code> value with constants for the common cases (<code class="lang-kotlin">SpLocale.EN_US</code>, <code class="lang-kotlin">SpLocale.EN_GB</code>, <code class="lang-kotlin">SpLocale.DE_DE</code>, …). Use <code class="lang-kotlin">factory.currentSystemLocale()</code> and <code class="lang-kotlin">factory.availableLocales()</code> to discover what the device offers.</p><h2 class="">Platform support</h2><div class="table--container"><table><thead><tr><th>Platform</th><th>Backend</th></tr></thead><tbody><tr><td>Android</td><td><code class="org.jetbrains.dokka.pages.commenttable@35b4a955 lang-kotlin">TextServicesManager</code> / <code class="org.jetbrains.dokka.pages.commenttable@35b4a955 lang-kotlin">SpellCheckerSession</code></td></tr><tr><td>iOS</td><td><code class="org.jetbrains.dokka.pages.commenttable@35b4a955 lang-kotlin">UITextChecker</code></td></tr><tr><td>JVM — Windows</td><td><code class="org.jetbrains.dokka.pages.commenttable@35b4a955 lang-kotlin">ISpellChecker</code> (Win32 COM)</td></tr><tr><td>JVM — macOS</td><td><code class="org.jetbrains.dokka.pages.commenttable@35b4a955 lang-kotlin">NSSpellChecker</code> (partial)</td></tr><tr><td>JVM — Linux</td><td>Hunspell, if installed</td></tr></tbody></table></div></div>    </div>
+  </div>
+  <h2 class="">Packages</h2>
+  <div class="table"><a data-name="1416709385%2FPackages%2F-640894354" anchor-label="com.darkrockstudios.libs.platformspellchecker" id="1416709385%2FPackages%2F-640894354" data-filterable-set=":PlatformSpellChecker/commonMain,:PlatformSpellChecker/androidMain,:PlatformSpellChecker/desktopMain,:PlatformSpellChecker/iosMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":PlatformSpellChecker/commonMain,:PlatformSpellChecker/androidMain,:PlatformSpellChecker/desktopMain,:PlatformSpellChecker/iosMain" data-filterable-set=":PlatformSpellChecker/commonMain,:PlatformSpellChecker/androidMain,:PlatformSpellChecker/desktopMain,:PlatformSpellChecker/iosMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="com.darkrockstudios.libs.platformspellchecker/index.html">com.darkrockstudios.libs.platformspellchecker</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1416709385%2FPackages%2F-640894354"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag jvm-like">android</div>
+              <div class="platform-tag common-like">common</div>
+              <div class="platform-tag jvm-like">desktop</div>
+              <div class="platform-tag native-like">ios</div>
+            </div>
+          </div>
+        </div>
+        <div><span class="brief-comment"><a data-name="1416709385%2FPackages%2F-640894354" anchor-label="com.darkrockstudios.libs.platformspellchecker" id="1416709385%2FPackages%2F-640894354" data-filterable-set=":PlatformSpellChecker/commonMain,:PlatformSpellChecker/androidMain,:PlatformSpellChecker/desktopMain,:PlatformSpellChecker/iosMain"></a>
+            <p class="paragraph">The public API: <code class="lang-kotlin">PlatformSpellCheckerFactory</code>, <code class="lang-kotlin">PlatformSpellChecker</code>, the <code class="lang-kotlin">WordCheckResult</code> hierarchy (<code class="lang-kotlin">CorrectWord</code> / <code class="lang-kotlin">MisspelledWord</code>), <code class="lang-kotlin">SpellingCorrection</code>, <code class="lang-kotlin">SpLocale</code>, and <code class="lang-kotlin">DictionaryScope</code>.</p>
+          </span></div>
+      </div>
+    </div>
+<a data-name="451022287%2FPackages%2F1891184117" anchor-label="com.darkrockstudios.libs.platformspellchecker.linux" id="451022287%2FPackages%2F1891184117" data-filterable-set=":PlatformSpellChecker/desktopMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":PlatformSpellChecker/desktopMain" data-filterable-set=":PlatformSpellChecker/desktopMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="com.darkrockstudios.libs.platformspellchecker.linux/index.html">com.darkrockstudios.libs.platformspellchecker.linux</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="451022287%2FPackages%2F1891184117"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag jvm-like">desktop</div>
+            </div>
+          </div>
+        </div>
+        <div><span class="brief-comment"><a data-name="451022287%2FPackages%2F1891184117" anchor-label="com.darkrockstudios.libs.platformspellchecker.linux" id="451022287%2FPackages%2F1891184117" data-filterable-set=":PlatformSpellChecker/desktopMain"></a>
+            <p class="paragraph">Linux desktop backend — Hunspell bindings (JNA).</p>
+          </span></div>
+      </div>
+    </div>
+<a data-name="-1602541682%2FPackages%2F1891184117" anchor-label="com.darkrockstudios.libs.platformspellchecker.macos" id="-1602541682%2FPackages%2F1891184117" data-filterable-set=":PlatformSpellChecker/desktopMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":PlatformSpellChecker/desktopMain" data-filterable-set=":PlatformSpellChecker/desktopMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="com.darkrockstudios.libs.platformspellchecker.macos/index.html">com.darkrockstudios.libs.platformspellchecker.macos</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1602541682%2FPackages%2F1891184117"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag jvm-like">desktop</div>
+            </div>
+          </div>
+        </div>
+        <div><span class="brief-comment"><a data-name="-1602541682%2FPackages%2F1891184117" anchor-label="com.darkrockstudios.libs.platformspellchecker.macos" id="-1602541682%2FPackages%2F1891184117" data-filterable-set=":PlatformSpellChecker/desktopMain"></a>
+            <p class="paragraph">macOS desktop backend — <code class="lang-kotlin">NSSpellChecker</code> via the Objective-C runtime (JNA).</p>
+          </span></div>
+      </div>
+    </div>
+<a data-name="1907285088%2FPackages%2F1891184117" anchor-label="com.darkrockstudios.libs.platformspellchecker.native" id="1907285088%2FPackages%2F1891184117" data-filterable-set=":PlatformSpellChecker/desktopMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":PlatformSpellChecker/desktopMain" data-filterable-set=":PlatformSpellChecker/desktopMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="com.darkrockstudios.libs.platformspellchecker.native/index.html">com.darkrockstudios.libs.platformspellchecker.native</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1907285088%2FPackages%2F1891184117"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag jvm-like">desktop</div>
+            </div>
+          </div>
+        </div>
+        <div><span class="brief-comment"><a data-name="1907285088%2FPackages%2F1891184117" anchor-label="com.darkrockstudios.libs.platformspellchecker.native" id="1907285088%2FPackages%2F1891184117" data-filterable-set=":PlatformSpellChecker/desktopMain"></a>
+            <p class="paragraph">Desktop (JVM) backend abstraction: <code class="lang-kotlin">NativeSpellChecker</code> and <code class="lang-kotlin">NativeSpellCheckerFactory</code>, which pick a Windows, macOS, or Linux implementation at runtime. Most consumers use the common API above instead.</p>
+          </span></div>
+      </div>
+    </div>
+<a data-name="1978409054%2FPackages%2F1891184117" anchor-label="com.darkrockstudios.libs.platformspellchecker.windows" id="1978409054%2FPackages%2F1891184117" data-filterable-set=":PlatformSpellChecker/desktopMain"></a>
+    <div class="table-row table-row_platform-tagged" data-filterable-current=":PlatformSpellChecker/desktopMain" data-filterable-set=":PlatformSpellChecker/desktopMain">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="com.darkrockstudios.libs.platformspellchecker.windows/index.html">com.darkrockstudios.libs.platformspellchecker.windows</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1978409054%2FPackages%2F1891184117"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right platform-tags--wrapper">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag jvm-like">desktop</div>
+            </div>
+          </div>
+        </div>
+        <div><span class="brief-comment"><a data-name="1978409054%2FPackages%2F1891184117" anchor-label="com.darkrockstudios.libs.platformspellchecker.windows" id="1978409054%2FPackages%2F1891184117" data-filterable-set=":PlatformSpellChecker/desktopMain"></a>
+            <p class="paragraph">Windows desktop backend — <code class="lang-kotlin">ISpellChecker</code> COM interop behind <code class="lang-kotlin">NativeSpellChecker</code>.</p>
+          </span></div>
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="footer">
+        <div class="footer--container">
+            <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+            <div class="footer--content">
+                <div>
+                    <span>Generated by </span>
+                    <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                        Dokka
+                    </a>
+                    <div>© 2026 Copyright</div>
+                </div>
+            </div>
+        </div>
+    </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

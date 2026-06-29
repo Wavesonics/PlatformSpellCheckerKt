@@ -1,0 +1,319 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>HunspellLibrary</title>
+<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js", "js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+      if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      } else {
+        const savedDarkMode = JSON.parse(storage)
+        if (savedDarkMode === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      }
+    </script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../ui-kit/ui-kit.min.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/safe-local-storage_blocking.js"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../ui-kit/ui-kit.min.js" defer></script></head>
+<body>
+<div class="root">
+    <header class="navigation theme-dark" id="navigation-wrapper" role="banner">
+<a class="library-name--link" href="../../../index.html" tabindex="1">
+                    PlatformSpellCheckerKt
+            </a>        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle" type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">
+        </div>
+        <div class="navigation-controls">
+        <ul class="filter-section filter-section_loading" id="filter-section" aria-label="Target filter">
+                <button class="platform-tag platform-selector jvm-like" data-active="" aria-pressed="true" data-filter=":PlatformSpellChecker/desktopMain">desktop</button>
+            <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox" data-role="dropdown-toggle" aria-controls="platform-tags-listbox" aria-haspopup="listbox" aria-expanded="false" aria-label="Toggle source sets"></button>
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox" aria-label="Target filter">
+                    <div class="dropdown--header"><span>Target filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close target filter">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                        <li role="option" class="dropdown--option platform-selector-option jvm-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":PlatformSpellChecker/desktopMain" data-filter=":PlatformSpellChecker/desktopMain">
+                                <span class="checkbox--icon"></span>
+                                desktop
+                            </label>
+                        </li>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </ul>
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button" type="button">Switch theme
+            </button>
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
+                API
+            </div>
+        </div>
+    </header>
+    <div id="container">
+        <nav id="leftColumn" class="sidebar" data-item-type="SECTION" data-item-config="{&quot;defaultSize&quot;: 280, &quot;minSize&quot;: 200, &quot;maxSize&quot;: 400}">
+            <a class="toc--skip-link" href="#main">Skip to content</a>
+            <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list" data-role="dropdown-listbox" aria-label="Table of contents">
+                    <div class="dropdown--header">
+                            <span>
+                                    PlatformSpellCheckerKt
+                            </span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                    <div class="sidebar--inner" id="sideMenu"></div>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </nav>
+        <div id="resizer" class="resizer" data-item-type="BAR"></div>
+        <div id="main" data-item-type="SECTION" role="main">
+<div class="main-content" data-page-type="classlike" id="content" pageids="PlatformSpellChecker::com.darkrockstudios.libs.platformspellchecker.linux/HunspellLibrary///PointingToDeclaration//1891184117">
+  <div class="breadcrumbs"><a href="../../index.html">PlatformSpellChecker</a><span class="delimiter">/</span><a href="../index.html">com.darkrockstudios.libs.platformspellchecker.linux</a><span class="delimiter">/</span><span class="current">HunspellLibrary</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Hunspell</span><wbr><span><span>Library</span></span></h1>
+    <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+      <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":PlatformSpellChecker/desktopMain" data-filterable-set=":PlatformSpellChecker/desktopMain" data-active="" data-toggle=":PlatformSpellChecker/desktopMain">desktop</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/desktopMain"><div class="symbol monospace"><span class="token keyword">interface </span><a href="index.html">HunspellLibrary</a> : <span data-unresolved-link="com.sun.jna/Library///PointingToDeclaration/">Library</span><span class="source-link-wrapper"><span class="source-link" data-element-type="source-link">(<a href="https://github.com/Darkrock-Studios/PlatformSpellCheckerKt/blob/main/PlatformSpellChecker/src/desktopMain/kotlin/com/darkrockstudios/libs/platformspellchecker/linux/HunspellLibrary.kt#L16">source</a>)</span></span></div><p class="paragraph">JNA bindings for the Hunspell spell checking library.</p><p class="paragraph">Hunspell is the most widely used spell checker on Linux systems. It's used by LibreOffice, Firefox, Chrome, and many other applications.</p><p class="paragraph">Reference: https://github.com/hunspell/hunspell/blob/master/src/hunspell/hunspell.h</p></div>    </div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="TYPE">
+        <h2 class="tableheader">Types</h2>
+        <div class="table"><a data-name="1505672513%2FClasslikes%2F1891184117" anchor-label="Companion" id="1505672513%2FClasslikes%2F1891184117" data-filterable-set=":PlatformSpellChecker/desktopMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/desktopMain" data-filterable-set=":PlatformSpellChecker/desktopMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-companion/index.html"><span><span>Companion</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1505672513%2FClasslikes%2F1891184117"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":PlatformSpellChecker/desktopMain" data-filterable-set=":PlatformSpellChecker/desktopMain" data-active="" data-toggle=":PlatformSpellChecker/desktopMain">desktop</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/desktopMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-companion/index.html">Companion</a></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="tableheader">Functions</h2>
+        <div class="table"><a data-name="404022067%2FFunctions%2F1891184117" anchor-label="Hunspell_add" id="404022067%2FFunctions%2F1891184117" data-filterable-set=":PlatformSpellChecker/desktopMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/desktopMain" data-filterable-set=":PlatformSpellChecker/desktopMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-hunspell_add.html"><span>Hunspell_</span><wbr><span>add</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="404022067%2FFunctions%2F1891184117"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":PlatformSpellChecker/desktopMain" data-filterable-set=":PlatformSpellChecker/desktopMain" data-active="" data-toggle=":PlatformSpellChecker/desktopMain">desktop</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/desktopMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="-hunspell_add.html"><span class="token function">Hunspell_add</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">pHunspell<span class="token operator">: </span><span data-unresolved-link="com.sun.jna/Pointer///PointingToDeclaration/">Pointer</span><span class="token punctuation">, </span></span><span class="parameter ">word<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a></div><div class="brief "><p class="paragraph">Adds a word to the runtime dictionary. The word is only remembered for this session and not persisted.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="524945730%2FFunctions%2F1891184117" anchor-label="Hunspell_add_with_affix" id="524945730%2FFunctions%2F1891184117" data-filterable-set=":PlatformSpellChecker/desktopMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/desktopMain" data-filterable-set=":PlatformSpellChecker/desktopMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-hunspell_add_with_affix.html"><span>Hunspell_</span><wbr><span>add_</span><wbr><span>with_</span><wbr><span>affix</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="524945730%2FFunctions%2F1891184117"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":PlatformSpellChecker/desktopMain" data-filterable-set=":PlatformSpellChecker/desktopMain" data-active="" data-toggle=":PlatformSpellChecker/desktopMain">desktop</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/desktopMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="-hunspell_add_with_affix.html"><span class="token function">Hunspell_add_with_affix</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">pHunspell<span class="token operator">: </span><span data-unresolved-link="com.sun.jna/Pointer///PointingToDeclaration/">Pointer</span><span class="token punctuation">, </span></span><span class="parameter ">word<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">flags<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a></div><div class="brief "><p class="paragraph">Adds a word with affix flags to the runtime dictionary.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1719546429%2FFunctions%2F1891184117" anchor-label="Hunspell_create" id="-1719546429%2FFunctions%2F1891184117" data-filterable-set=":PlatformSpellChecker/desktopMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/desktopMain" data-filterable-set=":PlatformSpellChecker/desktopMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-hunspell_create.html"><span>Hunspell_</span><wbr><span>create</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1719546429%2FFunctions%2F1891184117"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":PlatformSpellChecker/desktopMain" data-filterable-set=":PlatformSpellChecker/desktopMain" data-active="" data-toggle=":PlatformSpellChecker/desktopMain">desktop</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/desktopMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="-hunspell_create.html"><span class="token function">Hunspell_create</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">affpath<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">dpath<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.sun.jna/Pointer///PointingToDeclaration/">Pointer</span><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Creates a new Hunspell instance from dictionary files.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1313023909%2FFunctions%2F1891184117" anchor-label="Hunspell_create_key" id="-1313023909%2FFunctions%2F1891184117" data-filterable-set=":PlatformSpellChecker/desktopMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/desktopMain" data-filterable-set=":PlatformSpellChecker/desktopMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-hunspell_create_key.html"><span>Hunspell_</span><wbr><span>create_</span><wbr><span>key</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1313023909%2FFunctions%2F1891184117"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":PlatformSpellChecker/desktopMain" data-filterable-set=":PlatformSpellChecker/desktopMain" data-active="" data-toggle=":PlatformSpellChecker/desktopMain">desktop</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/desktopMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="-hunspell_create_key.html"><span class="token function">Hunspell_create_key</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">affpath<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">dpath<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">key<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.sun.jna/Pointer///PointingToDeclaration/">Pointer</span><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Creates a new Hunspell instance from dictionary files with a custom key.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1095085607%2FFunctions%2F1891184117" anchor-label="Hunspell_destroy" id="1095085607%2FFunctions%2F1891184117" data-filterable-set=":PlatformSpellChecker/desktopMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/desktopMain" data-filterable-set=":PlatformSpellChecker/desktopMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-hunspell_destroy.html"><span>Hunspell_</span><wbr><span>destroy</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1095085607%2FFunctions%2F1891184117"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":PlatformSpellChecker/desktopMain" data-filterable-set=":PlatformSpellChecker/desktopMain" data-active="" data-toggle=":PlatformSpellChecker/desktopMain">desktop</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/desktopMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="-hunspell_destroy.html"><span class="token function">Hunspell_destroy</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">pHunspell<span class="token operator">: </span><span data-unresolved-link="com.sun.jna/Pointer///PointingToDeclaration/">Pointer</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Destroys a Hunspell instance and frees all resources.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1221203315%2FFunctions%2F1891184117" anchor-label="Hunspell_free_list" id="1221203315%2FFunctions%2F1891184117" data-filterable-set=":PlatformSpellChecker/desktopMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/desktopMain" data-filterable-set=":PlatformSpellChecker/desktopMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-hunspell_free_list.html"><span>Hunspell_</span><wbr><span>free_</span><wbr><span>list</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1221203315%2FFunctions%2F1891184117"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":PlatformSpellChecker/desktopMain" data-filterable-set=":PlatformSpellChecker/desktopMain" data-active="" data-toggle=":PlatformSpellChecker/desktopMain">desktop</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/desktopMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="-hunspell_free_list.html"><span class="token function">Hunspell_free_list</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">pHunspell<span class="token operator">: </span><span data-unresolved-link="com.sun.jna/Pointer///PointingToDeclaration/">Pointer</span><span class="token punctuation">, </span></span><span class="parameter ">slst<span class="token operator">: </span><span data-unresolved-link="com.sun.jna.ptr/PointerByReference///PointingToDeclaration/">PointerByReference</span><span class="token punctuation">, </span></span><span class="parameter ">n<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Frees a list of suggestions returned by Hunspell_suggest.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="370415680%2FFunctions%2F1891184117" anchor-label="Hunspell_get_dic_encoding" id="370415680%2FFunctions%2F1891184117" data-filterable-set=":PlatformSpellChecker/desktopMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/desktopMain" data-filterable-set=":PlatformSpellChecker/desktopMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-hunspell_get_dic_encoding.html"><span>Hunspell_</span><wbr><span>get_</span><wbr><span>dic_</span><wbr><span>encoding</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="370415680%2FFunctions%2F1891184117"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":PlatformSpellChecker/desktopMain" data-filterable-set=":PlatformSpellChecker/desktopMain" data-active="" data-toggle=":PlatformSpellChecker/desktopMain">desktop</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/desktopMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="-hunspell_get_dic_encoding.html"><span class="token function">Hunspell_get_dic_encoding</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">pHunspell<span class="token operator">: </span><span data-unresolved-link="com.sun.jna/Pointer///PointingToDeclaration/">Pointer</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Gets the dictionary encoding.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1687071340%2FFunctions%2F1891184117" anchor-label="Hunspell_remove" id="1687071340%2FFunctions%2F1891184117" data-filterable-set=":PlatformSpellChecker/desktopMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/desktopMain" data-filterable-set=":PlatformSpellChecker/desktopMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-hunspell_remove.html"><span>Hunspell_</span><wbr><span>remove</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1687071340%2FFunctions%2F1891184117"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":PlatformSpellChecker/desktopMain" data-filterable-set=":PlatformSpellChecker/desktopMain" data-active="" data-toggle=":PlatformSpellChecker/desktopMain">desktop</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/desktopMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="-hunspell_remove.html"><span class="token function">Hunspell_remove</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">pHunspell<span class="token operator">: </span><span data-unresolved-link="com.sun.jna/Pointer///PointingToDeclaration/">Pointer</span><span class="token punctuation">, </span></span><span class="parameter ">word<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a></div><div class="brief "><p class="paragraph">Removes a word from the runtime dictionary.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-703275078%2FFunctions%2F1891184117" anchor-label="Hunspell_spell" id="-703275078%2FFunctions%2F1891184117" data-filterable-set=":PlatformSpellChecker/desktopMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/desktopMain" data-filterable-set=":PlatformSpellChecker/desktopMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-hunspell_spell.html"><span>Hunspell_</span><wbr><span>spell</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-703275078%2FFunctions%2F1891184117"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":PlatformSpellChecker/desktopMain" data-filterable-set=":PlatformSpellChecker/desktopMain" data-active="" data-toggle=":PlatformSpellChecker/desktopMain">desktop</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/desktopMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="-hunspell_spell.html"><span class="token function">Hunspell_spell</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">pHunspell<span class="token operator">: </span><span data-unresolved-link="com.sun.jna/Pointer///PointingToDeclaration/">Pointer</span><span class="token punctuation">, </span></span><span class="parameter ">word<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a></div><div class="brief "><p class="paragraph">Checks if a word is spelled correctly.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1694368700%2FFunctions%2F1891184117" anchor-label="Hunspell_suggest" id="1694368700%2FFunctions%2F1891184117" data-filterable-set=":PlatformSpellChecker/desktopMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/desktopMain" data-filterable-set=":PlatformSpellChecker/desktopMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-hunspell_suggest.html"><span>Hunspell_</span><wbr><span>suggest</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1694368700%2FFunctions%2F1891184117"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":PlatformSpellChecker/desktopMain" data-filterable-set=":PlatformSpellChecker/desktopMain" data-active="" data-toggle=":PlatformSpellChecker/desktopMain">desktop</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/desktopMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="-hunspell_suggest.html"><span class="token function">Hunspell_suggest</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">pHunspell<span class="token operator">: </span><span data-unresolved-link="com.sun.jna/Pointer///PointingToDeclaration/">Pointer</span><span class="token punctuation">, </span></span><span class="parameter ">slst<span class="token operator">: </span><span data-unresolved-link="com.sun.jna.ptr/PointerByReference///PointingToDeclaration/">PointerByReference</span><span class="token punctuation">, </span></span><span class="parameter ">word<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a></div><div class="brief "><p class="paragraph">Gets spelling suggestions for a word.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="footer">
+        <div class="footer--container">
+            <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+            <div class="footer--content">
+                <div>
+                    <span>Generated by </span>
+                    <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                        Dokka
+                    </a>
+                    <div>© 2026 Copyright</div>
+                </div>
+            </div>
+        </div>
+    </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

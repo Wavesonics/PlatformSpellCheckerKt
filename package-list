@@ -1,0 +1,10 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:com.darkrockstudios.libs.platformspellchecker//toJavaLocale/com.darkrockstudios.libs.platformspellchecker.SpLocale#/PointingToDeclaration/PlatformSpellChecker/com.darkrockstudios.libs.platformspellchecker/[desktop]to-java-locale.html
+$dokka.location:com.darkrockstudios.libs.platformspellchecker//toSpLocale/java.util.Locale#/PointingToDeclaration/PlatformSpellChecker/com.darkrockstudios.libs.platformspellchecker/[desktop]to-sp-locale.html
+module:PlatformSpellChecker
+com.darkrockstudios.libs.platformspellchecker
+com.darkrockstudios.libs.platformspellchecker.linux
+com.darkrockstudios.libs.platformspellchecker.macos
+com.darkrockstudios.libs.platformspellchecker.native
+com.darkrockstudios.libs.platformspellchecker.windows

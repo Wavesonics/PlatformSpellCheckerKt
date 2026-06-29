@@ -1,0 +1,1041 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>Companion</title>
+<link href="../../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../../";</script>
+    <script>document.documentElement.classList.replace("no-js", "js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+      if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      } else {
+        const savedDarkMode = JSON.parse(storage)
+        if (savedDarkMode === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      }
+    </script>
+<script type="text/javascript" src="../../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../../styles/style.css" rel="Stylesheet">
+<link href="../../../../styles/main.css" rel="Stylesheet">
+<link href="../../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../../ui-kit/ui-kit.min.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../../scripts/safe-local-storage_blocking.js"></script>
+<script type="text/javascript" src="../../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../../ui-kit/ui-kit.min.js" defer></script></head>
+<body>
+<div class="root">
+    <header class="navigation theme-dark" id="navigation-wrapper" role="banner">
+<a class="library-name--link" href="../../../../index.html" tabindex="1">
+                    PlatformSpellCheckerKt
+            </a>        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle" type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">
+        </div>
+        <div class="navigation-controls">
+        <ul class="filter-section filter-section_loading" id="filter-section" aria-label="Target filter">
+                <button class="platform-tag platform-selector common-like" data-active="" aria-pressed="true" data-filter=":PlatformSpellChecker/commonMain">common</button>
+            <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox" data-role="dropdown-toggle" aria-controls="platform-tags-listbox" aria-haspopup="listbox" aria-expanded="false" aria-label="Toggle source sets"></button>
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox" aria-label="Target filter">
+                    <div class="dropdown--header"><span>Target filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close target filter">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                        <li role="option" class="dropdown--option platform-selector-option common-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":PlatformSpellChecker/commonMain" data-filter=":PlatformSpellChecker/commonMain">
+                                <span class="checkbox--icon"></span>
+                                common
+                            </label>
+                        </li>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </ul>
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button" type="button">Switch theme
+            </button>
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
+                API
+            </div>
+        </div>
+    </header>
+    <div id="container">
+        <nav id="leftColumn" class="sidebar" data-item-type="SECTION" data-item-config="{&quot;defaultSize&quot;: 280, &quot;minSize&quot;: 200, &quot;maxSize&quot;: 400}">
+            <a class="toc--skip-link" href="#main">Skip to content</a>
+            <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list" data-role="dropdown-listbox" aria-label="Table of contents">
+                    <div class="dropdown--header">
+                            <span>
+                                    PlatformSpellCheckerKt
+                            </span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                    <div class="sidebar--inner" id="sideMenu"></div>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </nav>
+        <div id="resizer" class="resizer" data-item-type="BAR"></div>
+        <div id="main" data-item-type="SECTION" role="main">
+<div class="main-content" data-page-type="classlike" id="content" pageids="PlatformSpellChecker::com.darkrockstudios.libs.platformspellchecker/SpLocale.Companion///PointingToDeclaration//894668907">
+  <div class="breadcrumbs"><a href="../../../index.html">PlatformSpellChecker</a><span class="delimiter">/</span><a href="../../index.html">com.darkrockstudios.libs.platformspellchecker</a><span class="delimiter">/</span><a href="../index.html">SpLocale</a><span class="delimiter">/</span><span class="current">Companion</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>Companion</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="index.html">Companion</a><span class="source-link-wrapper"><span class="source-link" data-element-type="source-link">(<a href="https://github.com/Darkrock-Studios/PlatformSpellCheckerKt/blob/main/PlatformSpellChecker/src/commonMain/kotlin/com/darkrockstudios/libs/platformspellchecker/SpLocale.kt#L10">source</a>)</span></span></div></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="PROPERTY">
+        <h2 class="tableheader">Properties</h2>
+        <div class="table"><a data-name="670352678%2FProperties%2F894668907" anchor-label="BG" id="670352678%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-b-g.html"><span><span>BG</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="670352678%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-b-g.html">BG</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1048004272%2FProperties%2F894668907" anchor-label="BG_BG" id="-1048004272%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-b-g_-b-g.html"><span>BG_</span><wbr><span>BG</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1048004272%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-b-g_-b-g.html">BG_BG</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2004204379%2FProperties%2F894668907" anchor-label="CS" id="2004204379%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-c-s.html"><span><span>CS</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2004204379%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-c-s.html">CS</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="241587977%2FProperties%2F894668907" anchor-label="CS_CZ" id="241587977%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-c-s_-c-z.html"><span>CS_</span><wbr><span>CZ</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="241587977%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-c-s_-c-z.html">CS_CZ</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1887505426%2FProperties%2F894668907" anchor-label="DA" id="-1887505426%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-d-a.html"><span><span>DA</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1887505426%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-d-a.html">DA</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1158292358%2FProperties%2F894668907" anchor-label="DA_DK" id="1158292358%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-d-a_-d-k.html"><span>DA_</span><wbr><span>DK</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1158292358%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-d-a_-d-k.html">DA_DK</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1763426198%2FProperties%2F894668907" anchor-label="DE" id="-1763426198%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-d-e.html"><span><span>DE</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1763426198%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-d-e.html">DE</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-550386992%2FProperties%2F894668907" anchor-label="DE_DE" id="-550386992%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-d-e_-d-e.html"><span>DE_</span><wbr><span>DE</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-550386992%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-d-e_-d-e.html">DE_DE</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-584673532%2FProperties%2F894668907" anchor-label="EL" id="-584673532%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-e-l.html"><span><span>EL</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-584673532%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-e-l.html">EL</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-989194036%2FProperties%2F894668907" anchor-label="EL_GR" id="-989194036%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-e-l_-g-r.html"><span>EL_</span><wbr><span>GR</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-989194036%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-e-l_-g-r.html">EL_GR</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-522633918%2FProperties%2F894668907" anchor-label="EN" id="-522633918%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-e-n.html"><span><span>EN</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-522633918%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-e-n.html">EN</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-984648027%2FProperties%2F894668907" anchor-label="EN_AU" id="-984648027%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-e-n_-a-u.html"><span>EN_</span><wbr><span>AU</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-984648027%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-e-n_-a-u.html">EN_AU</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="318183867%2FProperties%2F894668907" anchor-label="EN_CA" id="318183867%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-e-n_-c-a.html"><span>EN_</span><wbr><span>CA</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="318183867%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-e-n_-c-a.html">EN_CA</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-99307554%2FProperties%2F894668907" anchor-label="EN_GB" id="-99307554%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-e-n_-g-b.html"><span>EN_</span><wbr><span>GB</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-99307554%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-e-n_-g-b.html">EN_GB</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1916979901%2FProperties%2F894668907" anchor-label="EN_IE" id="1916979901%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-e-n_-i-e.html"><span>EN_</span><wbr><span>IE</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1916979901%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-e-n_-i-e.html">EN_IE</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1005723515%2FProperties%2F894668907" anchor-label="EN_US" id="1005723515%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-e-n_-u-s.html"><span>EN_</span><wbr><span>US</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1005723515%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-e-n_-u-s.html">EN_US</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-367534883%2FProperties%2F894668907" anchor-label="ES" id="-367534883%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-e-s.html"><span><span>ES</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-367534883%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-e-s.html">ES</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1970309616%2FProperties%2F894668907" anchor-label="ES_ES" id="1970309616%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-e-s_-e-s.html"><span>ES_</span><wbr><span>ES</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1970309616%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-e-s_-e-s.html">ES_ES</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-336515076%2FProperties%2F894668907" anchor-label="ET" id="-336515076%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-e-t.html"><span><span>ET</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-336515076%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-e-t.html">ET</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2065833281%2FProperties%2F894668907" anchor-label="ET_EE" id="-2065833281%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-e-t_-e-e.html"><span>ET_</span><wbr><span>EE</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2065833281%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-e-t_-e-e.html">ET_EE</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="283881064%2FProperties%2F894668907" anchor-label="FI" id="283881064%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-f-i.html"><span><span>FI</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="283881064%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-f-i.html">FI</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-3007984%2FProperties%2F894668907" anchor-label="FI_FI" id="-3007984%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-f-i_-f-i.html"><span>FI_</span><wbr><span>FI</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-3007984%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-f-i_-f-i.html">FI_FI</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="563059327%2FProperties%2F894668907" anchor-label="FR" id="563059327%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-f-r.html"><span><span>FR</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="563059327%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-f-r.html">FR</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2075849040%2FProperties%2F894668907" anchor-label="FR_FR" id="-2075849040%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-f-r_-f-r.html"><span>FR_</span><wbr><span>FR</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2075849040%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-f-r_-f-r.html">FR_FR</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1808679935%2FProperties%2F894668907" anchor-label="HR" id="-1808679935%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-h-r.html"><span><span>HR</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1808679935%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-h-r.html">HR</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-129988752%2FProperties%2F894668907" anchor-label="HR_HR" id="-129988752%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-h-r_-h-r.html"><span>HR_</span><wbr><span>HR</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-129988752%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-h-r_-h-r.html">HR_HR</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1715620514%2FProperties%2F894668907" anchor-label="HU" id="-1715620514%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-h-u.html"><span><span>HU</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1715620514%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-h-u.html">HU</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2042375760%2FProperties%2F894668907" anchor-label="HU_HU" id="2042375760%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-h-u_-h-u.html"><span>HU_</span><wbr><span>HU</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2042375760%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-h-u_-h-u.html">HU_HU</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-816046111%2FProperties%2F894668907" anchor-label="IS" id="-816046111%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-i-s.html"><span><span>IS</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-816046111%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-i-s.html">IS</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1567062896%2FProperties%2F894668907" anchor-label="IS_IS" id="1567062896%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-i-s_-i-s.html"><span>IS_</span><wbr><span>IS</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1567062896%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-i-s_-i-s.html">IS_IS</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-785026304%2FProperties%2F894668907" anchor-label="IT" id="-785026304%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-i-t.html"><span><span>IT</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-785026304%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-i-t.html">IT</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2003782896%2FProperties%2F894668907" anchor-label="IT_IT" id="-2003782896%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-i-t_-i-t.html"><span>IT_</span><wbr><span>IT</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2003782896%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-i-t_-i-t.html">IT_IT</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2099815747%2FProperties%2F894668907" anchor-label="LT" id="2099815747%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-l-t.html"><span><span>LT</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2099815747%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-l-t.html">LT</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="915007536%2FProperties%2F894668907" anchor-label="LT_LT" id="915007536%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-l-t_-l-t.html"><span>LT_</span><wbr><span>LT</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="915007536%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-l-t_-l-t.html">LT_LT</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2133111935%2FProperties%2F894668907" anchor-label="LV" id="-2133111935%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-l-v.html"><span><span>LV</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2133111935%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-l-v.html">LV</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1931716752%2FProperties%2F894668907" anchor-label="LV_LV" id="-1931716752%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-l-v_-l-v.html"><span>LV_</span><wbr><span>LV</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1931716752%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-l-v_-l-v.html">LV_LV</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1512715795%2FProperties%2F894668907" anchor-label="MK" id="-1512715795%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-m-k.html"><span><span>MK</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1512715795%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-m-k.html">MK</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-334188560%2FProperties%2F894668907" anchor-label="MK_MK" id="-334188560%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-m-k_-m-k.html"><span>MK_</span><wbr><span>MK</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-334188560%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-m-k_-m-k.html">MK_MK</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-830280041%2FProperties%2F894668907" anchor-label="NB" id="-830280041%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-n-b.html"><span><span>NB</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-830280041%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-n-b.html">NB</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1180127165%2FProperties%2F894668907" anchor-label="NB_NO" id="-1180127165%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-n-b_-n-o.html"><span>NB_</span><wbr><span>NO</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1180127165%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-n-b_-n-o.html">NB_NO</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-520081971%2FProperties%2F894668907" anchor-label="NL" id="-520081971%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-n-l.html"><span><span>NL</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-520081971%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-n-l.html">NL</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1362863088%2FProperties%2F894668907" anchor-label="NL_NL" id="1362863088%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-n-l_-n-l.html"><span>NL_</span><wbr><span>NL</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1362863088%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-n-l_-n-l.html">NL_NL</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1403146063%2FProperties%2F894668907" anchor-label="PL" id="1403146063%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-p-l.html"><span><span>PL</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1403146063%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-p-l.html">PL</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-986243920%2FProperties%2F894668907" anchor-label="PL_PL" id="-986243920%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-p-l_-p-l.html"><span>PL_</span><wbr><span>PL</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-986243920%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-p-l_-p-l.html">PL_PL</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1651304519%2FProperties%2F894668907" anchor-label="PT" id="1651304519%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-p-t.html"><span><span>PT</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1651304519%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-p-t.html">PT</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-127973148%2FProperties%2F894668907" anchor-label="PT_BR" id="-127973148%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-p-t_-b-r.html"><span>PT_</span><wbr><span>BR</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-127973148%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-p-t_-b-r.html">PT_BR</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="511760816%2FProperties%2F894668907" anchor-label="PT_PT" id="511760816%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-p-t_-p-t.html"><span>PT_</span><wbr><span>PT</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="511760816%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-p-t_-p-t.html">PT_PT</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-875533778%2FProperties%2F894668907" anchor-label="RO" id="-875533778%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-r-o.html"><span><span>RO</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-875533778%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-r-o.html">RO</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1162986416%2FProperties%2F894668907" anchor-label="RO_RO" id="-1162986416%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-r-o_-r-o.html"><span>RO_</span><wbr><span>RO</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1162986416%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-r-o_-r-o.html">RO_RO</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-37998989%2FProperties%2F894668907" anchor-label="SK" id="-37998989%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-s-k.html"><span><span>SK</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-37998989%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-s-k.html">SK</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1208425008%2FProperties%2F894668907" anchor-label="SK_SK" id="1208425008%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-s-k_-s-k.html"><span>SK_</span><wbr><span>SK</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1208425008%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-s-k_-s-k.html">SK_SK</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-6979182%2FProperties%2F894668907" anchor-label="SL" id="-6979182%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-s-l.html"><span><span>SL</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-6979182%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-s-l.html">SL</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1839487091%2FProperties%2F894668907" anchor-label="SL_SI" id="1839487091%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-s-l_-s-i.html"><span>SL_</span><wbr><span>SI</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1839487091%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-s-l_-s-i.html">SL_SI</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="179139660%2FProperties%2F894668907" anchor-label="SR" id="179139660%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-s-r.html"><span><span>SR</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="179139660%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-s-r.html">SR</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1051714030%2FProperties%2F894668907" anchor-label="SR_RS" id="1051714030%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-s-r_-r-s.html"><span>SR_</span><wbr><span>RS</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1051714030%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-s-r_-r-s.html">SR_RS</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="303218888%2FProperties%2F894668907" anchor-label="SV" id="303218888%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-s-v.html"><span><span>SV</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="303218888%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-s-v.html">SV</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="56490241%2FProperties%2F894668907" anchor-label="SV_SE" id="56490241%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-s-v_-s-e.html"><span>SV_</span><wbr><span>SE</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="56490241%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-s-v_-s-e.html">SV_SE</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1339728912%2FProperties%2F894668907" anchor-label="TR_TR" id="-1339728912%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-t-r_-t-r.html"><span>TR_</span><wbr><span>TR</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1339728912%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-t-r_-t-r.html">TR_TR</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1885229045%2FProperties%2F894668907" anchor-label="UK" id="1885229045%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-u-k.html"><span><span>UK</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1885229045%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-u-k.html">UK</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1450880070%2FProperties%2F894668907" anchor-label="UK_UA" id="-1450880070%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-u-k_-u-a.html"><span>UK_</span><wbr><span>UA</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1450880070%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-u-k_-u-a.html">UK_UA</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1095437139%2FProperties%2F894668907" anchor-label="ZH_CN" id="1095437139%2FProperties%2F894668907" data-filterable-set=":PlatformSpellChecker/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":PlatformSpellChecker/commonMain" data-filterable-set=":PlatformSpellChecker/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-z-h_-c-n.html"><span>ZH_</span><wbr><span>CN</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1095437139%2FProperties%2F894668907"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":PlatformSpellChecker/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="-z-h_-c-n.html">ZH_CN</a><span class="token operator">: </span><a href="../index.html">SpLocale</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="footer">
+        <div class="footer--container">
+            <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+            <div class="footer--content">
+                <div>
+                    <span>Generated by </span>
+                    <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                        Dokka
+                    </a>
+                    <div>© 2026 Copyright</div>
+                </div>
+            </div>
+        </div>
+    </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
