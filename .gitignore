@@ -19,3 +19,6 @@ PlatformSpellChecker/build
 .idea/artifacts
 .kotlin
 .idea
+
+# Generated Dokka API docs; published to the gh-pages branch by deploy-docs.yml, not committed to main.
+/docs/api/

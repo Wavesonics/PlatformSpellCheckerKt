@@ -3,6 +3,7 @@
 [![CI](https://github.com/Darkrock-Studios/PlatformSpellCheckerKt/actions/workflows/ci.yml/badge.svg)](https://github.com/Darkrock-Studios/PlatformSpellCheckerKt/actions/workflows/ci.yml)
 [![Maven Central](https://img.shields.io/maven-central/v/com.darkrockstudios/platform-spellcheckerkt.svg)](https://search.maven.org/artifact/com.darkrockstudios/platform-spellcheckerkt)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
+[![API Docs](https://img.shields.io/badge/docs-API_reference-blue.svg)](https://darkrock-studios.github.io/PlatformSpellCheckerKt/)
 
 [![KMP](https://img.shields.io/badge/platforms:-blue.svg?logo=kotlin)](http://kotlinlang.org)
 ![badge-jvm] ![badge-android] ![badge-ios]
@@ -17,6 +18,11 @@ already have the proper dictionary on their device for the system level Spell Ch
 
 _**Note:** Each platform can and will give different results for the same word.
 This library does not attempt to correct these results._
+
+## Documentation
+
+Full API reference and recipes:
+[**darkrock-studios.github.io/PlatformSpellCheckerKt**](https://darkrock-studios.github.io/PlatformSpellCheckerKt/).
 
 ### Dependency
 

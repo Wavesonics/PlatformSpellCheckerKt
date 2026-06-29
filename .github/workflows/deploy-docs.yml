@@ -1,0 +1,74 @@
+name: Deploy Docs
+
+# Builds the Dokka API docs and publishes them to the root of the `gh-pages` branch,
+# which GitHub Pages serves at https://darkrock-studios.github.io/PlatformSpellCheckerKt/.
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: deploy-docs
+  cancel-in-progress: false
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v5
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build API docs
+        run: ./gradlew :dokkaGenerate --no-daemon --stacktrace
+
+      - name: Publish to the gh-pages branch
+        run: |
+          set -euo pipefail
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          PUBLISH_DIR="$RUNNER_TEMP/gh-pages"
+
+          # Check out gh-pages in a separate worktree, creating it as an orphan branch the first time.
+          if git ls-remote --exit-code --heads origin gh-pages >/dev/null 2>&1; then
+            git fetch origin gh-pages
+            git worktree add "$PUBLISH_DIR" gh-pages
+          else
+            git worktree add --detach "$PUBLISH_DIR"
+            git -C "$PUBLISH_DIR" checkout --orphan gh-pages
+          fi
+
+          # Replace the whole site with the freshly generated API docs.
+          find "$PUBLISH_DIR" -mindepth 1 -maxdepth 1 ! -name '.git' -exec rm -rf {} +
+          cp -a docs/api/. "$PUBLISH_DIR"/
+          touch "$PUBLISH_DIR/.nojekyll"
+
+          cd "$PUBLISH_DIR"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "API docs unchanged; nothing to publish."
+          else
+            git commit -m "Update API docs for ${GITHUB_REF_NAME:-manual run}"
+            git push origin gh-pages
+          fi

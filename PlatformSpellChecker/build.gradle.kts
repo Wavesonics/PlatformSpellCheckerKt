@@ -7,6 +7,18 @@ plugins {
 	alias(libs.plugins.maven.central.publish)
 }
 
+dokka {
+	moduleName.set("PlatformSpellChecker")
+	dokkaSourceSets.configureEach {
+		includes.from("Module.md")
+		sourceLink {
+			localDirectory.set(rootDir)
+			remoteUrl("https://github.com/Darkrock-Studios/PlatformSpellCheckerKt/blob/main")
+			remoteLineSuffix.set("#L")
+		}
+	}
+}
+
 kotlin {
 	androidTarget {
 		compilerOptions {
