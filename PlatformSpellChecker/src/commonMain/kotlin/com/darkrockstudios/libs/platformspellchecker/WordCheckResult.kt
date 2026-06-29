@@ -28,10 +28,14 @@ data class MisspelledWord(
 	val suggestions: List<String>
 ) : WordCheckResult
 
+/**
+ * Returns `true` if [result] is a [MisspelledWord]. On the `true` branch [result] smart-casts to
+ * [MisspelledWord], so its `suggestions` are accessible without a further `is` check.
+ */
 @OptIn(ExperimentalContracts::class)
 fun isMisspelled(result: WordCheckResult): Boolean {
 	contract {
-		returns(false) implies (result is MisspelledWord)
+		returns(true) implies (result is MisspelledWord)
 	}
-	return result is CorrectWord
+	return result is MisspelledWord
 }
